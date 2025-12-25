@@ -1,0 +1,64 @@
+
+
+scp -r /Users/zhc/Documents/PhD/projects/TSAnomalyGenerationClean/CGATSPretrainPipeline.py root@134.199.134.61:/root/tianyi/TimeSeriesAnomaly
+scp -r /Users/zhc/Documents/PhD/projects/TSAnomalyGenerationClean/Trainers/CGAT_trainer/cgat_trainer.py root@134.199.134.61:/root/tianyi/TimeSeriesAnomaly/Trainers/CGAT_trainer
+
+
+
+scp -r /Users/zhc/Documents/PhD/projects/TSAnomalyGenerationClean/Trainers/FlowTS_trainer/flowts_trainer.py root@134.199.134.61:/root/tianyi/TimeSeriesAnomaly/Trainers/FlowTS_trainer
+
+
+scp -r root@134.199.134.61:/root/tianyi/samples_path/flow_imputation_logit_norm/ ./samples_path/
+scp -r root@134.199.134.61:/root/tianyi/samples_path/flow_unconditional/mitdblen800_a_few_to_look/generated_normal.pt ./samples_path/mitdblen800
+scp -r root@134.199.134.61:/root/tianyi/samples_path/flow_two_together_logit_normal/mitdb1800/generated_anomaly_on_fake.pt ../samples_path/flow_two_together_logit_normal/mitdb1800/
+scp -r root@134.199.134.61:/root/tianyi/samples_path/flow_two_together_logit_normal/mitdb1800/generated_anomaly_on_real_normal.pt ../samples_path/flow_two_together_logit_normal/mitdb1800/
+scp -r root@134.199.134.61:/root/tianyi/samples_path/flow_two_together_logit_normal/mitdb1800_200npz/generated_anomaly_on_real.pt ../samples_path/flow_two_together_logit_normal/mitdb1800_200npz/
+
+
+scp -r root@134.199.134.61:/root/tianyi/samples_path/flow_two_together_logit_normal/mitdb1800_200npz/ ../samples_path/flow_two_together_logit_normal/mitdb1800_200npz/
+
+scp -r root@134.199.134.61:/root/tianyi/samples_path/VRF/mitdb1800_106npz/generated_anomaly_on_real_anomaly.pt ../samples_path/VRF/mitdb1800_106npz/
+scp -r root@134.199.134.61:/root/tianyi/samples_path/VRF/mitdb1800_106npz/generated_anomaly_on_real_anomaly_multi_prior.pt ../samples_path/VRF/mitdb1800_106npz/
+scp -r root@134.199.134.61:/root/tianyi/samples_path/flow_two_together_logit_normal/mitdb1800_106npz/generated_anomaly_on_real_anomaly_multi_sample.pt ../samples_path/flow_two_together_logit_normal/mitdb1800_106npz/
+
+
+
+scp -r root@134.199.134.61:/root/tianyi/samples_path/flow_two_together_logit_normal/mitdb1800_213mixed/generated_anomaly_on_real_anomaly_multi_prior.pt ../samples_path/VRF/mitdb1800_213mixed/
+
+scp -r root@134.199.134.61:/root/tianyi/samples_path/flow_two_together_logit_normal/mitdb1800_213A/generated_anomaly_on_real_anomaly_multi_prior.pt ../samples_path/VRF/mitdb1800_213mixed_test_on_A/
+scp -r root@134.199.134.61:/root/tianyi/samples_path/flow_two_together_logit_normal/mitdb1800_213V/generated_anomaly_on_real_anomaly_multi_prior.pt ../samples_path/VRF/mitdb1800_213mixed_test_on_V/
+
+
+scp -r root@134.199.134.61:/root/tianyi/samples_path/VRF/mitdb1800_213A/generated_anomaly_on_real_anomaly_multi_prior.pt ../samples_path/VRF/mitdb1800_213mixed_test_on_A/
+scp -r root@134.199.134.61:/root/tianyi/samples_path/VRF/mitdb1800_213V/generated_anomaly_on_real_anomaly_multi_prior.pt ../samples_path/VRF/mitdb1800_213mixed_test_on_V/
+
+
+
+scp -r root@134.199.134.61:/root/tianyi/samples_path/vrf_v2/mitdb1800_213A/generated_anomaly_on_real_anomaly_multi_prior.pt ../samples_path/vrf_v2/mitdb1800_213mixed_test_on_A/
+scp -r root@134.199.134.61:/root/tianyi/samples_path/vrf_v2/mitdb1800_213V/generated_anomaly_on_real_anomaly_multi_prior.pt ../samples_path/vrf_v2/mitdb1800_213mixed_test_on_V/
+scp -r root@134.199.134.61:/root/tianyi/samples_path/vrf_v2/mitdb1800_213mixed/generated_anomaly_on_real_anomaly_multi_prior.pt ../samples_path/vrf_v2/mitdb1800_213mixed/
+
+scp -r root@134.199.134.61:/root/tianyi/samples_path/rain/ ../samples_path/
+
+scp -r root@134.199.134.61:/root/tianyi/TimeSeriesAnomaly/contrastive_learning/anomaly_segments_with_prototype.jsonl ./
+scp -r root@134.199.134.61:/root/tianyi/samples_path/PrototypeFlow/mitdb1800_106/normal_len100/samples.pth ./
+scp -r root@134.199.134.61:/root/tianyi/samples_path/PrototypeFlow/mitdb1800_106/mask_normal_len800/samples.pth ./
+scp -r root@134.199.134.61:/root/tianyi/samples_path/PrototypeFlow/mitdb1800_106/imputation_len1200/samples.pth ./
+scp -r root@134.199.134.61:/root/tianyi/vqvae_save_path/code_segments.pt ./
+scp -r root@134.199.134.61:/root/tianyi/vqvae_save_path/vqvae_1d.pt ./
+
+
+scp -r root@134.199.134.61:/root/tianyi/509_final/dpll_results_parallel_4.json ./
+scp -r root@134.199.134.61:/root/tianyi/TSA-ckpts/dsp_flow/106npz/no_context_pretrain_ckpt/no_context_samples.pth ./
+
+
+scp -r root@134.199.134.61:/root/tianyi/TSA-ckpts/dsp_flow/106npz/impute_from_scratch_ckpt/posterior_impute_samples.pth ./
+scp -r root@134.199.134.61:/root/tianyi/TSA-ckpts/dsp_flow/106npz/impute_finetune_ckpt/posterior_impute_samples.pth ./
+
+
+
+
+
+scp -r root@134.199.134.61:/root/tianyi/formal_experiment/ercot/dsp_flow/vqvae_save_path/vqvae.pt ./
+
+
