@@ -1234,14 +1234,14 @@ if __name__ == "__main__":
     # )
     # model = train_vqvae(cfg)
     extract_code_segments(
-        in_channels=1,
+        in_channels=args.feat_size,
         code_dim=args.code_dim,
         num_codes=args.num_codes,
         model_path=f"{args.save_dir}/vqvae.pt",
         raw_data_paths=args.data_paths,
         indices_paths=args.indices_paths,
         data_type=args.data_type,
-        one_channel=True,
+        one_channel=args.one_channel,
         # device="cuda:7",
         device="cpu",
         save_path=f"{args.save_dir}/code_segments.pt",
