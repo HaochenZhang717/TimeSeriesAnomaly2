@@ -1,29 +1,30 @@
 export hucfg_t_sampling=logitnorm
 LR=1e-4
-LEN_WHOLE=1000
-MAX_LEN_ANOMALY=700
-MIN_LEN_ANOMALY=80
-GPU_ID=3
+LEN_WHOLE=800
+MAX_LEN_ANOMALY=360
+MIN_LEN_ANOMALY=30
+GPU_ID=5
+ONE_CHANNEL=0
+FEAT_SIZE=2
 
 DATA_TYPE="ecg"
-WANDB_PROJECT="dsp_flow_SVDB_no_code"
+WANDB_PROJECT="dsp_flow_svdb_2_channel_no_code"
 
-VQVAE_CKPT="/root/tianyi/formal_experiment/SVDB/dsp_flow/vqvae_save_path"
-PRETRAIN_CKPT="/root/tianyi/formal_experiment/SVDB/dsp_flow/no_context_pretrain_ckpt"
-FINETUNE_CKPT="/root/tianyi/formal_experiment/SVDB/dsp_flow/impute_finetune_ckpt_lr${LR}"
+VQVAE_CKPT="none"
+PRETRAIN_CKPT="/root/tianyi/formal_experiment/svdb_v_anomaly/dsp_flow_no_code/no_context_pretrain_ckpt"
+FINETUNE_CKPT="/root/tianyi/formal_experiment/svdb_v_anomaly/dsp_flow_no_code/impute_finetune_ckpt_lr${LR}"
 
 
-DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_tsbad/245_SVDB_id_9_Medical_tr_12607_1st_12707.npz"]'
-TEST_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_tsbad/245_SVDB_id_9_Medical_tr_12607_1st_12707.npz"]'
-PRETRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_tsbad/245_SVDB_id_9_Medical_tr_12607_1st_12707/normal_700.jsonl"]'
-
-FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_tsbad/245_SVDB_id_9_Medical_tr_12607_1st_12707/V_train.jsonl"]'
-FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_tsbad/245_SVDB_id_9_Medical_tr_12607_1st_12707/V_test.jsonl"]'
-ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_tsbad/245_SVDB_id_9_Medical_tr_12607_1st_12707/anomaly_segments_train.jsonl"]'
-NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_tsbad/245_SVDB_id_9_Medical_tr_12607_1st_12707/normal_1000.jsonl"]'
+DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"]'
+TEST_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"]'
+PRETRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/normal_360.jsonl"]'
+FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_train.jsonl"]'
+FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"]'
+ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_segments_train.jsonl"]'
+NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/normal_800.jsonl"]'
 
 #VQVAE Train Parameters
-#VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_tsbad/245_SVDB_id_9_Medical_tr_12607_1st_12707/normal_700.jsonl"]'
+#VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/normal_800.jsonl"]'
 #CODE_DIM=8
 #CODE_LEN=4
 #NUM_CODES=500
@@ -38,7 +39,9 @@ NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_tsbad/245_SVDB
 #  --save_dir ${VQVAE_CKPT} \
 #  --code_dim ${CODE_DIM} \
 #  --code_len ${CODE_LEN} \
-#  --num_codes ${NUM_CODES}
+#  --num_codes ${NUM_CODES} \
+#  --one_channel ${ONE_CHANNEL} \
+#  --feat_size ${FEAT_SIZE}
 
 
 python dsp_flow.py \
@@ -46,8 +49,8 @@ python dsp_flow.py \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
-  --feature_size 1 \
-  --one_channel 1 \
+  --feature_size ${FEAT_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \
@@ -64,7 +67,7 @@ python dsp_flow.py \
   \
   --lr 1e-4 \
   --batch_size 64 \
-  --max_epochs 1000 \
+  --max_epochs 250 \
   --grad_clip_norm 1.0 \
   --grad_accum_steps 1 \
   --early_stop "true" \
@@ -88,8 +91,8 @@ python dsp_flow.py \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
-  --feature_size 1 \
-  --one_channel 1 \
+  --feature_size ${FEAT_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \
@@ -129,8 +132,8 @@ python dsp_flow.py \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
-  --feature_size 1 \
-  --one_channel 1 \
+  --feature_size ${FEAT_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \
@@ -171,8 +174,8 @@ python dsp_flow.py \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
-  --feature_size 1 \
-  --one_channel 1 \
+  --feature_size ${FEAT_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \
