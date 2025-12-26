@@ -939,7 +939,7 @@ def extract_code_segments(
         x = x.to(device)  # [B, T, C]
         lengths = loss_mask.sum((1,2)).to(device)
 
-        z_e = model.encoder(x)
+        z_e = model.encoder(x, loss_mask)
         _, ids, _ = model.quantizer(z_e)  # ids: [B, T']
 
         B, Tprime = ids.shape
@@ -1130,7 +1130,7 @@ def cluster_analysis(args):
         all_embeddings=all_embeddings,
         code_segments=code_segments,
         valid_indices=valid_indices,
-        anchor_emb_idx=10,  # 任选一个
+        anchor_emb_idx=1,  # 任选一个
         k=20,
         metric="l2",
         signal_key="signal",
@@ -1201,66 +1201,66 @@ if __name__ == "__main__":
 
 
 
-    cfg = TrainConfig(
-        encoder_channels=(64, 64, 64),
-        decoder_channels=(64, 64, 32, 32, 16, 16),
-        down_ratio=1,
-        up_ratio=2,
-        min_length=args.min_seq_len,
-        max_length=args.max_seq_len,
+    # cfg = TrainConfig(
+    #     encoder_channels=(64, 64, 64),
+    #     decoder_channels=(64, 64, 32, 32, 16, 16),
+    #     down_ratio=1,
+    #     up_ratio=2,
+    #     min_length=args.min_seq_len,
+    #     max_length=args.max_seq_len,
+    #
+    #     data_paths=args.data_paths,
+    #     indices_paths=args.indices_paths,
+    #
+    #     # normal_indices_paths=args.normal_indices_paths,
+    #     # normal_indices_paths=args.normal_indices_paths,
+    #     # anomaly_data_paths=args.anomaly_data_paths,
+    #     # anomaly_indices_paths=args.anomaly_indices_paths,
+    #
+    #     one_channel=args.one_channel,
+    #     feat_size=args.feat_size,
+    #     data_type=args.data_type,
+    #
+    #     batch_size=64,
+    #     epochs=50,
+    #     lr=1e-3,
+    #
+    #     hidden=64,
+    #     code_dim=args.code_dim,
+    #     code_len=args.code_len,
+    #     num_codes=args.num_codes,
+    #     beta=0.25,
+    #
+    #     recon_loss="mse",
+    #     vq_loss_weight=1.0,
+    #     device=f"cuda:{args.gpu_id}",
+    #     # device="cpu",
+    #     save_path=args.save_dir,
+    #
+    # )
+    # model = train_vqvae(cfg)
+    # extract_code_segments(
+    #     in_channels=args.feat_size,
+    #     code_dim=args.code_dim,
+    #     num_codes=args.num_codes,
+    #     model_path=f"{args.save_dir}/vqvae.pt",
+    #     raw_data_paths=args.data_paths,
+    #     indices_paths=args.indices_paths,
+    #     data_type=args.data_type,
+    #     one_channel=args.one_channel,
+    #     # device="cuda:7",
+    #     device="cpu",
+    #     save_path=f"{args.save_dir}/code_segments.pt",
+    #     down_ratio=2,
+    #     up_ratio=2,
+    #     max_length=args.max_seq_len,
+    #     min_length=args.min_seq_len,
+    #     encoder_channels=(64, 64, 64),
+    #     decoder_channels=(64, 64, 32, 32, 16, 16),
+    #     code_len=args.code_len,
+    # )
 
-        data_paths=args.data_paths,
-        indices_paths=args.indices_paths,
-
-        # normal_indices_paths=args.normal_indices_paths,
-        # normal_indices_paths=args.normal_indices_paths,
-        # anomaly_data_paths=args.anomaly_data_paths,
-        # anomaly_indices_paths=args.anomaly_indices_paths,
-
-        one_channel=args.one_channel,
-        feat_size=args.feat_size,
-        data_type=args.data_type,
-
-        batch_size=64,
-        epochs=50,
-        lr=1e-3,
-
-        hidden=64,
-        code_dim=args.code_dim,
-        code_len=args.code_len,
-        num_codes=args.num_codes,
-        beta=0.25,
-
-        recon_loss="mse",
-        vq_loss_weight=1.0,
-        device=f"cuda:{args.gpu_id}",
-        # device="cpu",
-        save_path=args.save_dir,
-
-    )
-    model = train_vqvae(cfg)
-    extract_code_segments(
-        in_channels=args.feat_size,
-        code_dim=args.code_dim,
-        num_codes=args.num_codes,
-        model_path=f"{args.save_dir}/vqvae.pt",
-        raw_data_paths=args.data_paths,
-        indices_paths=args.indices_paths,
-        data_type=args.data_type,
-        one_channel=args.one_channel,
-        # device="cuda:7",
-        device="cpu",
-        save_path=f"{args.save_dir}/code_segments.pt",
-        down_ratio=2,
-        up_ratio=2,
-        max_length=args.max_seq_len,
-        min_length=args.min_seq_len,
-        encoder_channels=(64, 64, 64),
-        decoder_channels=(64, 64, 32, 32, 16, 16),
-        code_len=args.code_len,
-    )
-
-    # cluster_analysis(args)
+    cluster_analysis(args)
 
     # extract_code_segments(
     #     in_channels=1,
