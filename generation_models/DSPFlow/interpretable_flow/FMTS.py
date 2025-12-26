@@ -38,7 +38,7 @@ class DSPFlow(nn.Module):
         )
         self.vqvae = VQVAE(
             in_channels=feature_size,
-            encoder_channels=(16, 16, 32, 32, 64, 64),
+            encoder_channels=(64, 64, 64),
             decoder_channels=(64, 64, 32, 32, 16, 16),
             code_dim=8,
             num_codes=500,
