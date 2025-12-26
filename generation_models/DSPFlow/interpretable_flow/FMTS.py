@@ -48,6 +48,7 @@ class DSPFlow(nn.Module):
             seq_len=vqvae_seq_len
         )
         # when debug i comment this out
+        breakpoint()
         if not vqvae_ckpt.startswith("none"):
             pretrained_vqvae_ckpt = torch.load(vqvae_ckpt)
             self.vqvae.load_state_dict(pretrained_vqvae_ckpt["model_state"])
