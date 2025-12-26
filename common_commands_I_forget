@@ -62,3 +62,5 @@ scp -r root@134.199.134.61:/root/tianyi/TSA-ckpts/dsp_flow/106npz/impute_finetun
 scp -r root@134.199.134.61:/root/tianyi/formal_experiment/ercot/dsp_flow/vqvae_save_path/vqvae.pt ./
 
 
+scp -r root@134.199.134.61:/root/tianyi/formal_experiment/ercot/dsp_flow_no_code/impute_finetune_ckpt_lr1e-4/no_code_impute_samples.pth ./
+
