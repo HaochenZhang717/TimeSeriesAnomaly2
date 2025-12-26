@@ -1199,9 +1199,9 @@ if __name__ == "__main__":
 
 
     cfg = TrainConfig(
-        encoder_channels=(16, 16, 32, 32, 64, 64),
+        encoder_channels=(64, 64, 64),
         decoder_channels=(64, 64, 32, 32, 16, 16),
-        down_ratio=2,
+        down_ratio=1,
         up_ratio=2,
         min_length=args.min_seq_len,
         max_length=args.max_seq_len,
