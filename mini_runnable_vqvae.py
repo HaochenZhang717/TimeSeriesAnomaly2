@@ -1255,7 +1255,7 @@ if __name__ == "__main__":
         up_ratio=2,
         max_length=args.max_seq_len,
         min_length=args.min_seq_len,
-        encoder_channels=(16, 16, 32, 32, 64, 64),
+        encoder_channels=(64, 64, 64),
         decoder_channels=(64, 64, 32, 32, 16, 16),
         code_len=args.code_len,
     )
