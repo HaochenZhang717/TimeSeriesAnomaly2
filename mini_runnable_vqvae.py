@@ -454,11 +454,8 @@ class ResNetEncoder1D(nn.Module):
         h = h * loss_mask.permute(0, 2, 1)
         z = self.global_pooling(h)
         z = torch.relu(z)
-        breakpoint()
         z = self.proj(z)          # [B, D, T']
-        breakpoint()
         z = z.transpose(1, 2)     # [B, T', D]
-        breakpoint()
         return z
 
 
