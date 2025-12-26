@@ -204,7 +204,7 @@ class DSPFlow(nn.Module):
         self.eval()
 
         batch_size = signals.shape[0]
-        prototype_embeds = self.vqvae.encode(signals)
+        prototype_embeds = self.vqvae.encode(signals, attn_mask)
         prototype_embeds = prototype_embeds.reshape(batch_size, -1)
 
         zt = torch.randn_like(signals)
@@ -238,10 +238,10 @@ class DSPFlow(nn.Module):
         elif mode=="imputation":
             signals = batch["signals"]
             missing_signals = batch["missing_signals"]
-            # prototypes = batch["prototypes"]
+            missing_signals_mask = batch["missing_signals_mask"]
             attn_mask=batch["attn_mask"]
             noise_mask=batch["noise_mask"]
-            return self._imputation_loss(signals, missing_signals, attn_mask, noise_mask)
+            return self._imputation_loss(signals, missing_signals, missing_signals_mask, attn_mask, noise_mask)
 
         elif mode=="no_context_no_code":
             signals = batch["signals"]
@@ -263,7 +263,7 @@ class DSPFlow(nn.Module):
         # to unify the length, we padded the signals in the dataset, this is why we need attn_mask
         batch_size = signals.shape[0]
         with torch.no_grad():
-            prototype_embeds = self.vqvae.encode(signals)
+            prototype_embeds = self.vqvae.encode(signals, attn_mask)
         prototype_embeds = prototype_embeds.reshape(batch_size, -1)
 
         z0 = torch.randn_like(signals)
@@ -334,11 +334,11 @@ class DSPFlow(nn.Module):
         return loss
 
 
-    def _imputation_loss(self, signals, missing_signals, attn_mask, noise_mask):
+    def _imputation_loss(self, signals, missing_signals, missing_signals_mask, attn_mask, noise_mask):
 
         batch_size = signals.shape[0]
         with torch.no_grad():
-            prototype_embeds = self.vqvae.encode(missing_signals)
+            prototype_embeds = self.vqvae.encode(missing_signals, missing_signals_mask)
         prototype_embeds = prototype_embeds.reshape(batch_size, -1)
 
         z0 = torch.randn_like(signals) * noise_mask.unsqueeze(-1) + signals * (1 - noise_mask.unsqueeze(-1))

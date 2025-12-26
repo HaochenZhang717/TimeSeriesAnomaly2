@@ -15,12 +15,12 @@ class ResBlock1D(nn.Module):
     ):
         super().__init__()
         padding = kernel_size // 2
-        self.downsample = downsample or (stride != 1) or (in_channels != out_channels)
+        # self.downsample = downsample or (stride != 1) or (in_channels != out_channels)
 
         self.conv1 = nn.Conv1d(
             in_channels, out_channels,
             kernel_size=kernel_size,
-            stride=stride,
+            stride=1,
             padding=padding,
             bias=False,
         )
@@ -36,15 +36,16 @@ class ResBlock1D(nn.Module):
         self.norm2 = nn.BatchNorm1d(out_channels)
         self.act = nn.ReLU(inplace=True)
 
-        if self.downsample:
-            self.skip = nn.Conv1d(
-                in_channels, out_channels,
-                kernel_size=1,
-                stride=stride,
-                bias=False,
-            )
-        else:
-            self.skip = nn.Identity()
+        # if self.downsample:
+        #     self.skip = nn.Conv1d(
+        #         in_channels, out_channels,
+        #         kernel_size=1,
+        #         stride=stride,
+        #         bias=False,
+        #     )
+        # else:
+        #     self.skip = nn.Identity()
+        self.skip = nn.Identity()
 
     def forward(self, x):
         identity = self.skip(x)
@@ -68,6 +69,7 @@ class ResNetEncoder1D(nn.Module):
     """
     def __init__(
         self,
+        seq_len,
         in_channels,
         channels=(64, 128, 256),
         blocks_per_stage=2,
@@ -104,20 +106,22 @@ class ResNetEncoder1D(nn.Module):
 
         self.stages = nn.Sequential(*stages)
 
-        self.global_pooling = nn.AdaptiveAvgPool1d(code_len)
+        self.global_pooling = nn.Linear(seq_len, code_len)
         self.proj = nn.Conv1d(
             in_ch, code_dim,
             kernel_size=1,
             bias=False,
         )
 
-    def forward(self, x):
+    def forward(self, x, loss_mask):
         # x: [B, T, C] → [B, C, T]
         x = x.transpose(1, 2)
         h = self.stem(x)
         h = self.stages(h)
-        z = self.proj(h)          # [B, D, T']
-        z = self.global_pooling(z)
+        h = h * loss_mask.permute(0, 2, 1)
+        z = self.global_pooling(h)
+        z = torch.relu(z)
+        z = self.proj(z)          # [B, D, T']
         z = z.transpose(1, 2)     # [B, T', D]
         return z
 
@@ -233,6 +237,7 @@ class ResNetDecoder1D(nn.Module):
         return x_hat
 
 
+
 class VectorQuantizer(nn.Module):
     """
     Standard VQ-VAE (nearest neighbor) with straight-through gradient.
@@ -293,6 +298,7 @@ class VQVAE(nn.Module):
         #     code_dim=code_dim,
         # )
         self.encoder = ResNetEncoder1D(
+            seq_len=seq_len,
             in_channels=in_channels,
             channels=encoder_channels,
             blocks_per_stage=1,
@@ -317,13 +323,8 @@ class VQVAE(nn.Module):
             seq_len=seq_len
         )
 
-    def forward(self, x):
-        z_e = self.encoder(x)
+    def forward(self, x, loss_mask):
+        z_e = self.encoder(x, loss_mask)
         z_q, ids, vq_loss = self.quantizer(z_e)
         x_hat = self.decoder(z_q, x.size(1))
         return x_hat, ids, vq_loss
-
-    def encode(self, x):
-        z_e = self.encoder(x)
-        z_q, ids, vq_loss = self.quantizer(z_e)
-        return z_q
