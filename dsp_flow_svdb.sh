@@ -8,11 +8,11 @@ ONE_CHANNEL=0
 FEAT_SIZE=2
 
 DATA_TYPE="ecg"
-WANDB_PROJECT="dsp_flow_svdb_2_channel"
+WANDB_PROJECT="dsp_flow_svdb_2_channel_new"
 
-VQVAE_CKPT="/root/tianyi/formal_experiment/svdb_v_anomaly/dsp_flow/vqvae_save_path"
-PRETRAIN_CKPT="/root/tianyi/formal_experiment/svdb_v_anomaly/dsp_flow/no_context_pretrain_ckpt"
-FINETUNE_CKPT="/root/tianyi/formal_experiment/svdb_v_anomaly/dsp_flow/impute_finetune_ckpt_lr${LR}"
+VQVAE_CKPT="/root/tianyi/formal_experiment/svdb_v_anomaly/dsp_flow_new/vqvae_save_path"
+PRETRAIN_CKPT="/root/tianyi/formal_experiment/svdb_v_anomaly/dsp_flow_new/no_context_pretrain_ckpt"
+FINETUNE_CKPT="/root/tianyi/formal_experiment/svdb_v_anomaly/dsp_flow_new/impute_finetune_ckpt_lr${LR}"
 
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"]'
