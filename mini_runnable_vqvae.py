@@ -924,7 +924,7 @@ def extract_code_segments(
 
     loader = DataLoader(
         dataset,
-        batch_size=64,
+        batch_size=512,
         shuffle=False,
         drop_last=False,
     )
