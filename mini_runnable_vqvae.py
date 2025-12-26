@@ -450,8 +450,11 @@ class ResNetEncoder1D(nn.Module):
         x = x.transpose(1, 2)
         h = self.stem(x)
         h = self.stages(h)
-        z = self.proj(h)          # [B, D, T']
         breakpoint()
+        h = h * loss_mask.permute(0, 2, 1)
+        # breakpoint()
+
+        z = self.proj(h)          # [B, D, T']
         z = self.global_pooling(z)
         z = z.transpose(1, 2)     # [B, T', D]
         return z
