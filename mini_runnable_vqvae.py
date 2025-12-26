@@ -628,7 +628,8 @@ class TrainConfig:
     normal_indices_paths: str
     anomaly_data_paths: str
     anomaly_indices_paths: str
-    one_channel: bool = True
+    one_channel: int
+    feat_size: int
     data_type: str = 'blahblah'
 
 
@@ -761,7 +762,8 @@ def train_vqvae(cfg: TrainConfig):
     if cfg.one_channel:
         in_channels = 1
     else:
-        raise NotImplementedError
+        in_channels = cfg.feat_size
+
     model = VQVAE1D(
         in_channels=in_channels,
         encoder_channels=cfg.encoder_channels,
@@ -1149,6 +1151,9 @@ def get_args():
     parser.add_argument("--code_len", type=int, required=True)
     parser.add_argument("--num_codes", type=int, required=True)
 
+    parser.add_argument("--one_channel", type=int, required=True)
+    parser.add_argument("--feat_size", type=int, required=True)
+
     return parser.parse_args()
 
 
@@ -1196,7 +1201,8 @@ if __name__ == "__main__":
         anomaly_data_paths=args.anomaly_data_paths,
         anomaly_indices_paths=args.anomaly_indices_paths,
 
-        one_channel=True,
+        one_channel=args.one_channel,
+        feat_size=args.feat_size,
         data_type=args.data_type,
 
         batch_size=64,
