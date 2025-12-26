@@ -10,9 +10,9 @@ FEAT_SIZE=12
 DATA_TYPE="ecg"
 WANDB_PROJECT="dsp_flow_incart_no_code"
 
-VQVAE_CKPT="/root/tianyi/formal_experiment/incart_v_anomaly/dsp_flow/vqvae_save_path"
-PRETRAIN_CKPT="/root/tianyi/formal_experiment/incart_v_anomaly/dsp_flow/no_context_pretrain_ckpt"
-FINETUNE_CKPT="/root/tianyi/formal_experiment/incart_v_anomaly/dsp_flow/impute_finetune_ckpt_lr${LR}"
+VQVAE_CKPT="none"
+PRETRAIN_CKPT="/root/tianyi/formal_experiment/incart_v_anomaly/dsp_flow_no_code/no_context_pretrain_ckpt"
+FINETUNE_CKPT="/root/tianyi/formal_experiment/incart_v_anomaly/dsp_flow_no_code/impute_finetune_ckpt_lr${LR}"
 
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_incart/I08.npz"]'
@@ -24,24 +24,24 @@ ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_incart/slide_
 NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/normal_800.jsonl"]'
 
 #VQVAE Train Parameters
-VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/normal_800.jsonl"]'
-CODE_DIM=8
-CODE_LEN=4
-NUM_CODES=500
-
-python mini_runnable_vqvae.py \
-  --max_seq_len ${MAX_LEN_ANOMALY} \
-  --min_seq_len ${MIN_LEN_ANOMALY} \
-  --data_paths ${DATA_PATHS} \
-  --indices_paths ${VQVAE_TRAIN_INDICES_PATHS}\
-  --data_type ${DATA_TYPE} \
-  --gpu_id ${GPU_ID} \
-  --save_dir ${VQVAE_CKPT} \
-  --code_dim ${CODE_DIM} \
-  --code_len ${CODE_LEN} \
-  --num_codes ${NUM_CODES} \
-  --one_channel ${ONE_CHANNEL} \
-  --feat_size ${FEAT_SIZE}
+#VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/normal_800.jsonl"]'
+#CODE_DIM=8
+#CODE_LEN=4
+#NUM_CODES=500
+#
+#python mini_runnable_vqvae.py \
+#  --max_seq_len ${MAX_LEN_ANOMALY} \
+#  --min_seq_len ${MIN_LEN_ANOMALY} \
+#  --data_paths ${DATA_PATHS} \
+#  --indices_paths ${VQVAE_TRAIN_INDICES_PATHS}\
+#  --data_type ${DATA_TYPE} \
+#  --gpu_id ${GPU_ID} \
+#  --save_dir ${VQVAE_CKPT} \
+#  --code_dim ${CODE_DIM} \
+#  --code_len ${CODE_LEN} \
+#  --num_codes ${NUM_CODES} \
+#  --one_channel ${ONE_CHANNEL} \
+#  --feat_size ${FEAT_SIZE}
 
 
 python dsp_flow.py \
@@ -205,6 +205,6 @@ python dsp_flow.py \
   --pretrained_ckpt "none" \
   --vqvae_ckpt "${VQVAE_CKPT}/vqvae.pt" \
   \
-  --generated_path "${FINETUNE_CKPT}/posterior_impute_samples.pth" \
+  --generated_path "${FINETUNE_CKPT}/no_code_impute_samples.pth" \
   \
   --gpu_id ${GPU_ID}
