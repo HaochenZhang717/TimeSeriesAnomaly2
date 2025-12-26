@@ -42,7 +42,7 @@ class DSPFlow(nn.Module):
             decoder_channels=(64, 64, 32, 32, 16, 16),
             code_dim=8,
             num_codes=500,
-            down_ratio=2,
+            down_ratio=1,
             up_ratio=2,
             code_len=4,
             seq_len=vqvae_seq_len
