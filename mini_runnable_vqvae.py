@@ -727,7 +727,7 @@ def train_vqvae(cfg: TrainConfig):
 
     # -------- dataset / loader --------
     full_set = AnomalyDataset(
-        raw_data_paths=cfg.raw_data_paths,
+        raw_data_paths=cfg.data_paths,
         indices_paths=cfg.indices_paths,
         one_channel=cfg.one_channel,
         min_length=cfg.min_length,
