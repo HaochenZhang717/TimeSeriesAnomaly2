@@ -230,6 +230,7 @@ class DSPFlow(nn.Module):
 
 
     def forward(self, batch, mode):
+        breakpoint()
         if mode=="no_context":
             signals = batch["signals"]
             attn_mask=batch["attn_mask"]
