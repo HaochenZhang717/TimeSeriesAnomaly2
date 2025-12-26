@@ -118,6 +118,7 @@ class ResNetEncoder1D(nn.Module):
         x = x.transpose(1, 2)
         h = self.stem(x)
         h = self.stages(h)
+        breakpoint()
         h = h * loss_mask.permute(0, 2, 1)
         z = self.global_pooling(h)
         z = torch.relu(z)
