@@ -40,7 +40,9 @@ python mini_runnable_vqvae.py \
   --save_dir ${VQVAE_CKPT} \
   --code_dim ${CODE_DIM} \
   --code_len ${CODE_LEN} \
-  --num_codes ${NUM_CODES}
+  --num_codes ${NUM_CODES} \
+  --one_channel ${ONE_CHANNEL} \
+  --feat_size ${FEAT_SIZE}
 
 
 python dsp_flow.py \
