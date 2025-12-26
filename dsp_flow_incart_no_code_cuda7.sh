@@ -3,12 +3,12 @@ LR=1e-4
 LEN_WHOLE=800
 MAX_LEN_ANOMALY=450
 MIN_LEN_ANOMALY=80
-GPU_ID=6
+GPU_ID=7
 ONE_CHANNEL=0
 FEAT_SIZE=12
 
 DATA_TYPE="ecg"
-WANDB_PROJECT="dsp_flow_incart"
+WANDB_PROJECT="dsp_flow_incart_no_code"
 
 VQVAE_CKPT="/root/tianyi/formal_experiment/incart_v_anomaly/dsp_flow/vqvae_save_path"
 PRETRAIN_CKPT="/root/tianyi/formal_experiment/incart_v_anomaly/dsp_flow/no_context_pretrain_ckpt"
@@ -45,7 +45,7 @@ python mini_runnable_vqvae.py \
 
 
 python dsp_flow.py \
-  --what_to_do "no_context_pretrain" \
+  --what_to_do "no_context_no_code_pretrain" \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
@@ -87,7 +87,7 @@ python dsp_flow.py \
 
 
 python dsp_flow.py \
-  --what_to_do "imputation_finetune" \
+  --what_to_do "no_code_imputation_finetune" \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
@@ -128,7 +128,7 @@ python dsp_flow.py \
 
 
 python dsp_flow.py \
-  --what_to_do "posterior_impute_sample" \
+  --what_to_do "no_code_impute_sample" \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
