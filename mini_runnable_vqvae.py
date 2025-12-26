@@ -402,6 +402,7 @@ class ResNetEncoder1D(nn.Module):
     """
     def __init__(
         self,
+        seq_len,
         in_channels,
         channels=(64, 128, 256),
         blocks_per_stage=2,
@@ -438,7 +439,7 @@ class ResNetEncoder1D(nn.Module):
 
         self.stages = nn.Sequential(*stages)
 
-        self.global_pooling = nn.AdaptiveAvgPool1d(code_len)
+        self.global_pooling = nn.Linear(seq_len, code_len)
         self.proj = nn.Conv1d(
             in_ch, code_dim,
             kernel_size=1,
@@ -450,12 +451,10 @@ class ResNetEncoder1D(nn.Module):
         x = x.transpose(1, 2)
         h = self.stem(x)
         h = self.stages(h)
-        breakpoint()
         h = h * loss_mask.permute(0, 2, 1)
-        # breakpoint()
-
-        z = self.proj(h)          # [B, D, T']
-        z = self.global_pooling(z)
+        z = self.global_pooling(h)
+        z = torch.relu(z)
+        z = self.proj(z)          # [B, D, T']
         z = z.transpose(1, 2)     # [B, T', D]
         return z
 
