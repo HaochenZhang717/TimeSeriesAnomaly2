@@ -64,7 +64,7 @@ python dsp_flow.py \
   --wandb_project "none" \
   --wandb_run "none" \
   \
-  --ckpt_dir ${FINETUNE_CKPT} \
+  --ckpt_dir ${PRETRAIN_CKPT} \
   --pretrained_ckpt "none" \
   --vqvae_ckpt "${VQVAE_CKPT}/vqvae.pt" \
   \
