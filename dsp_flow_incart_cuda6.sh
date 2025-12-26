@@ -24,7 +24,7 @@ ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_incart/slide_
 NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I03npz/normal_800.jsonl","./dataset_utils/ECG_datasets/indices_incart/slide_windows_I52npz/normal_800.jsonl","./dataset_utils/ECG_datasets/indices_incart/slide_windows_I69npz/normal_800.jsonl"]'
 
 #VQVAE Train Parameters
-VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I03npz/normal_800.jsonl","./dataset_utils/ECG_datasets/indices_incart/slide_windows_I52npz/normal_800.jsonl","./dataset_utils/ECG_datasets/indices_incart/slide_windows_I69npz/normal_800.jsonl"]'
+VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I03npz/normal_450.jsonl","./dataset_utils/ECG_datasets/indices_incart/slide_windows_I52npz/normal_450.jsonl","./dataset_utils/ECG_datasets/indices_incart/slide_windows_I69npz/normal_450.jsonl"]'
 CODE_DIM=8
 CODE_LEN=4
 NUM_CODES=500
