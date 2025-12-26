@@ -587,6 +587,7 @@ class VQVAE1D(nn.Module):
         #     code_dim=code_dim,
         # )
         self.encoder = ResNetEncoder1D(
+            seq_len=seq_len,
             in_channels=in_channels,
             channels=encoder_channels,
             blocks_per_stage=1,
