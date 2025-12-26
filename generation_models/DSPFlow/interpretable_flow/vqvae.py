@@ -328,3 +328,8 @@ class VQVAE(nn.Module):
         z_q, ids, vq_loss = self.quantizer(z_e)
         x_hat = self.decoder(z_q, x.size(1))
         return x_hat, ids, vq_loss
+
+    def encode(self, x, loss_mask):
+        z_e = self.encoder(x, loss_mask)
+        z_q, ids, vq_loss = self.quantizer(z_e)
+        return z_q
