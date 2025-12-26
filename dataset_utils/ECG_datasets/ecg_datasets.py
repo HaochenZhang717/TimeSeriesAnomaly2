@@ -303,7 +303,7 @@ class ImputationECGDataset(Dataset):
         infill_length = anomaly_end - anomaly_start
         missing_signals[:infill_length] = signal[relative_anomaly_start:relative_anomaly_end]
 
-        missing_signals_mask = torch.zeros(1, self.max_infill_length)
+        missing_signals_mask = torch.zeros(self.max_infill_length)
         missing_signals_mask[:infill_length] = 1
 
         return {
@@ -384,8 +384,8 @@ class ImputationNormalECGDataset(Dataset):
         # ===== missing signals =====
         missing_signals = torch.zeros(self.max_infill_length, signal.shape[-1])
         missing_signals[:infill_length] = signal[relative_anomaly_start:relative_anomaly_end]
-        missing_signals_mask = torch.zeros(1, self.max_infill_length)
-        missing_signals_mask[:, :infill_length] = 1
+        missing_signals_mask = torch.zeros(self.max_infill_length)
+        missing_signals_mask[:infill_length] = 1
 
         anomaly_label = torch.from_numpy(self.anomaly_label_list[which_list][ts_start:ts_end])
         T = anomaly_label.shape[0]
