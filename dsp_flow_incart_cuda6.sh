@@ -17,15 +17,14 @@ FINETUNE_CKPT="/root/tianyi/formal_experiment/incart_v_anomaly/dsp_flow/impute_f
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_incart/I08.npz"]'
 TEST_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_incart/I08.npz"]'
-PRETRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/train/normal_450.jsonl"]'
-FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/train/V_train.jsonl"]'
-FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/train/V_test.jsonl"]'
-ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/train/V_segments_train.jsonl"]'
-NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/train/normal_800.jsonl"]'
+PRETRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/normal_450.jsonl"]'
+FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/V_train.jsonl"]'
+FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/V_test.jsonl"]'
+ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/V_segments_train.jsonl"]'
+NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/normal_800.jsonl"]'
 
 #VQVAE Train Parameters
-#VQVAE_TRAIN_INDICES_PATHS="[../dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/mixed.jsonl]"
-VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/train/normal_800.jsonl"]'
+VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I08npz/normal_800.jsonl"]'
 CODE_DIM=8
 CODE_LEN=4
 NUM_CODES=500
