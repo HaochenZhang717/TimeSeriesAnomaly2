@@ -624,10 +624,15 @@ class TrainConfig:
     max_length: int
 
 
-    normal_data_paths: str
-    normal_indices_paths: str
-    anomaly_data_paths: str
-    anomaly_indices_paths: str
+    # normal_data_paths: str
+    # normal_indices_paths: str
+    # anomaly_data_paths: str
+    # anomaly_indices_paths: str
+
+    data_paths: str
+    indices_paths: str
+
+
     one_channel: int
     feat_size: int
     data_type: str = 'blahblah'
@@ -721,25 +726,25 @@ def train_vqvae(cfg: TrainConfig):
     )
 
     # -------- dataset / loader --------
-    # full_set = AnomalyDataset(
-    #     raw_data_paths=cfg.raw_data_paths,
-    #     indices_paths=cfg.indices_paths,
-    #     one_channel=cfg.one_channel,
-    #     min_length=cfg.min_length,
-    #     max_length=cfg.max_length,
-    #     data_type=cfg.data_type
-    # )
-
-    full_set = MixedAugmentedDataset(
-        normal_data_paths=cfg.normal_data_paths,
-        normal_indices_paths=cfg.normal_indices_paths,
-        anomaly_data_paths=cfg.anomaly_data_paths,
-        anomaly_indices_paths=cfg.anomaly_indices_paths,
+    full_set = AnomalyDataset(
+        raw_data_paths=cfg.raw_data_paths,
+        indices_paths=cfg.indices_paths,
         one_channel=cfg.one_channel,
         min_length=cfg.min_length,
         max_length=cfg.max_length,
         data_type=cfg.data_type
     )
+
+    # full_set = MixedAugmentedDataset(
+    #     normal_data_paths=cfg.normal_data_paths,
+    #     normal_indices_paths=cfg.normal_indices_paths,
+    #     anomaly_data_paths=cfg.anomaly_data_paths,
+    #     anomaly_indices_paths=cfg.anomaly_indices_paths,
+    #     one_channel=cfg.one_channel,
+    #     min_length=cfg.min_length,
+    #     max_length=cfg.max_length,
+    #     data_type=cfg.data_type
+    # )
 
     N = len(full_set)
     indices = np.arange(N)
@@ -1138,10 +1143,10 @@ def get_args():
     parser.add_argument("--min_seq_len", type=int, required=True)
     parser.add_argument("--max_seq_len", type=int, required=True)
 
-    parser.add_argument("--normal_data_paths", type=json.loads, required=True)
-    parser.add_argument("--normal_indices_paths", type=json.loads, required=True)
-    parser.add_argument("--anomaly_data_paths", type=json.loads, required=True)
-    parser.add_argument("--anomaly_indices_paths", type=json.loads, required=True)
+    parser.add_argument("--data_paths", type=json.loads, required=True)
+    parser.add_argument("--indices_paths", type=json.loads, required=True)
+    # parser.add_argument("--anomaly_data_paths", type=json.loads, required=True)
+    # parser.add_argument("--anomaly_indices_paths", type=json.loads, required=True)
 
     parser.add_argument("--data_type", type=str, required=True)
     parser.add_argument("--gpu_id", type=int, required=True)
@@ -1188,6 +1193,8 @@ if __name__ == "__main__":
     #     save_path="/root/tianyi/vqvae_save_path/vqvae_1d.pt",
     # )
 
+
+
     cfg = TrainConfig(
         encoder_channels=(16, 16, 32, 32, 64, 64),
         decoder_channels=(64, 64, 32, 32, 16, 16),
@@ -1196,10 +1203,13 @@ if __name__ == "__main__":
         min_length=args.min_seq_len,
         max_length=args.max_seq_len,
 
-        normal_data_paths=args.normal_data_paths,
-        normal_indices_paths=args.normal_indices_paths,
-        anomaly_data_paths=args.anomaly_data_paths,
-        anomaly_indices_paths=args.anomaly_indices_paths,
+        data_paths=args.data_paths,
+        indices_paths=args.indices_paths,
+
+        # normal_indices_paths=args.normal_indices_paths,
+        # normal_indices_paths=args.normal_indices_paths,
+        # anomaly_data_paths=args.anomaly_data_paths,
+        # anomaly_indices_paths=args.anomaly_indices_paths,
 
         one_channel=args.one_channel,
         feat_size=args.feat_size,
@@ -1222,9 +1232,7 @@ if __name__ == "__main__":
         save_path=args.save_dir,
 
     )
-
     model = train_vqvae(cfg)
-
     # extract_code_segments(
     #     in_channels=1,
     #     code_dim=args.code_dim,
