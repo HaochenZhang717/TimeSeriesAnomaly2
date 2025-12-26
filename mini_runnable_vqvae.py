@@ -348,12 +348,12 @@ class ResBlock1D(nn.Module):
     ):
         super().__init__()
         padding = kernel_size // 2
-        self.downsample = downsample or (stride != 1) or (in_channels != out_channels)
+        # self.downsample = downsample or (stride != 1) or (in_channels != out_channels)
 
         self.conv1 = nn.Conv1d(
             in_channels, out_channels,
             kernel_size=kernel_size,
-            stride=stride,
+            stride=1,
             padding=padding,
             bias=False,
         )
@@ -369,15 +369,16 @@ class ResBlock1D(nn.Module):
         self.norm2 = nn.BatchNorm1d(out_channels)
         self.act = nn.ReLU(inplace=True)
 
-        if self.downsample:
-            self.skip = nn.Conv1d(
-                in_channels, out_channels,
-                kernel_size=1,
-                stride=stride,
-                bias=False,
-            )
-        else:
-            self.skip = nn.Identity()
+        # if self.downsample:
+        #     self.skip = nn.Conv1d(
+        #         in_channels, out_channels,
+        #         kernel_size=1,
+        #         stride=stride,
+        #         bias=False,
+        #     )
+        # else:
+        #     self.skip = nn.Identity()
+        self.skip = nn.Identity()
 
     def forward(self, x):
         identity = self.skip(x)
@@ -444,12 +445,13 @@ class ResNetEncoder1D(nn.Module):
             bias=False,
         )
 
-    def forward(self, x):
+    def forward(self, x, loss_mask):
         # x: [B, T, C] → [B, C, T]
         x = x.transpose(1, 2)
         h = self.stem(x)
         h = self.stages(h)
         z = self.proj(h)          # [B, D, T']
+        breakpoint()
         z = self.global_pooling(z)
         z = z.transpose(1, 2)     # [B, T', D]
         return z
@@ -604,8 +606,8 @@ class VQVAE1D(nn.Module):
             seq_len=seq_len
         )
 
-    def forward(self, x):
-        z_e = self.encoder(x)
+    def forward(self, x, loss_mask):
+        z_e = self.encoder(x, loss_mask)
         z_q, ids, vq_loss = self.quantizer(z_e)
         x_hat = self.decoder(z_q, x.size(1))
         return x_hat, ids, vq_loss
@@ -809,7 +811,7 @@ def train_vqvae(cfg: TrainConfig):
 
             # valid = make_valid_mask(lengths, T).unsqueeze(-1)  # [B, T, 1]
 
-            x_hat, ids, vq_loss = model(x)
+            x_hat, ids, vq_loss = model(x, loss_mask)
             rec_loss = recon_criterion(x_hat, x, loss_mask)
 
             loss = rec_loss + cfg.vq_loss_weight * vq_loss
@@ -1011,7 +1013,7 @@ def plot_neighbor_time_series(
             raise KeyError(f"segment {seg_idx} has no key '{signal_key}'")
 
         signal = segment[signal_key]
-        signal = signal[0].flatten()
+        signal = signal[:, 0].flatten()
         if isinstance(signal, torch.Tensor):
             signal = signal.cpu().numpy()
 
@@ -1028,7 +1030,8 @@ def plot_neighbor_time_series(
         plt.grid(alpha=0.3)
 
     plt.tight_layout()
-    plt.show()
+    # plt.show()
+    plt.savefig("time_series.png")
 
 
 
@@ -1076,7 +1079,7 @@ def cluster_analysis(args):
     dataset = AnomalyDataset(
         raw_data_paths=args.data_paths,
         indices_paths=args.indices_paths,
-        one_channel=True,
+        one_channel=args.one_channel,
         max_length=args.max_seq_len,
         min_length=args.min_seq_len,
         data_type=args.data_type,
@@ -1087,7 +1090,7 @@ def cluster_analysis(args):
         map_location='cpu'
     )
     for i, code_segment in enumerate(code_segments):
-        code_segment.update({'signal': dataset.__getitem__(i)})
+        code_segment.update({'signal': dataset.__getitem__(i)[0]})
 
     model_ckpt = torch.load(
         f"{args.save_dir}/vqvae.pt",
@@ -1124,7 +1127,7 @@ def cluster_analysis(args):
         all_embeddings=all_embeddings,
         code_segments=code_segments,
         valid_indices=valid_indices,
-        anchor_emb_idx=1,  # 任选一个
+        anchor_emb_idx=10,  # 任选一个
         k=20,
         metric="l2",
         signal_key="signal",
@@ -1195,44 +1198,44 @@ if __name__ == "__main__":
 
 
 
-    # cfg = TrainConfig(
-    #     encoder_channels=(16, 16, 32, 32, 64, 64),
-    #     decoder_channels=(64, 64, 32, 32, 16, 16),
-    #     down_ratio=2,
-    #     up_ratio=2,
-    #     min_length=args.min_seq_len,
-    #     max_length=args.max_seq_len,
-    #
-    #     data_paths=args.data_paths,
-    #     indices_paths=args.indices_paths,
-    #
-    #     # normal_indices_paths=args.normal_indices_paths,
-    #     # normal_indices_paths=args.normal_indices_paths,
-    #     # anomaly_data_paths=args.anomaly_data_paths,
-    #     # anomaly_indices_paths=args.anomaly_indices_paths,
-    #
-    #     one_channel=args.one_channel,
-    #     feat_size=args.feat_size,
-    #     data_type=args.data_type,
-    #
-    #     batch_size=64,
-    #     epochs=50,
-    #     lr=1e-3,
-    #
-    #     hidden=64,
-    #     code_dim=args.code_dim,
-    #     code_len=args.code_len,
-    #     num_codes=args.num_codes,
-    #     beta=0.25,
-    #
-    #     recon_loss="mse",
-    #     vq_loss_weight=1.0,
-    #     device=f"cuda:{args.gpu_id}",
-    #     # device="cpu",
-    #     save_path=args.save_dir,
-    #
-    # )
-    # model = train_vqvae(cfg)
+    cfg = TrainConfig(
+        encoder_channels=(16, 16, 32, 32, 64, 64),
+        decoder_channels=(64, 64, 32, 32, 16, 16),
+        down_ratio=2,
+        up_ratio=2,
+        min_length=args.min_seq_len,
+        max_length=args.max_seq_len,
+
+        data_paths=args.data_paths,
+        indices_paths=args.indices_paths,
+
+        # normal_indices_paths=args.normal_indices_paths,
+        # normal_indices_paths=args.normal_indices_paths,
+        # anomaly_data_paths=args.anomaly_data_paths,
+        # anomaly_indices_paths=args.anomaly_indices_paths,
+
+        one_channel=args.one_channel,
+        feat_size=args.feat_size,
+        data_type=args.data_type,
+
+        batch_size=64,
+        epochs=50,
+        lr=1e-3,
+
+        hidden=64,
+        code_dim=args.code_dim,
+        code_len=args.code_len,
+        num_codes=args.num_codes,
+        beta=0.25,
+
+        recon_loss="mse",
+        vq_loss_weight=1.0,
+        device=f"cuda:{args.gpu_id}",
+        # device="cpu",
+        save_path=args.save_dir,
+
+    )
+    model = train_vqvae(cfg)
     extract_code_segments(
         in_channels=args.feat_size,
         code_dim=args.code_dim,
