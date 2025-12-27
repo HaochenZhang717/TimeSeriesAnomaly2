@@ -13,7 +13,7 @@ python classification.py \
     --mode "linear_probing" \
     --output_path "./" \
     --train_data_path "/root/tianyi/formal_experiment/mitdb/dsp_flow/impute_finetune_ckpt_lr1e-4/posterior_impute_samples.pth"\
-    --test_data_path "none"\
+    --test_data_path "../dataset_utils/ECG_Datasets/raw_data/mitdb106_test_data.pt"\
     --key_signal "all_samples" \
     --key_label "all_labels"
 
