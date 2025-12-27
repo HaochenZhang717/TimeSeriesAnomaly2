@@ -38,7 +38,7 @@ class PTBXL_Trainer:
 
         # initialize ptbxl classification dataset
         train_data = torch.load(args.train_data_path)
-        breakpoint()
+        # breakpoint()
         train_signal = train_data[args.key_signal]
         train_label = train_data[args.key_label]
         # adjust size
@@ -53,7 +53,7 @@ class PTBXL_Trainer:
             mode="nearest"
         )
         train_label = train_label.squeeze(1).long()  # [B, T]
-
+        breakpoint()
 
         train_data = TensorDataset(train_signal, train_label)
 
