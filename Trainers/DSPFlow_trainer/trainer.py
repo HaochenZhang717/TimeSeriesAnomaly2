@@ -144,6 +144,7 @@ class DSPFlowTrainer(object):
 
                 batch["signals"] = batch["signals"].to(dtype=model_dtype, device=self.device)
                 batch["missing_signals"] = batch["missing_signals"].to(dtype=model_dtype, device=self.device)
+                batch["missing_signals_mask"] = batch["missing_signals_mask"].to(dtype=torch.long, device=self.device)
                 batch["attn_mask"] = batch["attn_mask"].to(dtype=torch.bool, device=self.device)
                 batch["noise_mask"] = batch["noise_mask"].to(dtype=torch.long, device=self.device)
                 loss = self.model(batch, mode="imputation")
@@ -177,6 +178,7 @@ class DSPFlowTrainer(object):
                     for batch in tqdm(self.val_loader, desc=f"Eval Epoch {epoch}"):
                         batch["signals"] = batch["signals"].to(dtype=model_dtype, device=self.device)
                         batch["missing_signals"] = batch["missing_signals"].to(dtype=model_dtype, device=self.device)
+                        batch["missing_signals_mask"] = batch["missing_signals_mask"].to(dtype=torch.long, device=self.device)
                         batch["attn_mask"] = batch["attn_mask"].to(dtype=torch.bool, device=self.device)
                         batch["noise_mask"] = batch["noise_mask"].to(dtype=torch.long, device=self.device)
                         loss = self.model(batch, mode="imputation")
