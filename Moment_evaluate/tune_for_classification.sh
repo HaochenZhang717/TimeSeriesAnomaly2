@@ -1,4 +1,4 @@
-export CUDA_VISIBLE_DEVICES=4,5
+#export CUDA_VISIBLE_DEVICES=4,5
 
 # use this for full finetuning
 #accelerate launch --config_file tutorials/finetune_demo/ds.yaml \
