@@ -109,8 +109,8 @@ class AnomalyDataset(Dataset):
             assert end - start <= self.max_length
 
             data_in_use = self.normed_signal_list[which_list]
-            scaler = MinMaxScaler()
-            data_in_use = scaler.fit_transform(data_in_use)
+            # scaler = MinMaxScaler()
+            # data_in_use = scaler.fit_transform(data_in_use)
 
             if self.one_channel:
                 data_in_use = data_in_use[:, :1]

@@ -10,7 +10,7 @@ FEAT_SIZE=2
 DATA_TYPE="ecg"
 WANDB_PROJECT="dsp_flow_qt_no_code"
 
-VQVAE_CKPT="/root/tianyi/formal_experiment/qtdb/dsp_flow/vqvae_save_path"
+VQVAE_CKPT="none"
 PRETRAIN_CKPT="/root/tianyi/formal_experiment/qtdb/dsp_flow/no_context_pretrain_ckpt"
 FINETUNE_CKPT="/root/tianyi/formal_experiment/qtdb/dsp_flow/impute_finetune_ckpt_lr${LR}"
 
