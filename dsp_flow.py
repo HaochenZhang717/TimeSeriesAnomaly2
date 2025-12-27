@@ -639,7 +639,7 @@ def posterior_impute_sample(args):
         mlp_hidden_times=4,
         vqvae_ckpt=args.vqvae_ckpt
     )
-    # model.load_state_dict(torch.load(f"{args.ckpt_dir}/ckpt.pth"))
+    model.load_state_dict(torch.load(f"{args.ckpt_dir}/ckpt.pth"))
     device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
     model.to(device=device)
     model.eval()
@@ -701,7 +701,7 @@ def posterior_impute_sample(args):
         discrete_embeds.append(discrete_embed)
     discrete_embeds = torch.cat(discrete_embeds, dim=0)
 
-    num_generate = 100
+    num_generate = 50000
     all_samples = []
     all_labels = []
     all_reals = []
@@ -733,7 +733,6 @@ def posterior_impute_sample(args):
     all_samples = torch.cat(all_samples, dim=0)
     all_labels = torch.cat(all_labels, dim=0)
     all_reals = torch.cat(all_reals, dim=0)
-    breakpoint()
     all_results = {
         'all_samples': all_samples,
         'all_labels': all_labels,
