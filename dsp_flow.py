@@ -701,7 +701,7 @@ def posterior_impute_sample(args):
         discrete_embeds.append(discrete_embed)
     discrete_embeds = torch.cat(discrete_embeds, dim=0)
 
-    num_generate = 50000
+    num_generate = 100
     all_samples = []
     all_labels = []
     all_reals = []
@@ -721,7 +721,6 @@ def posterior_impute_sample(args):
                     attn_mask=attn_mask,
                     noise_mask=noise_mask
                 )
-            breakpoint()
             all_samples.append(samples)
             all_labels.append(noise_mask)
             all_reals.append(signals)
@@ -734,7 +733,7 @@ def posterior_impute_sample(args):
     all_samples = torch.cat(all_samples, dim=0)
     all_labels = torch.cat(all_labels, dim=0)
     all_reals = torch.cat(all_reals, dim=0)
-
+    breakpoint()
     all_results = {
         'all_samples': all_samples,
         'all_labels': all_labels,
