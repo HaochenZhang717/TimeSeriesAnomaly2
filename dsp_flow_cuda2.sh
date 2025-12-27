@@ -11,7 +11,8 @@ WANDB_PROJECT="dsp_flow_mitdb"
 #PRETRAIN_CKPT="/root/tianyi/TSA-ckpts/dsp_flow/106npz/no_context_pretrain_ckpt"
 #FINETUNE_CKPT="/root/tianyi/TSA-ckpts/dsp_flow/106npz/impute_finetune_ckpt_lr${LR}"
 
-VQVAE_CKPT="/root/tianyi/formal_experiment/mitdb/dsp_flow/vqvae_save_path"
+#VQVAE_CKPT="/root/tianyi/formal_experiment/mitdb/dsp_flow/vqvae_save_path"
+VQVAE_CKPT="none"
 PRETRAIN_CKPT="/root/tianyi/formal_experiment/mitdb/dsp_flow/no_context_pretrain_ckpt"
 FINETUNE_CKPT="/root/tianyi/formal_experiment/mitdb/dsp_flow/impute_finetune_ckpt_lr${LR}"
 

@@ -639,7 +639,7 @@ def posterior_impute_sample(args):
         mlp_hidden_times=4,
         vqvae_ckpt=args.vqvae_ckpt
     )
-    model.load_state_dict(torch.load(f"{args.ckpt_dir}/ckpt.pth"))
+    # model.load_state_dict(torch.load(f"{args.ckpt_dir}/ckpt.pth"))
     device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
     model.to(device=device)
     model.eval()
