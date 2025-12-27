@@ -282,8 +282,8 @@ class ImputationECGDataset(Dataset):
         else:
             signal = torch.from_numpy(self.normed_signal_list[which_list][ts_start:ts_end])
         # normalize each slide window
-        scaler = MinMaxScaler()
-        signal = scaler.fit_transform(signal)
+        # scaler = MinMaxScaler()
+        # signal = scaler.fit_transform(signal)
 
         anomaly_label = torch.from_numpy(self.anomaly_label_list[which_list][ts_start:ts_end])
         T = anomaly_label.shape[0]
@@ -384,8 +384,8 @@ class ImputationNormalECGDataset(Dataset):
             signal = torch.from_numpy(self.normed_signal_list[which_list][ts_start:ts_end])
 
         # normalize each slide window
-        scaler = MinMaxScaler()
-        signal = scaler.fit_transform(signal)
+        # scaler = MinMaxScaler()
+        # signal = scaler.fit_transform(signal)
 
         # ===== missing signals =====
         missing_signals = torch.zeros(self.max_infill_length, signal.shape[-1])
@@ -479,8 +479,8 @@ class NoContextNormalECGDataset(Dataset):
             signal = torch.from_numpy(self.normed_signal_list[which_list][ts_start:ts_end])
 
         # normalize each slide window
-        scaler = MinMaxScaler()
-        signal = scaler.fit_transform(signal)
+        # scaler = MinMaxScaler()
+        # signal = scaler.fit_transform(signal)
 
         # ===== missing signals =====
         missing_signals = torch.zeros(self.max_infill_length, signal.shape[-1])
@@ -554,8 +554,8 @@ class NoContextAnomalyECGDataset(Dataset):
             signal = signal[:, :1]
 
         # normalize each slide window
-        scaler = MinMaxScaler()
-        signal = scaler.fit_transform(signal)
+        # scaler = MinMaxScaler()
+        # signal = scaler.fit_transform(signal)
 
         context_mask = torch.zeros(self.seq_len, dtype=torch.long)
         context_mask[:ts_length] = 1
