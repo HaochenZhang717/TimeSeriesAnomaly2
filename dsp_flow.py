@@ -679,7 +679,6 @@ def posterior_impute_sample(args):
     else:
         raise ValueError(f"{args.data_type} is not supported.")
 
-    breakpoint()
     anomaly_loader = torch.utils.data.DataLoader(
         anomaly_set, batch_size=args.batch_size,
         shuffle=False, drop_last=False,
