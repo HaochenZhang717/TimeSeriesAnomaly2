@@ -696,7 +696,8 @@ def posterior_impute_sample(args):
     discrete_embeds = []
     for anomaly_batch in anomaly_loader:
         anomaly_signals = anomaly_batch['signals'].to(device=device)
-        discrete_embed = model.vqvae.encode(anomaly_signals)
+        anomaly_signals_attn_mask = anomaly_batch['attn_mask'].to(device=device)
+        discrete_embed = model.vqvae.encode(anomaly_signals, anomaly_signals_attn_mask)
         discrete_embeds.append(discrete_embed)
     discrete_embeds = torch.cat(discrete_embeds, dim=0)
 
