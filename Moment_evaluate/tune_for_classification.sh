@@ -14,6 +14,6 @@ python classification.py \
     --output_path "./" \
     --train_data_path "/root/tianyi/formal_experiment/mitdb/dsp_flow/impute_finetune_ckpt_lr1e-4/posterior_impute_samples.pth"\
     --test_data_path "none"\
-    --key_train "all_samples" \
+    --key_signal "all_samples" \
     --key_label "labels"
 
