@@ -17,14 +17,14 @@ FINETUNE_CKPT="/root/tianyi/formal_experiment/qtdb_3in1/dsp_flow/impute_finetune
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel891.npz","./dataset_utils/ECG_datasets/raw_data_qtdb/sel14157.npz","./dataset_utils/ECG_datasets/raw_data_qtdb/sel15814.npz"]'
 TEST_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel891.npz","./dataset_utils/ECG_datasets/raw_data_qtdb/sel14157.npz","./dataset_utils/ECG_datasets/raw_data_qtdb/sel15814.npz"]'
-PRETRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel891npz/normal_600.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel14157npz/normal_600.jsonl", ""./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel15814npz/normal_600.jsonl"]'
-FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel891npz/V_train.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel14157npz/V_train.jsonl", ""./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel15814npz/V_train.jsonl"]'
-FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel891npz/V_test.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel14157npz/V_test.jsonl", ""./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel15814npz/V_test.jsonl"]'
-ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel891npz/V_segments_train.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel14157npz/V_segments_train.jsonl", ""./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel15814npz/V_segments_train.jsonl"]'
-NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel891npz/normal_600.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel14157npz/normal_600.jsonl", ""./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel15814npz/normal_600.jsonl"]'
+PRETRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel891npz/normal_600.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel14157npz/normal_600.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel15814npz/normal_600.jsonl"]'
+FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel891npz/V_train.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel14157npz/V_train.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel15814npz/V_train.jsonl"]'
+FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel891npz/V_test.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel14157npz/V_test.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel15814npz/V_test.jsonl"]'
+ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel891npz/V_segments_train.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel14157npz/V_segments_train.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel15814npz/V_segments_train.jsonl"]'
+NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel891npz/normal_600.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel14157npz/normal_600.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel15814npz/normal_600.jsonl"]'
 
 #VQVAE Train Parameters
-VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel891npz/normal_600.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel14157npz/normal_600.jsonl", ""./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel15814npz/normal_600.jsonl"]'
+VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel891npz/normal_600.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel14157npz/normal_600.jsonl", "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel15814npz/normal_600.jsonl"]'
 
 CODE_DIM=8
 CODE_LEN=4
