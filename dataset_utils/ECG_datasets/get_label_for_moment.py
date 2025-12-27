@@ -28,5 +28,5 @@ to_save = {
     "all_samples": all_samples,
     "all_labels": all_labels,
 }
-torch.save(to_save, "./raw_data/mitdb106_test_data.pt")
+torch.save(to_save, "raw_data/mitdb106_test_data.pt")
 
