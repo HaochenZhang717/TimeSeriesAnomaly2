@@ -111,7 +111,7 @@ python dsp_flow.py \
   \
   --lr 1e-4 \
   --batch_size 64 \
-  --max_epochs 250 \
+  --max_epochs 100 \
   --grad_clip_norm 1.0 \
   --grad_accum_steps 1 \
   --early_stop "true" \
