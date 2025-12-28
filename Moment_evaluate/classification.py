@@ -101,7 +101,7 @@ class PTBXL_Trainer:
             size=args.seq_len,
             mode="nearest"
         )
-        train_label = train_label.long()  # [B, T]
+        train_label = train_label.squeeze(1).long()  # [B, T]
         train_data = TensorDataset(train_signal, train_label)
 
 
@@ -122,7 +122,7 @@ class PTBXL_Trainer:
             size=args.seq_len,
             mode="nearest"
         )
-        test_label = test_label.long()  # [B, T]
+        test_label = test_label.squeeze(1).long()  # [B, T]
 
         test_data = TensorDataset(test_signal, test_label)
 
