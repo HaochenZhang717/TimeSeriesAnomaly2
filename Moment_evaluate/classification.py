@@ -256,8 +256,8 @@ class PTBXL_Trainer:
             with torch.autocast(device_type='cuda', dtype=torch.bfloat16 if torch.cuda.is_available() and
                                                                             torch.cuda.get_device_capability()[
                                                                                 0] >= 8 else torch.float32):
-                output = self.model(x_enc=batch_x, reduction=None)
-                print(output.shape)
+                output = self.model(x_enc=batch_x, reduction="none")
+                print(output.embeddings.shape)
                 breakpoint()
                 # output = self.model(x_enc=batch_x.permute(0,2,1), reduction=self.args.reduction)
                 loss = self.criterion(output.logits, batch_labels)
