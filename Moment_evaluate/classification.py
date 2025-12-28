@@ -392,8 +392,12 @@ class PTBXL_Trainer:
         else:
             raise ValueError('Invalid phase, please choose val or test')
 
-        self.model.eval()
-        self.model.to(self.device)
+        self.backbone.eval()
+        self.backbone.to(self.device)
+
+        self.head.eval()
+        self.head.to(self.device)
+
         total_loss, total_correct = 0, 0
         total_samples = 0
         TP = FP = FN = TN = 0
@@ -405,12 +409,16 @@ class PTBXL_Trainer:
 
                 with torch.autocast(device_type='cuda', dtype=torch.bfloat16 if torch.cuda.is_available() and
                                                                                 torch.cuda.get_device_capability()[
-                                                                                    0] >= 8 else torch.float32):
-                    output = self.model(x_enc=batch_x)
-                    loss = self.criterion(output.logits, batch_labels)
+                                                                           0] >= 8 else torch.float32):
+                    backbone_output = self.backbone(x_enc=batch_x, reduction="none")
+                    output_logits = self.head(backbone_output.embeddings)
+                    loss = self.criterion(output_logits, batch_labels)
+
+                    # output = self.model(x_enc=batch_x)
+                    # loss = self.criterion(output.logits, batch_labels)
                 total_loss += loss.item()
 
-                preds = output.logits.argmax(dim=1)
+                preds = output_logits.argmax(dim=1)
 
                 total_correct += (preds == batch_labels).sum().item()
                 total_samples += batch_labels.size(0)
