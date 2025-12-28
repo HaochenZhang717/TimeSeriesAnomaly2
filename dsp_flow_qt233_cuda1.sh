@@ -93,7 +93,7 @@ python dsp_flow.py \
   --grad_clip_norm 1.0 \
   --grad_accum_steps 1 \
   --early_stop "true" \
-  --patience 50 \
+  --patience 500 \
   \
   --wandb_project ${WANDB_PROJECT} \
   --wandb_run "impute_finetune_lr${LR}" \
