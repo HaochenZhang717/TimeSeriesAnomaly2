@@ -53,8 +53,6 @@ class PTBXL_Trainer:
             mode="nearest"
         )
         train_label = train_label.squeeze(1).long()  # [B, T]
-        breakpoint()
-
         train_data = TensorDataset(train_signal, train_label)
 
 
@@ -63,6 +61,7 @@ class PTBXL_Trainer:
         test_data = torch.load(args.test_data_path)
         test_signal = test_data[args.key_signal]
         test_label = test_data[args.key_label]
+        breakpoint()
         # adjust size
         test_signal = torch.nn.functional.interpolate(
             test_signal, size=args.seq_len,
