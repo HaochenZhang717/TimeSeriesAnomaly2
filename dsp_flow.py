@@ -877,7 +877,7 @@ def anomaly_evaluate(args):
 
     gen_data = all_anomalies['all_samples']
     gen_labels = all_anomalies['all_labels']
-
+    breakpoint()
     # ---- Step 1: 找出含 NaN 的样本 ----
     nan_mask = torch.isnan(gen_data).any(dim=(1, 2))  # True 表示该样本含 NaN
 
