@@ -79,7 +79,7 @@ class PTBXL_Trainer:
 
         test_data = TensorDataset(test_signal, test_label)
 
-        print(f"Train data shape: {train_signal.shape}}")
+        print(f"Train data shape: {train_signal.shape}")
         print(f"Test data shape: {test_signal.shape}\n")
         print(f"Train label shape: {train_label.shape}\n")
         print(f"Test label shape: {test_label.shape}\n")
