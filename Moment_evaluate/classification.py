@@ -46,7 +46,7 @@ class PTBXL_Trainer:
         train_signal = torch.nn.functional.interpolate(
             train_signal.permute(0,2,1), size=args.seq_len,
             mode="linear", align_corners=False
-        ).permute(0,2,1)
+        )
         train_label = train_label.unsqueeze(1)  # [B, 1, T]
         # breakpoint()
         train_label = torch.nn.functional.interpolate(
@@ -54,7 +54,7 @@ class PTBXL_Trainer:
             size=args.seq_len,
             mode="nearest"
         )
-        train_label = train_label.squeeze(1).long()  # [B, T]
+        train_label = train_label.long()  # [B, T]
         train_data = TensorDataset(train_signal, train_label)
 
 
@@ -68,14 +68,14 @@ class PTBXL_Trainer:
         test_signal = torch.nn.functional.interpolate(
             test_signal.permute(0,2,1), size=args.seq_len,
             mode="linear", align_corners=False
-        ).permute(0,2,1)
+        )
         test_label = test_label.unsqueeze(1)  # [B, 1, T]
         test_label = torch.nn.functional.interpolate(
             test_label.float(),  # interpolate 只能用 float
             size=args.seq_len,
             mode="nearest"
         )
-        test_label = test_label.squeeze(1).long()  # [B, T]
+        test_label = test_label.long()  # [B, T]
 
         test_data = TensorDataset(test_signal, test_label)
 
@@ -252,7 +252,7 @@ class PTBXL_Trainer:
                                                                             torch.cuda.get_device_capability()[
                                                                                 0] >= 8 else torch.float32):
                 # breakpoint()
-                output = self.model(x_enc=batch_x.permute(0,2,1), reduction=self.args.reduction)
+                output = self.model(x_enc=batch_x, reduction=self.args.reduction)
                 loss = self.criterion(output.logits, batch_labels)
             loss.backward()
 
