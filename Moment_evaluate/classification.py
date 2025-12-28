@@ -57,11 +57,13 @@ class PatchToTimeHead(nn.Module):
         patch_embeds: [B, C, Np, D]
         return:       [B, T]
         """
+        print(f"patch embeds: {patch_embeds.shape}")
         B, C, Np, D = patch_embeds.shape
 
         # [B, Np, C*D]
         x = patch_embeds.permute(0, 2, 1, 3).reshape(B, Np, C * D)
-
+        print(f"x.shape: {x.shape}")
+        breakpoint()
         # [B, Np, 1]
         patch_logits = self.mlp(x)
 
