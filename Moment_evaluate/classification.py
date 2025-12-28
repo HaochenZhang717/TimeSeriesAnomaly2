@@ -284,8 +284,8 @@ class PTBXL_Trainer:
             with torch.autocast(device_type='cuda', dtype=torch.bfloat16 if torch.cuda.is_available() and
                                                                             torch.cuda.get_device_capability()[
                                                                                 0] >= 8 else torch.float32):
-                embed = self.backbone(x_enc=batch_x, reduction="none")
-                output_logits = self.head(embed)
+                backbone_output = self.backbone(x_enc=batch_x, reduction="none")
+                output_logits = self.head(backbone_output.embeddings)
                 loss = self.criterion(output_logits, batch_labels)
                 # print(output.embeddings.shape)
                 breakpoint()
