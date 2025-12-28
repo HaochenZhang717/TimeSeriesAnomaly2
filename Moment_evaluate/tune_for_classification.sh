@@ -9,11 +9,18 @@
 #    --output_path path to store train log and checkpoint \
 
 # #use this for linear_probing, svm, unsupervised_representation_learning
+#python classification.py \
+#    --mode "linear_probing" \
+#    --output_path "./dsp_flow" \
+#    --train_data_path "/root/tianyi/formal_experiment/qtdb/dsp_flow/impute_finetune_ckpt_lr1e-4/posterior_impute_samples.pth"\
+#    --test_data_path "../dataset_utils/ECG_datasets/test_data/qtdb233_test_data.pt"\
+#    --key_signal "all_samples" \
+#    --key_label "all_labels"
+
 python classification.py \
     --mode "linear_probing" \
-    --output_path "./" \
-    --train_data_path "/root/tianyi/formal_experiment/qtdb/dsp_flow/impute_finetune_ckpt_lr1e-4/posterior_impute_samples.pth"\
+    --output_path "./dsp_flow_no_code" \
+    --train_data_path "/root/tianyi/formal_experiment/qtdb/dsp_flow/no_code_impute_finetune_ckpt_lr1e-4/ no_code_impute_samples.pth"\
     --test_data_path "../dataset_utils/ECG_datasets/test_data/qtdb233_test_data.pt"\
     --key_signal "all_samples" \
     --key_label "all_labels"
-
