@@ -104,9 +104,9 @@ class PTBXL_Trainer:
         self.model = MOMENTPipeline.from_pretrained(
             "AutonLab/MOMENT-1-large",
             model_kwargs={
-                'task_name': 'classification',
+                'task_name': 'embed',
                 'n_channels': train_signal.shape[1],
-                'num_class': 2,
+                # 'num_class': 2,
                 'freeze_encoder': False if self.args.mode == 'full_finetuning' else True,
                 'freeze_embedder': False if self.args.mode == 'full_finetuning' else True,
                 'reduction': self.args.reduction,
