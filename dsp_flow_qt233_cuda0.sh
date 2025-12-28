@@ -14,7 +14,7 @@ VQVAE_CKPT="/root/tianyi/formal_experiment/qtdb_one_channel/dsp_flow/vqvae_save_
 PRETRAIN_CKPT="/root/tianyi/formal_experiment/qtdb_one_channel/dsp_flow/no_context_pretrain_ckpt"
 FINETUNE_CKPT="/root/tianyi/formal_experiment/qtdb_one_channel/dsp_flow/impute_finetune_ckpt_lr${LR}"
 
-
+#/root/tianyi/formal_experiment/qtdb/dsp_flow/impute_finetune_ckpt_lr1e-4
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
 TEST_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
 PRETRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/normal_450.jsonl"]'
