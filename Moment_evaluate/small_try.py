@@ -1,4 +1,7 @@
 from momentfm import MOMENTPipeline
+import torch
+
+
 
 model = MOMENTPipeline.from_pretrained(
     "AutonLab/MOMENT-1-large",
@@ -9,6 +12,7 @@ model = MOMENTPipeline.from_pretrained(
     },
 )
 model.init()
-
+input = torch.randn(1, 2, 512)
+model(x_enc=input)
 print(model)
 
