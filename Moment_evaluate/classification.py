@@ -101,19 +101,24 @@ class PTBXL_Trainer:
         # linear probing: only train classification head
         # finetuning: train both encoder and classification head
         # unsupervised learning: train SVM on top of MOMENT embeddings
+        # model = MOMENTPipeline.from_pretrained(
+        #     "AutonLab/MOMENT-1-large",
+        #     model_kwargs={'task_name': 'embedding'},
+        # )
+
         self.model = MOMENTPipeline.from_pretrained(
             "AutonLab/MOMENT-1-large",
             model_kwargs={
-                'task_name': 'embed',
-                'n_channels': train_signal.shape[1],
+                'task_name': 'embedding',
+                # 'n_channels': train_signal.shape[1],
                 # 'num_class': 2,
-                'freeze_encoder': False if self.args.mode == 'full_finetuning' else True,
-                'freeze_embedder': False if self.args.mode == 'full_finetuning' else True,
-                'reduction': self.args.reduction,
+                # 'freeze_encoder': False if self.args.mode == 'full_finetuning' else True,
+                # 'freeze_embedder': False if self.args.mode == 'full_finetuning' else True,
+                # 'reduction': self.args.reduction,
                 # Disable gradient checkpointing for finetuning or linear probing to
                 # avoid warning as MOMENT encoder is frozen
-                'enable_gradient_checkpointing': False if self.args.mode in ['full_finetuning',
-                                                                             'linear_probing'] else True,
+                # 'enable_gradient_checkpointing': False if self.args.mode in ['full_finetuning',
+                #                                                              'linear_probing'] else True,
             },
         )
         self.model.init()
@@ -252,7 +257,7 @@ class PTBXL_Trainer:
                                                                             torch.cuda.get_device_capability()[
                                                                                 0] >= 8 else torch.float32):
                 breakpoint()
-                output = self.model(x_enc=batch_x, reduction=self.args.reduction)
+                output = self.model(x_enc=batch_x)
                 # output = self.model(x_enc=batch_x.permute(0,2,1), reduction=self.args.reduction)
                 loss = self.criterion(output.logits, batch_labels)
             loss.backward()
