@@ -170,7 +170,7 @@ class PTBXL_Trainer:
         self.backbone.init()
         print('Model initialized, training mode: ', self.args.mode)
         self.head = PatchToTimeHead(
-            embed_dim=1024 * train_signal.shape[1],
+            embed_dim=1024,
             n_channels=train_signal.shape[1],
             patch_size=8,
             hidden_dim=256,
