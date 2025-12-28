@@ -105,7 +105,7 @@ class PTBXL_Trainer:
             "AutonLab/MOMENT-1-large",
             model_kwargs={
                 'task_name': 'classification',
-                'n_channels': train_signal.shape[-1],
+                'n_channels': train_signal.shape[1],
                 'num_class': 2,
                 'freeze_encoder': False if self.args.mode == 'full_finetuning' else True,
                 'freeze_embedder': False if self.args.mode == 'full_finetuning' else True,
@@ -253,6 +253,7 @@ class PTBXL_Trainer:
                                                                                 0] >= 8 else torch.float32):
                 breakpoint()
                 output = self.model(x_enc=batch_x, reduction=self.args.reduction)
+                # output = self.model(x_enc=batch_x.permute(0,2,1), reduction=self.args.reduction)
                 loss = self.criterion(output.logits, batch_labels)
             loss.backward()
 
