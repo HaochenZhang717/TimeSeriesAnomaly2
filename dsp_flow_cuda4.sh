@@ -4,13 +4,15 @@ LEN_WHOLE=1000
 MAX_LEN_ANOMALY=800
 MIN_LEN_ANOMALY=180
 GPU_ID=4
+ONE_CHANNEL=1
+FEAT_SIZE=1
 
 DATA_TYPE="ecg"
-WANDB_PROJECT="dsp_flow_mitdb_no_code"
+WANDB_PROJECT="dsp_flow_mitdb_new_vqvae"
 
 VQVAE_CKPT="none"
-PRETRAIN_CKPT="/root/tianyi/formal_experiment/mitdb/dsp_flow_no_code/no_context_pretrain_ckpt"
-FINETUNE_CKPT="/root/tianyi/formal_experiment/mitdb/dsp_flow_no_code/impute_finetune_ckpt_lr${LR}"
+PRETRAIN_CKPT="/root/tianyi/formal_experiment/mitdb_new_vqvae/dsp_flow/no_context_no_code_pretrain_ckpt"
+FINETUNE_CKPT="/root/tianyi/formal_experiment/mitdb_new_vqvae/dsp_flow/no_code_impute_finetune_ckpt_lr${LR}"
 
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data/106.npz"]'
@@ -29,8 +31,8 @@ python dsp_flow.py \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
-  --feature_size 1 \
-  --one_channel 1 \
+  --feature_size ${FEAT_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \
@@ -71,8 +73,8 @@ python dsp_flow.py \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
-  --feature_size 1 \
-  --one_channel 1 \
+  --feature_size ${FEAT_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \
@@ -112,8 +114,8 @@ python dsp_flow.py \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
-  --feature_size 1 \
-  --one_channel 1 \
+  --feature_size ${FEAT_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \
@@ -154,8 +156,8 @@ python dsp_flow.py \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
-  --feature_size 1 \
-  --one_channel 1 \
+  --feature_size ${FEAT_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \
@@ -181,7 +183,7 @@ python dsp_flow.py \
   --wandb_project "none" \
   --wandb_run "none" \
   \
-  --ckpt_dir "" \
+  --ckpt_dir "${FINETUNE_CKPT}" \
   --pretrained_ckpt "none" \
   --vqvae_ckpt "${VQVAE_CKPT}/vqvae.pt" \
   \

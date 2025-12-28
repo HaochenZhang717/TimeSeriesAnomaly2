@@ -4,13 +4,15 @@ LEN_WHOLE=1000
 MAX_LEN_ANOMALY=700
 MIN_LEN_ANOMALY=80
 GPU_ID=2
+ONE_CHANNEL=1
+FEAT_SIZE=1
 
 DATA_TYPE="ecg"
-WANDB_PROJECT="dsp_flow_MITDB"
+WANDB_PROJECT="dsp_flow_MITDB_new_vqvae"
 
-VQVAE_CKPT="/root/tianyi/formal_experiment/MITDB/dsp_flow/vqvae_save_path"
-PRETRAIN_CKPT="/root/tianyi/formal_experiment/MITDB/dsp_flow/no_context_pretrain_ckpt"
-FINETUNE_CKPT="/root/tianyi/formal_experiment/MITDB/dsp_flow/impute_finetune_ckpt_lr${LR}"
+VQVAE_CKPT="/root/tianyi/formal_experiment/MITDB_new_vqvae/dsp_flow/vqvae_save_path"
+PRETRAIN_CKPT="/root/tianyi/formal_experiment/MITDB_new_vqvae/dsp_flow/no_context_pretrain_ckpt"
+FINETUNE_CKPT="/root/tianyi/formal_experiment/MITDB_new_vqvae/dsp_flow/impute_finetune_ckpt_lr${LR}"
 
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_tsbad/176_MITDB_id_7_Medical_tr_6232_1st_6332.npz"]'
@@ -38,7 +40,9 @@ python mini_runnable_vqvae.py \
   --save_dir ${VQVAE_CKPT} \
   --code_dim ${CODE_DIM} \
   --code_len ${CODE_LEN} \
-  --num_codes ${NUM_CODES}
+  --num_codes ${NUM_CODES} \
+  --one_channel ${ONE_CHANNEL} \
+  --feat_size ${FEAT_SIZE}
 
 
 python dsp_flow.py \
@@ -46,8 +50,8 @@ python dsp_flow.py \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
-  --feature_size 1 \
-  --one_channel 1 \
+  --feature_size ${FEAT_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \
@@ -88,8 +92,8 @@ python dsp_flow.py \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
-  --feature_size 1 \
-  --one_channel 1 \
+  --feature_size ${FEAT_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \
@@ -129,8 +133,8 @@ python dsp_flow.py \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
-  --feature_size 1 \
-  --one_channel 1 \
+  --feature_size ${FEAT_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \
@@ -171,8 +175,8 @@ python dsp_flow.py \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
-  --feature_size 1 \
-  --one_channel 1 \
+  --feature_size ${FEAT_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \
