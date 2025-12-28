@@ -83,7 +83,7 @@ class PTBXL_Trainer:
         print(f"Test data shape: {test_signal.shape}\n")
         print(f"Train label shape: {train_label.shape}\n")
         print(f"Test label shape: {test_label.shape}\n")
-        breakpoint()
+        # breakpoint()
 
         # self.train_dataset = PTBXL_dataset(args, phase='train')
         # self.val_dataset = PTBXL_dataset(args, phase='val')
@@ -251,8 +251,8 @@ class PTBXL_Trainer:
             with torch.autocast(device_type='cuda', dtype=torch.bfloat16 if torch.cuda.is_available() and
                                                                             torch.cuda.get_device_capability()[
                                                                                 0] >= 8 else torch.float32):
-                breakpoint()
-                output = self.model(x_enc=batch_x, reduction=self.args.reduction)
+                # breakpoint()
+                output = self.model(x_enc=batch_x.permute(0,2,1), reduction=self.args.reduction)
                 loss = self.criterion(output.logits, batch_labels)
             loss.backward()
 
