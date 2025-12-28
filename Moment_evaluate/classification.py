@@ -63,12 +63,12 @@ class PTBXL_Trainer:
         test_data = torch.load(args.test_data_path)
         test_signal = test_data[args.key_signal]
         test_label = test_data[args.key_label]
-        breakpoint()
+
         # adjust size
         test_signal = torch.nn.functional.interpolate(
-            test_signal, size=args.seq_len,
+            test_signal.permute(0,2,1), size=args.seq_len,
             mode="linear", align_corners=False
-        )
+        ).permute(0,2,1)
         test_label = test_label.unsqueeze(1)  # [B, 1, T]
         test_label = torch.nn.functional.interpolate(
             test_label.float(),  # interpolate 只能用 float
@@ -79,7 +79,11 @@ class PTBXL_Trainer:
 
         test_data = TensorDataset(test_signal, test_label)
 
-
+        print(f"Train data shape: {train_signal.shape}}")
+        print(f"Test data shape: {test_signal.shape}\n")
+        print(f"Train label shape: {train_label.shape}\n")
+        print(f"Test label shape: {test_label.shape}\n")
+        breakpoint()
 
         # self.train_dataset = PTBXL_dataset(args, phase='train')
         # self.val_dataset = PTBXL_dataset(args, phase='val')
