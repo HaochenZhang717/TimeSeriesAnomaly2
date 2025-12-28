@@ -47,6 +47,7 @@ class PTBXL_Trainer:
             mode="linear", align_corners=False
         )
         train_label = train_label.unsqueeze(1)  # [B, 1, T]
+        breakpoint()
         train_label = torch.nn.functional.interpolate(
             train_label.float(),  # interpolate 只能用 float
             size=args.seq_len,
