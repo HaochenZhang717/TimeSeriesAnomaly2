@@ -342,8 +342,8 @@ class PTBXL_Trainer:
 
         # extract embeddings and label
         train_embeddings, train_labels = self.get_embeddings(self.train_dataloader)
-        print('embedding shape: ', train_embeddings.shape)
-        print('label shape: ', train_labels.shape)
+        # print('embedding shape: ', train_embeddings.shape)
+        # print('label shape: ', train_labels.shape)
 
         # fit statistical classifier
         self.clf = fit_svm(features=train_embeddings, y=train_labels)
