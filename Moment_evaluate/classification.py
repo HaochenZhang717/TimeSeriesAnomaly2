@@ -76,7 +76,7 @@ class PatchToTimeHead(nn.Module):
         # [B, T, 2]
         logits = patch_logits.reshape(B, Np * self.patch_size, 2)
 
-        return logits
+        return logits.permute(0,2,1)
 
 
 class PTBXL_Trainer:
