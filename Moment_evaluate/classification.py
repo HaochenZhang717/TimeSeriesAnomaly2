@@ -269,8 +269,11 @@ class PTBXL_Trainer:
         '''
         Train only classification head
         '''
-        self.model.to(self.device)
-        self.model.train()
+        self.backbone.to(self.device)
+        self.backbone.eval()
+        self.head.to(self.device)
+        self.head.train()
+
         losses = []
 
         for batch_x, batch_labels in tqdm(self.train_dataloader, total=len(self.train_dataloader)):
@@ -282,11 +285,12 @@ class PTBXL_Trainer:
                                                                             torch.cuda.get_device_capability()[
                                                                                 0] >= 8 else torch.float32):
                 embed = self.backbone(x_enc=batch_x, reduction="none")
-                output = self.head(embed)
-                print(output.embeddings.shape)
+                output_logits = self.head(embed)
+                loss = self.criterion(output_logits, batch_labels)
+                # print(output.embeddings.shape)
                 breakpoint()
                 # output = self.model(x_enc=batch_x.permute(0,2,1), reduction=self.args.reduction)
-                loss = self.criterion(output.logits, batch_labels)
+                # loss = self.criterion(output.logits, batch_labels)
             loss.backward()
 
             self.optimizer.step()
