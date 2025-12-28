@@ -289,9 +289,10 @@ class PTBXL_Trainer:
                                                                                 0] >= 8 else torch.float32):
                 backbone_output = self.backbone(x_enc=batch_x, reduction="none")
                 output_logits = self.head(backbone_output.embeddings)
+
+                breakpoint()
                 loss = self.criterion(output_logits, batch_labels)
                 # print(output.embeddings.shape)
-                breakpoint()
                 # output = self.model(x_enc=batch_x.permute(0,2,1), reduction=self.args.reduction)
                 # loss = self.criterion(output.logits, batch_labels)
             loss.backward()
