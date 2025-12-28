@@ -290,7 +290,7 @@ class PTBXL_Trainer:
                 backbone_output = self.backbone(x_enc=batch_x, reduction="none")
                 output_logits = self.head(backbone_output.embeddings)
 
-                breakpoint()
+                # breakpoint()
                 loss = self.criterion(output_logits, batch_labels)
                 # print(output.embeddings.shape)
                 # output = self.model(x_enc=batch_x.permute(0,2,1), reduction=self.args.reduction)
