@@ -14,7 +14,7 @@ import random
 import numpy as np
 import os
 import pdb
-
+from torch import nn
 import numpy as np
 
 
@@ -30,6 +30,50 @@ def control_randomness(seed: int = 42):
     torch.cuda.manual_seed(seed)
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
+
+
+
+
+class PatchToTimeHead(nn.Module):
+    def __init__(
+        self,
+        embed_dim=1024,
+        n_channels=2,
+        patch_size=8,
+        hidden_dim=256,
+    ):
+        super().__init__()
+        self.patch_size = patch_size
+        in_dim = embed_dim * n_channels
+
+        self.mlp = nn.Sequential(
+            nn.Linear(in_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, 2)   # patch-level logit
+        )
+
+    def forward(self, patch_embeds):
+        """
+        patch_embeds: [B, C, Np, D]
+        return:       [B, T]
+        """
+        B, C, Np, D = patch_embeds.shape
+
+        # [B, Np, C*D]
+        x = patch_embeds.permute(0, 2, 1, 3).reshape(B, Np, C * D)
+
+        # [B, Np, 1]
+        patch_logits = self.mlp(x)
+
+        # [B, Np]
+        patch_logits = patch_logits.squeeze(-1)
+
+        # repeat each patch logit patch_size times
+        # [B, Np, patch_size] → [B, T]
+        logits = patch_logits.unsqueeze(-1).repeat(1, 1, self.patch_size)
+        logits = logits.reshape(B, Np * self.patch_size)
+
+        return logits
 
 
 class PTBXL_Trainer:
@@ -106,7 +150,7 @@ class PTBXL_Trainer:
         #     model_kwargs={'task_name': 'embedding'},
         # )
 
-        self.model = MOMENTPipeline.from_pretrained(
+        self.backbone = MOMENTPipeline.from_pretrained(
             "AutonLab/MOMENT-1-large",
             model_kwargs={
                 'task_name': 'embedding',
@@ -121,42 +165,23 @@ class PTBXL_Trainer:
                 #                                                              'linear_probing'] else True,
             },
         )
-        self.model.init()
+        self.backbone.init()
         print('Model initialized, training mode: ', self.args.mode)
-
+        self.head = PatchToTimeHead(
+            embed_dim=1024 * train_signal.shape[1],
+            n_channels=train_signal.shape[1],
+            patch_size=8,
+            hidden_dim=256,
+        )
         # using cross entropy loss for classification
         self.criterion = torch.nn.CrossEntropyLoss()
 
-        if self.args.mode == 'full_finetuning':
-            print('Encoder and embedder are trainable')
-            if self.args.lora:
-                lora_config = LoraConfig(
-                    r=64,
-                    lora_alpha=32,
-                    target_modules=["q", "v"],
-                    lora_dropout=0.05,
-                )
-                self.model = get_peft_model(self.model, lora_config)
-                print('LoRA enabled')
-                self.model.print_trainable_parameters()
 
-            self.optimizer = torch.optim.Adam(self.model.parameters(), lr=self.args.init_lr)
-            self.scheduler = torch.optim.lr_scheduler.OneCycleLR(self.optimizer, max_lr=self.args.max_lr,
-                                                                 total_steps=self.args.epochs * len(
-                                                                     self.train_dataloader))
-
-            # set up model ready for accelerate finetuning
-            self.accelerator = Accelerator()
-            self.device = self.accelerator.device
-            self.model, self.optimizer, self.train_dataloader = self.accelerator.prepare(self.model, self.optimizer,
-                                                                                         self.train_dataloader)
-
-        else:
-            self.optimizer = torch.optim.Adam(self.model.parameters(), lr=self.args.init_lr)
-            self.scheduler = torch.optim.lr_scheduler.OneCycleLR(self.optimizer, max_lr=self.args.max_lr,
-                                                                 total_steps=self.args.epochs * len(
-                                                                     self.train_dataloader))
-            self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        self.optimizer = torch.optim.Adam(self.head.parameters(), lr=self.args.init_lr)
+        self.scheduler = torch.optim.lr_scheduler.OneCycleLR(self.optimizer, max_lr=self.args.max_lr,
+                                                             total_steps=self.args.epochs * len(
+                                                                 self.train_dataloader))
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
         # create log file to store training logs
         if not os.path.exists(self.args.output_path):
@@ -256,7 +281,8 @@ class PTBXL_Trainer:
             with torch.autocast(device_type='cuda', dtype=torch.bfloat16 if torch.cuda.is_available() and
                                                                             torch.cuda.get_device_capability()[
                                                                                 0] >= 8 else torch.float32):
-                output = self.model(x_enc=batch_x, reduction="none")
+                embed = self.backbone(x_enc=batch_x, reduction="none")
+                output = self.head(embed)
                 print(output.embeddings.shape)
                 breakpoint()
                 # output = self.model(x_enc=batch_x.permute(0,2,1), reduction=self.args.reduction)
