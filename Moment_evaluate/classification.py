@@ -42,12 +42,13 @@ class PTBXL_Trainer:
         train_signal = train_data[args.key_signal]
         train_label = train_data[args.key_label]
         # adjust size
+
         train_signal = torch.nn.functional.interpolate(
-            train_signal, size=args.seq_len,
+            train_signal.permute(0,2,1), size=args.seq_len,
             mode="linear", align_corners=False
-        )
+        ).permute(0,2,1)
         train_label = train_label.unsqueeze(1)  # [B, 1, T]
-        breakpoint()
+        # breakpoint()
         train_label = torch.nn.functional.interpolate(
             train_label.float(),  # interpolate 只能用 float
             size=args.seq_len,
