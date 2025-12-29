@@ -25,9 +25,6 @@ class TimeVAETrainer(object):
         self.patience = patience
 
     def train(self, config):
-        # freeze encoder
-        for param in self.model.anomaly_decoder.parameters():
-            param.requires_grad = False
 
         # 初始化 wandb
         wandb.init(
@@ -93,7 +90,7 @@ class TimeVAETrainer(object):
 
 
                     z_mean, z_log_var, z = self.model.encoder(X_occluded)
-                    reconstruction = self.model.normal_decoder(z)
+                    reconstruction = self.model.decoder(z)
                     loss, recon_loss, kl = self.model.loss_function(
                         batch["signals"], reconstruction,
                         batch["noise_mask"], z_mean, z_log_var
