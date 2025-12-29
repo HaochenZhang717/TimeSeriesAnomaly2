@@ -23,7 +23,7 @@ NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_d
 
 
 
-python dsp_flow.py \
+python diffusion_ts.py \
   --what_to_do "no_code_imputation_train" \
   \
   --seq_len ${LEN_WHOLE} \
@@ -62,7 +62,7 @@ python dsp_flow.py \
   --gpu_id ${GPU_ID}
 
 
-python dsp_flow.py \
+python diffusion_ts.py \
   --what_to_do "posterior_impute_sample" \
   \
   --seq_len ${LEN_WHOLE} \
@@ -102,7 +102,7 @@ python dsp_flow.py \
 
 
 
-python dsp_flow.py \
+python diffusion_ts.py \
   --what_to_do "anomaly_evaluate" \
   \
   --seq_len ${LEN_WHOLE} \
