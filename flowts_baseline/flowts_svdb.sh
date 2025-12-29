@@ -1,3 +1,5 @@
+cd ..
+
 export hucfg_t_sampling=logitnorm
 LR=1e-4
 LEN_WHOLE=800
@@ -147,3 +149,5 @@ python dsp_flow.py \
   --generated_path "${FINETUNE_CKPT}/no_code_impute_samples.pth" \
   \
   --gpu_id ${GPU_ID}
+
+cd ./flowts_baseline
