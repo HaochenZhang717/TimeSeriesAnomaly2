@@ -9,7 +9,7 @@ ONE_CHANNEL=1
 FEAT_SIZE=1
 
 DATA_TYPE="ecg"
-WANDB_PROJECT="dsp_flow_qt_one_channel"
+WANDB_PROJECT="diffusion_ts_qtdb"
 
 TRAIN_CKPT="/root/tianyi/formal_experiment/qtdb_one_channel/diffusion_ts/ckpt_lr${LR}"
 
@@ -46,7 +46,7 @@ python diffusion_ts.py \
   \
   --lr ${LR} \
   --batch_size 64 \
-  --max_epochs 5000 \
+  --max_epochs 1000 \
   --grad_clip_norm 1.0 \
   --grad_accum_steps 1 \
   --early_stop "true" \
