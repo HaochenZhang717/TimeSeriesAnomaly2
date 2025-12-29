@@ -905,7 +905,7 @@ def anomaly_evaluate(args):
     normal_accuracies = []
     anomaly_accuracies = []
     for _ in range(5):
-        random_indices = torch.randperm(len(gen_data))[:10000]
+        random_indices = torch.randperm(len(gen_data))[:50000]
         sampled_gen_data = gen_data[random_indices]
         sampled_gen_labels = gen_labels[random_indices]
 
