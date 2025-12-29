@@ -17,7 +17,7 @@ DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
 TEST_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
 PRETRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/normal_450.jsonl"]'
 FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_train.jsonl"]'
-FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_train.jsonl"]'
+FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_test.jsonl"]'
 ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_segments_train.jsonl"]'
 NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/normal_600.jsonl"]'
 
@@ -84,7 +84,7 @@ python diffusion_ts.py \
   --max_infill_length ${MAX_LEN_ANOMALY} \
   \
   --lr 1e-4 \
-  --batch_size 64 \
+  --batch_size 1024 \
   --max_epochs 2000 \
   --grad_clip_norm 1.0 \
   --grad_accum_steps 1 \
