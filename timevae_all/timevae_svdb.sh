@@ -1,20 +1,17 @@
 cd ..
 
-export hucfg_t_sampling=logitnorm
 LR=1e-4
 LEN_WHOLE=800
 MAX_LEN_ANOMALY=450
 MIN_LEN_ANOMALY=80
-GPU_ID=1
+GPU_ID=0
 ONE_CHANNEL=1
 FEAT_SIZE=1
 
 DATA_TYPE="ecg"
-WANDB_PROJECT="flowts_svdb_one_channel"
+WANDB_PROJECT="TimeVAE_svdb_one_channel"
 
-VQVAE_CKPT="none"
-PRETRAIN_CKPT="none"
-FINETUNE_CKPT="/root/tianyi/formal_experiment/svdb_one_channel/flowts/no_code_impute_from_scratch_ckpt_lr${LR}"
+FINETUNE_CKPT="/root/tianyi/formal_experiment/svdb_one_channel/TimeVAE/no_code_impute_from_scratch_ckpt_lr${LR}"
 
 
 DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data_svdb/859.npz"]'
@@ -24,20 +21,25 @@ FINETUNE_TEST_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG
 ANOMALY_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_segments_train.jsonl"]'
 NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/normal_800.jsonl"]'
 
+HIDDEN_LAYER_SIZES="[50,100,200]"
+TREND_POLY=3
+CUSTOM_SEAS="[[10,80],[20,40],[40,20],[80,10]]"
+LATENT_DIM=64
+KL_WT=1e-3
 
-
-python dsp_flow.py \
-  --what_to_do "no_code_imputation_from_scratch" \
+python timevae_pipeline.py \
+  --what_to_do "imputation_train" \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
   --feature_size ${FEAT_SIZE} \
   --one_channel ${ONE_CHANNEL} \
   \
-  --n_layer_enc 4 \
-  --n_layer_dec 4 \
-  --d_model 64 \
-  --n_heads 4 \
+  --hidden_layer_sizes ${HIDDEN_LAYER_SIZES} \
+  --trend_poly ${TREND_POLY} \
+  --custom_seas ${CUSTOM_SEAS} \
+  --latent_dim ${LATENT_DIM}  \
+  --kl_wt ${KL_WT} \
   \
   --raw_data_paths_train ${DATA_PATHS} \
   --raw_data_paths_test ${TEST_DATA_PATHS} \
@@ -59,26 +61,25 @@ python dsp_flow.py \
   --wandb_run "no_code_impute_lr${LR}" \
   \
   --ckpt_dir ${FINETUNE_CKPT} \
-  --pretrained_ckpt ${PRETRAIN_CKPT} \
-  --vqvae_ckpt "${VQVAE_CKPT}/vqvae.pt" \
   \
   --generated_path "none" \
   \
   --gpu_id ${GPU_ID}
 
 
-python dsp_flow.py \
-  --what_to_do "no_code_impute_sample" \
+python timevae_pipeline.py \
+  --what_to_do "impute_sample" \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
   --feature_size ${FEAT_SIZE} \
   --one_channel ${ONE_CHANNEL} \
   \
-  --n_layer_enc 4 \
-  --n_layer_dec 4 \
-  --d_model 64 \
-  --n_heads 4 \
+  --hidden_layer_sizes ${HIDDEN_LAYER_SIZES} \
+  --trend_poly ${TREND_POLY} \
+  --custom_seas ${CUSTOM_SEAS} \
+  --latent_dim ${LATENT_DIM}  \
+  --kl_wt ${KL_WT} \
   \
   --raw_data_paths_train ${DATA_PATHS} \
   --raw_data_paths_test ${TEST_DATA_PATHS} \
@@ -100,8 +101,6 @@ python dsp_flow.py \
   --wandb_run "none" \
   \
   --ckpt_dir ${FINETUNE_CKPT} \
-  --pretrained_ckpt "none" \
-  --vqvae_ckpt "${VQVAE_CKPT}/vqvae.pt" \
   \
   --generated_path "" \
   \
@@ -109,7 +108,7 @@ python dsp_flow.py \
 
 
 
-python dsp_flow.py \
+python timevae_pipeline.py \
   --what_to_do "anomaly_evaluate" \
   \
   --seq_len ${LEN_WHOLE} \
@@ -117,10 +116,11 @@ python dsp_flow.py \
   --feature_size ${FEAT_SIZE} \
   --one_channel ${ONE_CHANNEL} \
   \
-  --n_layer_enc 4 \
-  --n_layer_dec 4 \
-  --d_model 64 \
-  --n_heads 4 \
+  --hidden_layer_sizes ${HIDDEN_LAYER_SIZES} \
+  --trend_poly ${TREND_POLY} \
+  --custom_seas ${CUSTOM_SEAS} \
+  --latent_dim ${LATENT_DIM}  \
+  --kl_wt ${KL_WT} \
   \
   --raw_data_paths_train ${DATA_PATHS} \
   --raw_data_paths_test ${TEST_DATA_PATHS} \
@@ -142,11 +142,9 @@ python dsp_flow.py \
   --wandb_run "none" \
   \
   --ckpt_dir "${FINETUNE_CKPT}" \
-  --pretrained_ckpt "none" \
-  --vqvae_ckpt "${VQVAE_CKPT}/vqvae.pt" \
   \
   --generated_path "${FINETUNE_CKPT}/no_code_impute_samples.pth" \
   \
   --gpu_id ${GPU_ID}
 
-cd ./flowts_baseline
+cd ./timevae_all
