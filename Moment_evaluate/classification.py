@@ -519,7 +519,7 @@ if __name__ == '__main__':
         run_output_path = os.path.join(
             args.output_path, f"run_{run_id}"
         )
-        args.output_path = run_output_path
+        # args.output_path = run_output_path
 
         trainer = PTBXL_Trainer(args)
         trainer.train()
