@@ -91,7 +91,7 @@ class DiffusionTSTrainer(object):
                         batch["missing_signals"] = batch["missing_signals"].to(dtype=model_dtype, device=self.device)
                         batch["attn_mask"] = batch["attn_mask"].to(dtype=torch.bool, device=self.device)
                         batch["noise_mask"] = batch["noise_mask"].to(dtype=torch.long, device=self.device)
-                        loss = self.model(batch, mode="no_code_imputation")
+                        loss = self.model(batch)
 
                         val_total += loss.item() * batch["signals"].shape[0]
                         val_seen += batch["signals"].shape[0]
