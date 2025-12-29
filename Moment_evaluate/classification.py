@@ -295,6 +295,8 @@ class PTBXL_Trainer:
                                                                             torch.cuda.get_device_capability()[
                                                                                 0] >= 8 else torch.float32):
                 backbone_output = self.backbone(x_enc=batch_x, reduction="none")
+                print(backbone_output.embeddings.shape)
+                breakpoint()
                 output_logits = self.head(backbone_output.embeddings)
 
                 # breakpoint()
