@@ -179,7 +179,7 @@ class PTBXL_Trainer:
         self.backbone.init()
         print('Model initialized, training mode: ', self.args.mode)
         self.head = PatchToTimeHead(
-            embed_dim=1024,
+            embed_dim=self.backbone.encoder.block[-1].layer[-1].DenseReluDense.wo.out_features,
             n_channels=train_signal.shape[1],
             patch_size=8,
             hidden_dim=256,
@@ -295,8 +295,8 @@ class PTBXL_Trainer:
                                                                             torch.cuda.get_device_capability()[
                                                                                 0] >= 8 else torch.float32):
                 backbone_output = self.backbone(x_enc=batch_x, reduction="none")
-                print(backbone_output.embeddings.shape)
-                breakpoint()
+                # print(backbone_output.embeddings.shape)
+                # breakpoint()
                 output_logits = self.head(backbone_output.embeddings)
 
                 # breakpoint()

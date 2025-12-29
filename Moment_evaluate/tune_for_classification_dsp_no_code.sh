@@ -1,6 +1,6 @@
 export CUDA_VISIBLE_DEVICES=7
-model_sizes=("large" "base" "small")
-#model_sizes=("base" "small")
+#model_sizes=("large" "base" "small")
+model_sizes=("base" "small")
 
 for model_size in "${model_sizes[@]}"; do
   echo "Running classification with model size: ${model_size}"
