@@ -33,14 +33,8 @@ def get_args():
     parser.add_argument(
         "--what_to_do", type=str, required=True,
         choices=[
-            "imputation_pretrain",
-            "imputation_finetune",
-            "no_context_pretrain",
-            "no_context_sample",
-            "no_context_no_code_pretrain",
-            "no_code_imputation_finetune",
-            "posterior_impute_sample",
-            "no_code_impute_sample",
+            "no_code_imputation_train",
+            "impute_sample",
             "anomaly_evaluate"
         ],
         help="what to do"
@@ -456,7 +450,7 @@ def main():
     args = get_args()
     if args.what_to_do == "no_code_imputation_train":
         no_code_imputation_train(args)
-    elif args.what_to_do == "no_code_impute_sample":
+    elif args.what_to_do == "impute_sample":
         no_code_impute_sample(args)
     elif args.what_to_do == "anomaly_evaluate":
         anomaly_evaluate(args)

@@ -63,7 +63,7 @@ python diffusion_ts.py \
 
 
 python diffusion_ts.py \
-  --what_to_do "posterior_impute_sample" \
+  --what_to_do "impute_sample" \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
