@@ -7,7 +7,7 @@ from torch.utils.data import Dataset, DataLoader
 from tqdm import tqdm
 from accelerate import Accelerator
 from peft import LoraConfig, get_peft_model
-
+import json
 import argparse
 from argparse import Namespace
 import random
@@ -113,6 +113,8 @@ class PTBXL_Trainer:
 
         test_data = torch.load(args.test_data_path)
         test_signal = test_data[args.key_signal]
+        if args.one_channel:
+            test_signal = test_signal[:,:,:1]
         test_label = test_data[args.key_label]
 
         # adjust size
@@ -377,7 +379,7 @@ class PTBXL_Trainer:
             self.log_file.write(f'Test accuracy: {test_accuracy}\n')
 
         elif self.args.mode == 'linear_probing' or self.args.mode == 'full_finetuning':
-            self.evaluate_epoch(phase='test')
+            return self.evaluate_epoch(phase='test')
 
         elif self.args.mode == 'svm':
             test_embeddings, test_labels = self.get_timeseries(self.test_dataloader, agg=self.args.agg)
@@ -449,6 +451,7 @@ class PTBXL_Trainer:
             f"recall: {recall}, "
             f"f1: {f1}\n"
         )
+        return f1
     #####################################evaluate loops#################################################
 
     def save_checkpoint(self):
@@ -498,16 +501,48 @@ if __name__ == '__main__':
     parser.add_argument('--key_signal', type=str)
     parser.add_argument('--key_label', type=str)
     parser.add_argument('--model_name', type=str)
-
-
+    parser.add_argument('--one_channel', type=str)
 
     args = parser.parse_args()
-    control_randomness(args.seed)
-
-    trainer = PTBXL_Trainer(args)
-    trainer.train()
-    trainer.test()
+    # control_randomness(args.seed)
+    #
+    # trainer = PTBXL_Trainer(args)
+    # trainer.train()
+    # f1 = trainer.test()
     # trainer.save_checkpoint()
 
+    all_results = []
+    for run_id in range(5):
+        print(f"\n========== Run {run_id} ==========\n")
+        seed = args.seed + run_id
+        control_randomness(seed)
+        run_output_path = os.path.join(
+            args.output_path, f"run_{run_id}"
+        )
+        args.output_path = run_output_path
+
+        trainer = PTBXL_Trainer(args)
+        trainer.train()
+        metrics = trainer.test()  # 建议 test() return metric
+        all_results.append(float(metrics))
+
+    all_results = np.array(all_results)
+
+    results_dict = {
+        "metric": "F1",
+        "num_runs": len(all_results),
+        "values": all_results.tolist(),
+        "mean": float(all_results.mean()),
+        "std": float(all_results.std()),
+    }
+
+    # ---- save ----
+    save_path = os.path.join(args.output_path, "f1_results.json")
+    with open(save_path, "w") as f:
+        json.dump(results_dict, f, indent=4)
+
+    print("Saved results to:", save_path)
+    print("Mean F1:", results_dict["mean"])
+    print("Std  F1:", results_dict["std"])
 
 
