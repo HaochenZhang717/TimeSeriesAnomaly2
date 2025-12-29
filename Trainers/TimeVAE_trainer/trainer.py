@@ -8,7 +8,7 @@ class TimeVAETrainer(object):
             self,optimizer, scheduler, model, train_loader,
             val_loader, max_epochs, device, save_dir,
             wandb_project_name, wandb_run_name, grad_clip_norm,
-            early_stop
+            early_stop, patience
     ):
         self.optimizer = optimizer
         self.scheduler = scheduler
@@ -22,6 +22,7 @@ class TimeVAETrainer(object):
         self.wandb_run_name = wandb_run_name
         self.grad_clip_norm = grad_clip_norm
         self.early_stop = early_stop
+        self.patience = patience
 
     def train(self, config):
         # freeze encoder
@@ -128,7 +129,7 @@ class TimeVAETrainer(object):
                     else:
                         no_improve_epochs += 1
 
-                    if no_improve_epochs >= 10:
+                    if no_improve_epochs >= self.patience:
                         print(f"⛔ Early stopping triggered at Step {global_steps}.")
                         break
                 else:
