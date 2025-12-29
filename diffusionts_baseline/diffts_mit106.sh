@@ -23,43 +23,43 @@ NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_d
 
 
 
-python diffusion_ts.py \
-  --what_to_do "no_code_imputation_train" \
-  \
-  --seq_len ${LEN_WHOLE} \
-  --data_type ${DATA_TYPE} \
-  --feature_size ${FEAT_SIZE} \
-  --one_channel ${ONE_CHANNEL} \
-  \
-  --n_layer_enc 4 \
-  --n_layer_dec 4 \
-  --d_model 64 \
-  --n_heads 4 \
-  \
-  --raw_data_paths_train ${DATA_PATHS} \
-  --raw_data_paths_test ${TEST_DATA_PATHS} \
-  --indices_paths_train ${FINETUNE_TRAIN_INDICES_PATHS} \
-  --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
-  --indices_paths_anomaly_for_sample "[]" \
-  --min_infill_length ${MIN_LEN_ANOMALY} \
-  --max_infill_length ${MAX_LEN_ANOMALY} \
-  \
-  --lr ${LR} \
-  --batch_size 64 \
-  --max_epochs 2000 \
-  --grad_clip_norm 1.0 \
-  --grad_accum_steps 1 \
-  --early_stop "true" \
-  --patience 500 \
-  \
-  --wandb_project ${WANDB_PROJECT} \
-  --wandb_run "impute_lr${LR}" \
-  \
-  --ckpt_dir ${TRAIN_CKPT} \
-  \
-  --generated_path "none" \
-  \
-  --gpu_id ${GPU_ID}
+#python diffusion_ts.py \
+#  --what_to_do "no_code_imputation_train" \
+#  \
+#  --seq_len ${LEN_WHOLE} \
+#  --data_type ${DATA_TYPE} \
+#  --feature_size ${FEAT_SIZE} \
+#  --one_channel ${ONE_CHANNEL} \
+#  \
+#  --n_layer_enc 4 \
+#  --n_layer_dec 4 \
+#  --d_model 64 \
+#  --n_heads 4 \
+#  \
+#  --raw_data_paths_train ${DATA_PATHS} \
+#  --raw_data_paths_test ${TEST_DATA_PATHS} \
+#  --indices_paths_train ${FINETUNE_TRAIN_INDICES_PATHS} \
+#  --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
+#  --indices_paths_anomaly_for_sample "[]" \
+#  --min_infill_length ${MIN_LEN_ANOMALY} \
+#  --max_infill_length ${MAX_LEN_ANOMALY} \
+#  \
+#  --lr ${LR} \
+#  --batch_size 64 \
+#  --max_epochs 2000 \
+#  --grad_clip_norm 1.0 \
+#  --grad_accum_steps 1 \
+#  --early_stop "true" \
+#  --patience 500 \
+#  \
+#  --wandb_project ${WANDB_PROJECT} \
+#  --wandb_run "impute_lr${LR}" \
+#  \
+#  --ckpt_dir ${TRAIN_CKPT} \
+#  \
+#  --generated_path "none" \
+#  \
+#  --gpu_id ${GPU_ID}
 
 
 python diffusion_ts.py \
@@ -136,7 +136,7 @@ python diffusion_ts.py \
   \
   --ckpt_dir "${TRAIN_CKPT}" \
   \
-  --generated_path "${TRAIN_CKPT}/samples.pth" \
+  --generated_path "${TRAIN_CKPT}/no_code_impute_samples.pth" \
   \
   --gpu_id ${GPU_ID}
 

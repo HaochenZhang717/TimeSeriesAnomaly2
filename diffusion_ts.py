@@ -198,7 +198,7 @@ def no_code_impute_sample(args):
 
 
 
-    num_generate = 50
+    num_generate = 50000
     all_samples = []
     all_labels = []
     all_reals = []
