@@ -1,22 +1,23 @@
 LR=1e-4
-LEN_WHOLE=600
-MAX_LEN_ANOMALY=450
-MIN_LEN_ANOMALY=80
-GPU_ID=0
+LEN_WHOLE=1000
+MAX_LEN_ANOMALY=800
+MIN_LEN_ANOMALY=180
+GPU_ID=7
 ONE_CHANNEL=1
 FEAT_SIZE=1
 
 DATA_TYPE="ecg"
 WANDB_PROJECT="dsp_flow_qt_one_channel"
 
-TRAIN_CKPT="/root/tianyi/formal_experiment/qtdb_one_channel/diffusion_ts/ckpt_lr${LR}"
+TRAIN_CKPT="/root/tianyi/formal_experiment/mitdb_one_channel/diffusion_ts/ckpt_lr${LR}"
 
-DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
-TEST_DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
-FINETUNE_TRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_train.jsonl"]'
-FINETUNE_TEST_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_train.jsonl"]'
-ANOMALY_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_segments_train.jsonl"]'
-NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/normal_600.jsonl"]'
+DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data/106.npz"]'
+TEST_DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data/106.npz"]'
+FINETUNE_TRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_train.jsonl"]'
+FINETUNE_TEST_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"]'
+ANOMALY_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/anomaly_segments_with_prototype_train.jsonl"]'
+NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/normal_1000.jsonl"]'
+
 
 
 
