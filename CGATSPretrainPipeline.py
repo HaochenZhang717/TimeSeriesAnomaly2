@@ -59,6 +59,7 @@ def get_pretrain_args():
 
     return parser.parse_args()
 
+
 def pretrain():
     args = get_pretrain_args()
     # timestamp = datetime.now(ZoneInfo("America/Chicago")).strftime("%Y-%m-%d-%H:%M:%S")

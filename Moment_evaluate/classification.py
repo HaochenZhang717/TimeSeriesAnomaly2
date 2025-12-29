@@ -18,7 +18,11 @@ from torch import nn
 import numpy as np
 
 
-
+PRETRAINED_MODEL_NAME = {
+    'large': "AutonLab/MOMENT-1-large",
+    'base': "AutonLab/MOMENT-1-base",
+    'small': "AutonLab/MOMENT-1-small"
+}
 
 
 
@@ -57,12 +61,12 @@ class PatchToTimeHead(nn.Module):
         patch_embeds: [B, C, Np, D]
         return:       [B, T]
         """
-        print(f"patch embeds: {patch_embeds.shape}")
+        # print(f"patch embeds: {patch_embeds.shape}")
         B, C, Np, D = patch_embeds.shape
 
         # [B, Np, C*D]
         x = patch_embeds.permute(0, 2, 1, 3).reshape(B, Np, C * D)
-        print(f"x.shape: {x.shape}")
+        # print(f"x.shape: {x.shape}")
         # [B, Np, 1]
         patch_logits = self.mlp(x)
 
@@ -126,10 +130,10 @@ class PTBXL_Trainer:
 
         test_data = TensorDataset(test_signal, test_label)
 
-        print(f"Train data shape: {train_signal.shape}")
-        print(f"Test data shape: {test_signal.shape}\n")
-        print(f"Train label shape: {train_label.shape}\n")
-        print(f"Test label shape: {test_label.shape}\n")
+        # print(f"Train data shape: {train_signal.shape}")
+        # print(f"Test data shape: {test_signal.shape}\n")
+        # print(f"Train label shape: {train_label.shape}\n")
+        # print(f"Test label shape: {test_label.shape}\n")
         # breakpoint()
 
         # self.train_dataset = PTBXL_dataset(args, phase='train')
@@ -153,8 +157,9 @@ class PTBXL_Trainer:
         #     model_kwargs={'task_name': 'embedding'},
         # )
 
+
         self.backbone = MOMENTPipeline.from_pretrained(
-            "AutonLab/MOMENT-1-large",
+            PRETRAINED_MODEL_NAME[args.model_name],
             model_kwargs={
                 'task_name': 'embedding',
                 # 'n_channels': train_signal.shape[1],
@@ -488,10 +493,12 @@ if __name__ == '__main__':
     parser.add_argument('--load_cache', type=bool, default=True, help='whether to load cached dataset')
 
     # parameters for my own case
-    parser.add_argument('--train_data_path', type=str, help='path to train data')
-    parser.add_argument('--test_data_path', type=str, help='path to test data')
-    parser.add_argument('--key_signal', type=str, help='path to train data')
-    parser.add_argument('--key_label', type=str, help='path to train data')
+    parser.add_argument('--train_data_path', type=str)
+    parser.add_argument('--test_data_path', type=str)
+    parser.add_argument('--key_signal', type=str)
+    parser.add_argument('--key_label', type=str)
+    parser.add_argument('--model_name', type=str)
+
 
 
     args = parser.parse_args()

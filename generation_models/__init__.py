@@ -8,3 +8,7 @@ from .VFlow_v3 import VRF_v3
 from .VFlow_v4 import VRF_v4
 from .PrototypeFlow import PrototypeFlow, MTANDPrototypeFlow
 from .DSPFlow import DSPFlow
+
+
+# import all of my baselines
+from .diffusion_ts import Diffusion_TS
