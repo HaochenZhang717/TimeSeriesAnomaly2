@@ -94,8 +94,8 @@ class BaseVariationalAutoencoder(nn.Module, ABC):
     #     return samples
 
     def get_anomaly_samples(self, x_occluded, noise_mask):
-        z_mean, z_log_var, z = self.model.encoder(x_occluded)
-        sample = self.model.decoder(z)
+        z_mean, z_log_var, z = self.encoder(x_occluded)
+        sample = self.decoder(z)
         output = sample * noise_mask.unsqueeze(-1) + x_occluded * (1 - noise_mask.unsqueeze(-1))
         return output
 
