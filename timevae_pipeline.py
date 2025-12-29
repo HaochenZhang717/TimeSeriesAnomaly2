@@ -215,7 +215,7 @@ def impute_sample(args):
             attn_mask = normal_batch['attn_mask'].to(device=device, dtype=torch.bool) # (batch_size, seq_len)
             noise_mask = normal_batch['noise_mask'].to(device=device, dtype=torch.long)
 
-            x_occluded = signals * attn_mask
+            x_occluded = signals * attn_mask.unsqueeze(-1)
             with torch.no_grad():
                 samples = model.get_anomaly_samples(
                     x_occluded,
