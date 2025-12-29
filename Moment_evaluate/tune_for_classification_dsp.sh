@@ -14,4 +14,5 @@ for model_size in "${model_sizes[@]}"; do
       --model_name ${model_size} \
       --one_channel "true"
 
+
 done

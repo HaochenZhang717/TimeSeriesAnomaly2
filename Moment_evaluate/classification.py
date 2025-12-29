@@ -86,9 +86,10 @@ class PatchToTimeHead(nn.Module):
 class PTBXL_Trainer:
     def __init__(self, args: Namespace):
         self.args = args
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
         # initialize ptbxl classification dataset
-        train_data = torch.load(args.train_data_path)
+        train_data = torch.load(args.train_data_path, map_location=self.device)
         # breakpoint()
         train_signal = train_data[args.key_signal]
         train_label = train_data[args.key_label]
@@ -111,7 +112,7 @@ class PTBXL_Trainer:
 
 
 
-        test_data = torch.load(args.test_data_path)
+        test_data = torch.load(args.test_data_path, map_location=self.device)
         test_signal = test_data[args.key_signal]
         if args.one_channel:
             test_signal = test_signal[:,:,:1]
@@ -191,7 +192,6 @@ class PTBXL_Trainer:
         self.scheduler = torch.optim.lr_scheduler.OneCycleLR(self.optimizer, max_lr=self.args.max_lr,
                                                              total_steps=self.args.epochs * len(
                                                                  self.train_dataloader))
-        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
         # create log file to store training logs
         if not os.path.exists(self.args.output_path):
