@@ -1,3 +1,5 @@
+cd ..
+
 LR=1e-4
 LEN_WHOLE=600
 MAX_LEN_ANOMALY=450
@@ -136,3 +138,5 @@ python dsp_flow.py \
   --generated_path "${TRAIN_CKPT}/samples.pth" \
   \
   --gpu_id ${GPU_ID}
+
+cd ./diffusionts_baseline
