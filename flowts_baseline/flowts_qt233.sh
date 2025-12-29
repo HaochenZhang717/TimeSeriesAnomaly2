@@ -13,7 +13,7 @@ DATA_TYPE="ecg"
 WANDB_PROJECT="flowts_qt_one_channel"
 
 VQVAE_CKPT="none"
-PRETRAIN_CKPT='none'
+PRETRAIN_CKPT="none"
 FINETUNE_CKPT="/root/tianyi/formal_experiment/qtdb_one_channel/flowts/no_code_impute_from_scratch_ckpt_lr${LR}"
 
 
