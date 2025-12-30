@@ -1,0 +1,1 @@
+from .detection_model import calculate_LSTM, calculate_GRU
