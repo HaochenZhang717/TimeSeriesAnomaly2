@@ -276,7 +276,7 @@ def run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, d
 def main():
     args = get_args()
     device = torch.device(f"cuda:{args.gpu_id}")
-
+    os.makedirs(args.out_dir, exist_ok=True)
 
     real_set = ImputationECGDataset(
         raw_data_paths=args.raw_data_paths,
