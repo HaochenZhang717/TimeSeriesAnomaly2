@@ -2,16 +2,12 @@
 set -e
 shopt -s nullglob
 
-#cd NN_evaluate
-
 run_group () {
-  local pattern=$1
-  echo "==== Running group: $pattern ===="
-
-  local scripts=($pattern)   # ⭐ 关键：这里展开 glob
+  local scripts=("$@")   # ✅ 直接拿到所有展开后的文件名
+  echo "==== Running group: ${scripts[0]%_*}.sh ===="
 
   if [ ${#scripts[@]} -eq 0 ]; then
-    echo "⚠️  No scripts matched $pattern"
+    echo "⚠️  No scripts matched"
     return
   fi
 

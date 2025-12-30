@@ -25,6 +25,7 @@ def get_args():
 
     """save and load parameters"""
     parser.add_argument("--ckpt_dir", type=str, required=True)
+    parser.add_argument("--out_dir", type=str, required=True)
     parser.add_argument("--generated_path", type=str, required=True)
 
     """gpu parameters"""
@@ -103,7 +104,7 @@ def run_lstm_evaluate(args, real_data, real_labels, gen_data, gen_labels, device
     }
     output_record.update({"result_LSTM": result})
 
-    save_path = os.path.join(args.ckpt_dir, f"lstm_evaluation_results.jsonl")
+    save_path = os.path.join(args.out_dir, f"lstm_evaluation_results.jsonl")
 
 
     with open(save_path, "a") as f:
@@ -181,7 +182,7 @@ def run_gru_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     }
     output_record.update({"result_GRU": result})
 
-    save_path = os.path.join(args.ckpt_dir, f"gru_evaluation_results.jsonl")
+    save_path = os.path.join(args.out_dir, f"gru_evaluation_results.jsonl")
 
     # with open(save_path, "a") as f:
     #     f.write(json.dumps(output_record) + "\n")
@@ -261,7 +262,7 @@ def run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, d
     }
     output_record.update({"result_robustTAD": result})
 
-    save_path = os.path.join(args.ckpt_dir, f"robusttad_evaluation_results.jsonl")
+    save_path = os.path.join(args.out_dir, f"robusttad_evaluation_results.jsonl")
 
     # with open(save_path, "a") as f:
     #     f.write(json.dumps(output_record) + "\n")
