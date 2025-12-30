@@ -75,15 +75,15 @@ def run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels):
         print("gen_labels.shape:", gen_labels.shape)
 
         # ---- build RF training set ----
-        X_real, y_real = build_rf_dataset(
+        X_test, y_test = build_rf_dataset(
             real_data, real_labels, window=args.feat_window_size
         )
-        X_gen, y_gen = build_rf_dataset(
+        X_train, y_train = build_rf_dataset(
             sampled_gen_data, sampled_gen_labels, window=args.feat_window_size
         )
 
-        X_train = np.concatenate([X_real, X_gen])
-        y_train = np.concatenate([y_real, y_gen])
+        # X_train = np.concatenate([X_real, X_gen])
+        # y_train = np.concatenate([y_real, y_gen])
 
         # ---- train RF ----
         rf = RandomForestClassifier(
@@ -97,9 +97,9 @@ def run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels):
         rf.fit(X_train, y_train)
 
         # ---- test on real data only ----
-        X_test, y_test = build_rf_dataset(
-            real_data, real_labels, window=args.feat_window_size
-        )
+        # X_test, y_test = build_rf_dataset(
+        #     real_data, real_labels, window=args.feat_window_size
+        # )
         y_pred = rf.predict(X_test)
 
         # ---- metrics ----
