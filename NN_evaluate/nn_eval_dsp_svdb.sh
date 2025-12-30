@@ -10,7 +10,7 @@ MAX_LEN_ANOMALY=360
 LEN_WHOLE=800
 
 
-python run_rnn_evaluate.py \
+python run_nn_evaluate.py \
     --seq_len ${LEN_WHOLE} \
     --feature_size 1 \
     --one_channel 1 \
