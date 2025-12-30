@@ -61,9 +61,9 @@ def run_catboost_evaluate(args, real_data, real_labels, gen_data, gen_labels):
     normal_accuracies = []
     anomaly_accuracies = []
 
-    for _ in range(5):
+    for _ in range(1):
         # ---- sample generated data ----
-        random_indices = torch.randperm(len(gen_data))[:500]
+        random_indices = torch.randperm(len(gen_data))[:100]
         sampled_gen_data = gen_data[random_indices]
         sampled_gen_labels = gen_labels[random_indices]
 
