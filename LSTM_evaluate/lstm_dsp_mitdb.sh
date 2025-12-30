@@ -4,7 +4,7 @@ cd ..
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data/106.npz"]'
 FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"]'
-FINETUNE_CKPT="/root/tianyi/formal_experiment/mitdb_new_vqvae/dsp_flow/impute_finetune_ckpt_lr${LR}"
+FINETUNE_CKPT="/root/tianyi/formal_experiment/mitdb_new_vqvae/dsp_flow/impute_finetune_ckpt_lr1e-4"
 
 MAX_LEN_ANOMALY=800
 LEN_WHOLE=1000
