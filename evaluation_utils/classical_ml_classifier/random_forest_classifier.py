@@ -98,7 +98,7 @@ def run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels):
 
         # ---- test on real data only ----
         X_test, y_test = build_rf_dataset(
-            real_data, real_labels, window=args.rf_window
+            real_data, real_labels, window=args.feat_window_size
         )
         y_pred = rf.predict(X_test)
 
