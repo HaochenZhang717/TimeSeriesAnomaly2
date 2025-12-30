@@ -704,7 +704,6 @@ def no_code_imputation_from_scratch(args):
     trainer.no_code_imputation_train(config=vars(args))
 
 
-
 def posterior_impute_sample(args):
     model = DSPFlow(
         seq_length=args.seq_len,

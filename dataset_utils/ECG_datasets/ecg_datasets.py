@@ -26,7 +26,7 @@ class ECGDataset(Dataset):
             max_anomaly_length,
             min_anomaly_length,
             one_channel,
-            limited_data_size,
+            # limited_data_size,
     ):
         super(ECGDataset, self).__init__()
         self.seq_len = seq_len
@@ -34,7 +34,7 @@ class ECGDataset(Dataset):
         self.max_anomaly_length = max_anomaly_length
         self.min_anomaly_length = min_anomaly_length
         self.one_channel = one_channel
-        self.limited_data_size = limited_data_size
+        # self.limited_data_size = limited_data_size
         self.slide_windows = []
         self.anomaly_labels = []
 
@@ -55,8 +55,8 @@ class ECGDataset(Dataset):
                 end_index = index_line["end"]
                 self.slide_windows.append(normed_signal[start_index:end_index])
                 self.anomaly_labels.append(anomaly_label[start_index:end_index])
-                if len(self.slide_windows) >= self.limited_data_size:
-                    break
+                # if len(self.slide_windows) >= self.limited_data_size:
+                #     break
 
     def __getitem__(self, index):
         signal = self.slide_windows[index]

@@ -43,7 +43,6 @@ def get_args():
 
 
     """data parameters"""
-    parser.add_argument("--dataset_name", type=str, required=True)
     parser.add_argument("--max_anomaly_length", type=float, required=True)
     parser.add_argument("--min_anomaly_length", type=float, required=True)
     parser.add_argument("--raw_data_paths_train", type=str, required=True)
@@ -56,6 +55,8 @@ def get_args():
     parser.add_argument("--epochs", type=int, required=True)
     parser.add_argument("--grad_clip_norm", type=float, required=True)
     parser.add_argument("--early_stop", type=str, required=True)
+    parser.add_argument("--patience", type=int, required=True)
+
 
     """wandb parameters"""
     parser.add_argument("--wandb_project", type=str,required=True)

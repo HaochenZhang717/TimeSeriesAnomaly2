@@ -287,6 +287,7 @@ def _test_shapes():
     num_classes = 2
 
     x = torch.randn(B, Q, M)
+    # y = torch.ceil(torch.rand(B, Q))
     # example labels (per timestep)
     y = torch.randint(0, num_classes, (B, Q))
     # example mask: last 50 steps padded for sample 0
@@ -295,15 +296,11 @@ def _test_shapes():
     y[0, -50:] = -1  # optional; compute_loss can also set via mask
 
     model = MLSTM_FCN(
-        num_vars=M,
-        num_classes=num_classes,
-        lstm_hidden=128,
-        lstm_layers=1,
-        dropout=0.1,
-        bidirectional=True,
+        in_ch=M,
+        anomaly_weight=1.0
     )
 
-    logits = model(x, mask=mask)
+    logits = model(x, y)
     print("logits:", logits.shape)  # [B, Q, num_classes]
 
     # loss = model.compute_loss(logits, y, mask=mask, ignore_index=-1)

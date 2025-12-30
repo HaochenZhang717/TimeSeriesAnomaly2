@@ -1,6 +1,6 @@
 from generation_models import TimeVAECGATS
 from Trainers import CGATPretrain
-from dataset_utils import build_dataset
+from dataset_utils import ECGDataset
 import argparse
 import torch
 import json
@@ -8,6 +8,9 @@ import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
 import os
+
+import numpy as np
+from torch.utils.data import Subset
 
 
 def save_args_to_jsonl(args, output_path):
@@ -34,9 +37,8 @@ def get_pretrain_args():
 
 
     """data parameters"""
-    parser.add_argument("--dataset_name", type=str, required=True)
-    parser.add_argument("--max_anomaly_length", type=float, required=True)
-    parser.add_argument("--min_anomaly_length", type=float, required=True)
+    parser.add_argument("--max_anomaly_length", type=int, required=True)
+    parser.add_argument("--min_anomaly_length", type=int, required=True)
     parser.add_argument("--raw_data_paths_train", type=str, required=True)
     parser.add_argument("--indices_paths_train", type=str, required=True)
 
@@ -46,6 +48,7 @@ def get_pretrain_args():
     parser.add_argument("--epochs", type=int, required=True)
     parser.add_argument("--grad_clip_norm", type=float, required=True)
     parser.add_argument("--early_stop", type=str, required=True)
+    parser.add_argument("--patience", type=int, required=True)
 
     """wandb parameters"""
     parser.add_argument("--wandb_project", type=str,required=True)
@@ -80,9 +83,7 @@ def pretrain():
     )
 
 
-    pretrain_dataset_full = build_dataset(
-        args.dataset_name,
-        'non_iterable',
+    full_set = ECGDataset(
         raw_data_paths=args.raw_data_paths_train,
         indices_paths=args.indices_paths_train,
         seq_len=args.seq_len,
@@ -90,9 +91,18 @@ def pretrain():
         min_anomaly_length=args.min_anomaly_length,
         one_channel=args.one_channel,
     )
+    N = len(full_set)
+    indices = np.arange(N)
 
-    train_loader = torch.utils.data.DataLoader(pretrain_dataset_full, batch_size=args.batch_size, shuffle=True, drop_last=True)
-    val_loader = torch.utils.data.DataLoader(pretrain_dataset_full, batch_size=args.batch_size, shuffle=False, drop_last=False)
+    split = int(0.8 * N)
+    train_idx = indices[:split]
+    val_idx = indices[split:]
+
+    train_set = Subset(full_set, train_idx)
+    val_set = Subset(full_set, val_idx)
+
+    train_loader = torch.utils.data.DataLoader(train_set, batch_size=args.batch_size, shuffle=True, drop_last=True)
+    val_loader = torch.utils.data.DataLoader(val_set, batch_size=args.batch_size, shuffle=False, drop_last=False)
 
 
     optimizer= torch.optim.Adam(model.parameters(), lr=args.lr)
@@ -101,7 +111,7 @@ def pretrain():
         optimizer,
         mode='min',
         factor=0.8,  # multiply LR by 0.5
-        patience=2,  # wait 3 epochs with no improvement
+        patience=4,  # wait 3 epochs with no improvement
         threshold=1e-4,  # improvement threshold
         min_lr=1e-6,  # min LR clamp
     )
@@ -119,6 +129,7 @@ def pretrain():
         wandb_project_name=args.wandb_project,
         grad_clip_norm=args.grad_clip_norm,
         early_stop=args.early_stop,
+        patience=args.patience,
     )
     trainer.pretrain(config=vars(args))
 
