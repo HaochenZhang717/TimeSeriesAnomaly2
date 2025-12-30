@@ -6,108 +6,30 @@ from tqdm import tqdm
 from sklearn.metrics import precision_score, recall_score, f1_score
 
 
-class SE1D(nn.Module):
-    """
-    Temporal squeeze-and-excite for 1D feature maps.
-    Input:  u [B, C, T]
-    Output: u_recal [B, C, T]
-    """
-    def __init__(self, channels: int, r: int = 16):
-        super().__init__()
-        hidden = max(1, channels // r)
-        self.fc1 = nn.Linear(channels, hidden, bias=True)
-        self.fc2 = nn.Linear(hidden, channels, bias=True)
-
-    def forward(self, u):
-        z = u.mean(dim=-1)  # [B, C]
-        s = torch.sigmoid(self.fc2(F.relu(self.fc1(z))))  # [B, C]
-        return u * s.unsqueeze(-1)  # [B, C, T]
-
-
-class ConvBNReLU(nn.Module):
-    def __init__(self, in_ch, out_ch, k, use_se=False, se_r=16):
-        super().__init__()
-        pad = k // 2
-        self.conv = nn.Conv1d(in_ch, out_ch, kernel_size=k, padding=pad, bias=False)
-        # match paper BN hyperparams: momentum=0.99, eps=0.001
-        self.bn = nn.BatchNorm1d(out_ch, momentum=0.99, eps=1e-3)
-        self.use_se = use_se
-        self.se = SE1D(out_ch, r=se_r) if use_se else None
-
-    def forward(self, x):
-        x = self.conv(x)
-        x = self.bn(x)
-        x = F.relu(x, inplace=True)
-        if self.use_se:
-            x = self.se(x)
-        return x
 
 
 class MLSTM_FCN_Model(nn.Module):
     def __init__(
         self,
         num_vars: int,
-        num_classes: int,
         lstm_hidden: int = 128,
-        lstm_layers: int = 1,
-        dropout: float = 0.1,
         bidirectional: bool = False,
     ):
         super().__init__()
-        self.num_vars = num_vars
-        self.num_classes = num_classes
-        self.lstm_hidden = lstm_hidden
-        self.lstm_layers = lstm_layers
-        self.bidirectional = bidirectional
-        self.dropout_p = dropout
-
-        # FCN branch (keep time dimension!)
-        self.fcn1 = ConvBNReLU(num_vars, 128, k=7, use_se=True, se_r=16)
-        self.fcn2 = ConvBNReLU(128, 256, k=5, use_se=True, se_r=16)
-        self.fcn3 = ConvBNReLU(256, 128, k=3, use_se=False)
-
-        # LSTM branch: standard along time Q with input_size=M
-        self.lstm = nn.LSTM(
+        self.rnn = nn.LSTM(
             input_size=num_vars,
             hidden_size=lstm_hidden,
-            num_layers=lstm_layers,
+            num_layers=1,
             batch_first=True,
             bidirectional=bidirectional,
         )
+        out_dim = lstm_hidden * (2 if bidirectional else 1)
+        self.head = nn.Linear(out_dim, 1)
 
-        lstm_out_dim = lstm_hidden * (2 if bidirectional else 1)
-        self.dropout = nn.Dropout(dropout)
-
-        # per-timestep head
-        self.classifier = nn.Linear(128 + lstm_out_dim, 1)
-
-    def forward(self, x: torch.Tensor, mask: torch.Tensor | None = None) -> torch.Tensor:
-        """
-        x: [B, Q, M]
-        mask: [B, Q] with 1 for valid, 0 for pad (optional)
-        """
-        if x.dim() != 3:
-            raise ValueError(f"x must be [B,Q,M], got {tuple(x.shape)}")
-        B, Q, M = x.shape
-        if M != self.num_vars:
-            raise ValueError(f"Expected num_vars={self.num_vars}, got M={M}")
-
-        # ---- FCN branch ----
-        xf = x.transpose(1, 2)         # [B, M, Q]
-        xf = self.fcn1(xf)             # [B, 128, Q]
-        xf = self.fcn2(xf)             # [B, 256, Q]
-        xf = self.fcn3(xf)             # [B, 128, Q]
-        xf = xf.transpose(1, 2)        # [B, Q, 128]
-
-        # ---- LSTM branch ----
-        # If you have padding and want LSTM to ignore it, you can pack_padded_sequence.
-        # Here we keep it simple; you can still use mask in loss to ignore padded steps.
-        hl, _ = self.lstm(x)           # [B, Q, H*(1 or 2)]
-        hl = self.dropout(hl)          # [B, Q, H*dir]
-
-        # ---- Fuse & classify per timestep ----
-        feat = torch.cat([xf, hl], dim=-1)  # [B, Q, 128 + H*dir]
-        logits = self.classifier(feat).permute(0, 2, 1)      # [B, Q, num_classes]
+    def forward(self, x, mask=None):
+        # x: [B, T, M]
+        h, _ = self.rnn(x)               # [B, T, H]
+        logits = self.head(h).squeeze(-1)  # [B, T]
         return logits
 
 
@@ -140,119 +62,15 @@ class WeightedBCEWithLogitsLoss(nn.Module):
 
 
 
-# class MLSTM_FCN(nn.Module):
-#     def __init__(self, in_ch, anomaly_weight):
-#         super().__init__()
-#         self.model = MLSTM_FCN_Model(
-#             num_vars=in_ch,
-#             num_classes=2,
-#             lstm_hidden= 128,
-#             lstm_layers=1,
-#             dropout=0.1,
-#             bidirectional=True,
-#         )
-#         self.criterion = WeightedBCEWithLogitsLoss(beta=anomaly_weight)
-#
-#     def forward(self, inputs, labels):
-#         logits = self.model(inputs)
-#         loss = self.criterion(logits, labels)
-#         return loss
-#
-#     def predict(self, inputs):
-#         logits = self.model(inputs)
-#         probs = torch.sigmoid(logits)
-#         return (probs > 0.5).to(torch.long).squeeze(1)
-
-
-# -----------------------------
-# 基础模块：Double Conv (Conv → ReLU → Conv → ReLU)
-# -----------------------------
-class DoubleConv(nn.Module):
-    def __init__(self, in_ch, out_ch):
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Conv1d(in_ch, out_ch, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.Conv1d(out_ch, out_ch, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-        )
-
-    def forward(self, x):
-        return self.net(x)
-
-
-# -----------------------------
-# 上采样模块：UpConv + DoubleConv
-# -----------------------------
-class UpBlock(nn.Module):
-    def __init__(self, in_ch, out_ch):
-        super().__init__()
-        self.up = nn.ConvTranspose1d(in_ch, out_ch, kernel_size=2, stride=2)
-        self.conv = DoubleConv(in_ch, out_ch)
-
-    def forward(self, x, skip):
-        x = self.up(x)
-
-        # 修正长度不一致问题（常见）
-        if x.size(-1) != skip.size(-1):
-            diff = skip.size(-1) - x.size(-1)
-            x = F.pad(x, (0, diff))
-
-        x = torch.cat([skip, x], dim=1)
-        return self.conv(x)
-
-class UNetTS(nn.Module):
-    def __init__(self, in_ch):
-        super().__init__()
-
-        # Encoder: 通道和图一致
-        self.conv1 = DoubleConv(in_ch, 16)    # 240
-        self.conv2 = DoubleConv(16, 32)       # 120
-        self.conv3 = DoubleConv(32, 64)       # 60
-        self.conv4 = DoubleConv(64, 128)      # 30
-        self.conv5 = DoubleConv(128, 256)     # 15
-
-        self.pool = nn.MaxPool1d(2)
-
-        # Decoder
-        self.up4 = UpBlock(256, 128)
-        self.up3 = UpBlock(128, 64)
-        self.up2 = UpBlock(64, 32)
-        self.up1 = UpBlock(32, 16)
-
-        # Final output → per-time step logits
-        self.final = nn.Conv1d(16, 1, kernel_size=1)
-
-    def forward(self, x):
-        x = x.permute(0, 2, 1)
-        # ---- Encoder ----
-        c1 = self.conv1(x)        # (B,16,240)
-        p1 = self.pool(c1)        # (B,16,120)
-
-        c2 = self.conv2(p1)       # (B,32,120)
-        p2 = self.pool(c2)        # (B,32,60)
-
-        c3 = self.conv3(p2)       # (B,64,60)
-        p3 = self.pool(c3)        # (B,64,30)
-
-        c4 = self.conv4(p3)       # (B,128,30)
-        p4 = self.pool(c4)        # (B,128,15)
-
-        c5 = self.conv5(p4)       # (B,256,15)
-
-        # ---- Decoder ----
-        u4 = self.up4(c5, c4)     # (B,128,30)
-        u3 = self.up3(u4, c3)     # (B,64,60)
-        u2 = self.up2(u3, c2)     # (B,32,120)
-        u1 = self.up1(u2, c1)     # (B,16,240)
-
-        logits = self.final(u1)      # (B,2,240)
-        return logits
-
 class MLSTM_FCN(nn.Module):
     def __init__(self, in_ch, anomaly_weight):
         super().__init__()
-        self.model = UNetTS(in_ch=in_ch)
+        self.model = MLSTM_FCN_Model(
+            num_vars=in_ch,
+            lstm_hidden= 128,
+            bidirectional=True,
+        )
+
         self.criterion = WeightedBCEWithLogitsLoss(beta=anomaly_weight)
 
     def forward(self, inputs, labels):
