@@ -4,7 +4,7 @@ import json
 import os
 import numpy as np
 from torch.utils.data import Subset
-from .evaluation_utils import calculate_MLSTM_FCN
+from evaluation_utils import calculate_MLSTM_FCN
 from dataset_utils import ImputationECGDataset
 
 
