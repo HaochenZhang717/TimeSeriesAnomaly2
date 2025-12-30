@@ -140,17 +140,119 @@ class WeightedBCEWithLogitsLoss(nn.Module):
 
 
 
+# class MLSTM_FCN(nn.Module):
+#     def __init__(self, in_ch, anomaly_weight):
+#         super().__init__()
+#         self.model = MLSTM_FCN_Model(
+#             num_vars=in_ch,
+#             num_classes=2,
+#             lstm_hidden= 128,
+#             lstm_layers=1,
+#             dropout=0.1,
+#             bidirectional=True,
+#         )
+#         self.criterion = WeightedBCEWithLogitsLoss(beta=anomaly_weight)
+#
+#     def forward(self, inputs, labels):
+#         logits = self.model(inputs)
+#         loss = self.criterion(logits, labels)
+#         return loss
+#
+#     def predict(self, inputs):
+#         logits = self.model(inputs)
+#         probs = torch.sigmoid(logits)
+#         return (probs > 0.5).to(torch.long).squeeze(1)
+
+
+# -----------------------------
+# 基础模块：Double Conv (Conv → ReLU → Conv → ReLU)
+# -----------------------------
+class DoubleConv(nn.Module):
+    def __init__(self, in_ch, out_ch):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Conv1d(in_ch, out_ch, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+            nn.Conv1d(out_ch, out_ch, kernel_size=3, padding=1),
+            nn.ReLU(inplace=True),
+        )
+
+    def forward(self, x):
+        return self.net(x)
+
+
+# -----------------------------
+# 上采样模块：UpConv + DoubleConv
+# -----------------------------
+class UpBlock(nn.Module):
+    def __init__(self, in_ch, out_ch):
+        super().__init__()
+        self.up = nn.ConvTranspose1d(in_ch, out_ch, kernel_size=2, stride=2)
+        self.conv = DoubleConv(in_ch, out_ch)
+
+    def forward(self, x, skip):
+        x = self.up(x)
+
+        # 修正长度不一致问题（常见）
+        if x.size(-1) != skip.size(-1):
+            diff = skip.size(-1) - x.size(-1)
+            x = F.pad(x, (0, diff))
+
+        x = torch.cat([skip, x], dim=1)
+        return self.conv(x)
+
+class UNetTS(nn.Module):
+    def __init__(self, in_ch):
+        super().__init__()
+
+        # Encoder: 通道和图一致
+        self.conv1 = DoubleConv(in_ch, 16)    # 240
+        self.conv2 = DoubleConv(16, 32)       # 120
+        self.conv3 = DoubleConv(32, 64)       # 60
+        self.conv4 = DoubleConv(64, 128)      # 30
+        self.conv5 = DoubleConv(128, 256)     # 15
+
+        self.pool = nn.MaxPool1d(2)
+
+        # Decoder
+        self.up4 = UpBlock(256, 128)
+        self.up3 = UpBlock(128, 64)
+        self.up2 = UpBlock(64, 32)
+        self.up1 = UpBlock(32, 16)
+
+        # Final output → per-time step logits
+        self.final = nn.Conv1d(16, 1, kernel_size=1)
+
+    def forward(self, x):
+        x = x.permute(0, 2, 1)
+        # ---- Encoder ----
+        c1 = self.conv1(x)        # (B,16,240)
+        p1 = self.pool(c1)        # (B,16,120)
+
+        c2 = self.conv2(p1)       # (B,32,120)
+        p2 = self.pool(c2)        # (B,32,60)
+
+        c3 = self.conv3(p2)       # (B,64,60)
+        p3 = self.pool(c3)        # (B,64,30)
+
+        c4 = self.conv4(p3)       # (B,128,30)
+        p4 = self.pool(c4)        # (B,128,15)
+
+        c5 = self.conv5(p4)       # (B,256,15)
+
+        # ---- Decoder ----
+        u4 = self.up4(c5, c4)     # (B,128,30)
+        u3 = self.up3(u4, c3)     # (B,64,60)
+        u2 = self.up2(u3, c2)     # (B,32,120)
+        u1 = self.up1(u2, c1)     # (B,16,240)
+
+        logits = self.final(u1)      # (B,2,240)
+        return logits
+
 class MLSTM_FCN(nn.Module):
     def __init__(self, in_ch, anomaly_weight):
         super().__init__()
-        self.model = MLSTM_FCN_Model(
-            num_vars=in_ch,
-            num_classes=2,
-            lstm_hidden= 128,
-            lstm_layers=1,
-            dropout=0.1,
-            bidirectional=True,
-        )
+        self.model = UNetTS(in_ch=in_ch)
         self.criterion = WeightedBCEWithLogitsLoss(beta=anomaly_weight)
 
     def forward(self, inputs, labels):
@@ -162,7 +264,6 @@ class MLSTM_FCN(nn.Module):
         logits = self.model(inputs)
         probs = torch.sigmoid(logits)
         return (probs > 0.5).to(torch.long).squeeze(1)
-
 
 
 
