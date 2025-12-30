@@ -1,0 +1,3 @@
+bash tune_for_classification_diffts_mitdb.sh
+bash tune_for_classification_diffts_qtdb.sh
+bash tune_for_classification_diffts_svdb.sh
