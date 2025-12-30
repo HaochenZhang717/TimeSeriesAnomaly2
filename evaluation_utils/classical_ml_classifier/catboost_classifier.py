@@ -2,11 +2,13 @@ import os
 import json
 import numpy as np
 import torch
-from sklearn.ensemble import RandomForestClassifier
+
+from catboost import CatBoostClassifier
 from sklearn.metrics import precision_recall_fscore_support
 
 
-def extract_rf_features(x, window):
+
+def extract_cb_features(x, window):
     """
     x: [T, C] or [T]
     return: [T, D]
@@ -29,29 +31,26 @@ def extract_rf_features(x, window):
 
         feats.append(np.concatenate([f_raw, f_mean, f_std, f_diff]))
 
-    return np.stack(feats)   # [T, D]
+    return np.stack(feats)
 
 
-def build_rf_dataset(data, labels, window):
-    """
-    data:   [N, T, C]
-    labels: [N, T]
-    return: X [num_points, D], y [num_points]
-    """
+
+def build_cb_dataset(data, labels, window):
     X_all, y_all = [], []
 
     for x, y in zip(data, labels):
         x_np = x if isinstance(x, np.ndarray) else x.cpu().numpy()
         y_np = y if isinstance(y, np.ndarray) else y.cpu().numpy()
 
-        feats = extract_rf_features(x_np, window)
+        feats = extract_cb_features(x_np, window)
         X_all.append(feats)
         y_all.append(y_np)
 
     return np.concatenate(X_all), np.concatenate(y_all)
 
 
-def run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels):
+
+def run_catboost_evaluate(args, real_data, real_labels, gen_data, gen_labels):
     output_record = {
         "args": vars(args),
     }
@@ -62,8 +61,7 @@ def run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels):
     normal_accuracies = []
     anomaly_accuracies = []
 
-    # 你 LSTM 是 for _ in range(1)，我保持完全一致
-    for _ in range(5):
+    for _ in range(1):
         # ---- sample generated data ----
         random_indices = torch.randperm(len(gen_data))[:50000]
         sampled_gen_data = gen_data[random_indices]
@@ -74,33 +72,37 @@ def run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels):
         print("gen_data.shape:", gen_data.shape)
         print("gen_labels.shape:", gen_labels.shape)
 
-        # ---- build RF training set ----
-        X_real, y_real = build_rf_dataset(
+        # ---- build training data ----
+        X_real, y_real = build_cb_dataset(
             real_data, real_labels, window=args.feat_window_size
         )
-        X_gen, y_gen = build_rf_dataset(
+        X_gen, y_gen = build_cb_dataset(
             sampled_gen_data, sampled_gen_labels, window=args.feat_window_size
         )
 
         X_train = np.concatenate([X_real, X_gen])
         y_train = np.concatenate([y_real, y_gen])
 
-        # ---- train RF ----
-        rf = RandomForestClassifier(
-            n_estimators=300,
-            max_depth=None,
-            min_samples_leaf=10,
-            class_weight="balanced",
-            n_jobs=-1,
-            random_state=0,
+        # ---- CatBoost ----
+        model = CatBoostClassifier(
+            iterations=500,
+            depth=8,
+            learning_rate=0.05,
+            loss_function="Logloss",
+            eval_metric="F1",
+            auto_class_weights="Balanced",
+            random_seed=0,
+            verbose=False,   # 🔑 不刷屏
         )
-        rf.fit(X_train, y_train)
+
+        model.fit(X_train, y_train)
 
         # ---- test on real data only ----
-        X_test, y_test = build_rf_dataset(
-            real_data, real_labels, window=args.rf_window
+        X_test, y_test = build_cb_dataset(
+            real_data, real_labels, window=args.feat_window_size
         )
-        y_pred = rf.predict(X_test)
+        y_pred = model.predict(X_test)
+        y_pred = y_pred.astype(int)
 
         # ---- metrics ----
         precision, recall, f1, _ = precision_recall_fscore_support(
@@ -148,9 +150,9 @@ def run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels):
         "anomaly_accuracy_std": float(std_anomaly_accuracy),
     }
 
-    output_record.update({"result_RF": result})
+    output_record.update({"result_CatBoost": result})
 
-    save_path = os.path.join(args.out_dir, "rf_evaluation_results.jsonl")
+    save_path = os.path.join(args.out_dir, "catboost_evaluation_results.jsonl")
     with open(save_path, "a") as f:
         json.dump(output_record, f, indent=2)
         f.write("\n")
