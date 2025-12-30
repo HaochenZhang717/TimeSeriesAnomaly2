@@ -2,7 +2,7 @@
 set -e
 shopt -s nullglob
 
-cd NN_evaluate
+#cd NN_evaluate
 
 run_group () {
   local pattern=$1
