@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-cd NN_evaluate
 
 run_group () {
   local pattern=$1
