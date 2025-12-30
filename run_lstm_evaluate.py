@@ -35,7 +35,8 @@ def get_args():
 
 
 
-def main(args):
+def main():
+    args = get_args()
     device = torch.device(f"cuda:{args.gpu_id}")
 
 
@@ -174,3 +175,7 @@ def main(args):
 
     for k, v in result.items():
         print(f"{k}: {v}")
+
+
+if __name__ == "__main__":
+    main()
