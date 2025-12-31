@@ -165,7 +165,7 @@ class TCNPointClassifier(nn.Module):
 
         self.head = nn.Conv1d(
             hidden_channels,
-            num_classes,
+            1,
             kernel_size=1,
         )
 
@@ -268,7 +268,6 @@ class WrappedTCN(nn.Module):
 
     def forward(self, inputs, labels):
         logits = self.model(inputs)
-        breakpoint()
         loss = self.criterion(logits, labels)
         return loss
 
