@@ -197,7 +197,9 @@ class ConvTransformer(nn.Module):
         self.conv = nn.Sequential(
             nn.Conv1d(in_channels, d_model, kernel_size,
                       padding=kernel_size // 2),
-            nn.BatchNorm1d(d_model),
+            nn.ReLU(),
+            nn.Conv1d(in_channels, d_model, kernel_size,
+                      padding=kernel_size // 2),
             nn.ReLU(),
         )
 
@@ -353,7 +355,7 @@ class WrappedTransformer(nn.Module):
             in_ch,
             d_model=64,
             nhead=4,
-            num_layers=2,
+            num_layers=1,
             dim_feedforward=128,
             dropout=0.1,
             kernel_size=7,
