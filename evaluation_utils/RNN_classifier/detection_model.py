@@ -268,6 +268,7 @@ class WrappedTCN(nn.Module):
 
     def forward(self, inputs, labels):
         logits = self.model(inputs)
+        breakpoint()
         loss = self.criterion(logits, labels)
         return loss
 
