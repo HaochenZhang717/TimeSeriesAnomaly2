@@ -174,7 +174,7 @@ class TCNPointClassifier(nn.Module):
         x: [B, C, T]
         return logits: [B, 2, T]
         """
-        feat = self.backbone(x)
+        feat = self.backbone(x.permute(0,2,1))
         logits = self.head(feat)
         return logits
 
