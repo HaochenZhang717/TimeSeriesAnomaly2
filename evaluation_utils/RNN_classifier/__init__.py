@@ -1,1 +1,1 @@
-from .detection_model import calculate_LSTM, calculate_GRU
+from .detection_model import calculate_LSTM, calculate_GRU, calculate_TCN

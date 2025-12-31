@@ -82,3 +82,4 @@ scp -r root@134.199.134.61:/root/tianyi/formal_experiment/qtdb_one_channel/dsp_f
 scp -r root@134.199.134.61:/root/tianyi/formal_experiment/qtdb_one_channel/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples.pth ./
 
 scp -r root@134.199.134.61:/root/tianyi/moment_eval/ .
+scp -r root@134.199.134.61:/root/tianyi/nn_eval/ .
