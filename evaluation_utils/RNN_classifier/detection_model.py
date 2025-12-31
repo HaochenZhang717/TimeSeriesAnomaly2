@@ -198,7 +198,7 @@ class ConvTransformer(nn.Module):
             nn.Conv1d(in_channels, d_model, kernel_size,
                       padding=kernel_size // 2),
             nn.ReLU(),
-            nn.Conv1d(in_channels, d_model, kernel_size,
+            nn.Conv1d(d_model, d_model, kernel_size,
                       padding=kernel_size // 2),
             nn.ReLU(),
         )
