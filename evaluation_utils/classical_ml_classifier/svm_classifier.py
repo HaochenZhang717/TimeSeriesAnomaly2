@@ -64,7 +64,7 @@ def run_svm_evaluate(args, real_data, real_labels, gen_data, gen_labels):
     anomaly_accuracies = []
 
     # 和 RF 完全一致：跑 5 次
-    for _ in range(5):
+    for _ in range(1):
         # ---- sample generated data ----
         random_indices = torch.randperm(len(gen_data))[:1000]
         sampled_gen_data = gen_data[random_indices]

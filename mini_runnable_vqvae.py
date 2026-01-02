@@ -624,6 +624,9 @@ class VQVAE1D(nn.Module):
 
 @dataclass
 class TrainConfig:
+    wandb_project: str
+    wandb_run: str
+
     encoder_channels: tuple
     decoder_channels: tuple
     down_ratio: int
@@ -728,8 +731,8 @@ def train_vqvae(cfg: TrainConfig):
     os.makedirs(cfg.save_path, exist_ok=True)
     # -------- wandb --------
     wandb.init(
-        project="vqvae-ts",
-        name=f"vqvae_K{cfg.num_codes}_D{cfg.code_dim}",
+        project=cfg.wandb_project,
+        name=cfg.wandb_run,
         config=cfg.__dict__,
     )
 
@@ -1149,6 +1152,10 @@ def cluster_analysis(args):
 def get_args():
     parser = argparse.ArgumentParser(description="parameters for vqvae pretraining")
 
+    parser.add_argument("--wandb_project", type=str, required=True)
+    parser.add_argument("--wandb_run", type=str, required=True)
+
+
     parser.add_argument("--min_seq_len", type=int, required=True)
     parser.add_argument("--max_seq_len", type=int, required=True)
 
@@ -1205,6 +1212,9 @@ if __name__ == "__main__":
 
 
     cfg = TrainConfig(
+        wandb_project=args.wandb_project,
+        wandb_run=args.wandb_run,
+
         encoder_channels=(64, 64, 64),
         decoder_channels=(64, 64, 32, 32, 16, 16),
         down_ratio=1,
