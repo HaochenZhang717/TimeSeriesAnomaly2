@@ -78,8 +78,8 @@ for i in ${!GPU_IDS[@]}; do
   --code_len ${CODE_LEN} \
   --num_codes ${NUM_CODES} \
   --one_channel ${ONE_CHANNEL} \
-  --feat_size ${FEAT_SIZE}
-    &   # 👈 后台运行
+  --feat_size ${FEAT_SIZE} \
+  &   # 👈 后台运行
 done
 
 wait
