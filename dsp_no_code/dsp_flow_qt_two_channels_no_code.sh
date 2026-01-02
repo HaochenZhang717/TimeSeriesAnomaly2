@@ -33,7 +33,7 @@ python dsp_flow.py \
   --data_type ${DATA_TYPE} \
   --feature_size ${FEAT_SIZE} \
   --one_channel ${ONE_CHANNEL} \
-  --num_codes ${NUM_CODES} \
+  --num_codes 500 \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \
@@ -76,7 +76,7 @@ python dsp_flow.py \
   --data_type ${DATA_TYPE} \
   --feature_size ${FEAT_SIZE} \
   --one_channel ${ONE_CHANNEL} \
-  --num_codes ${NUM_CODES} \
+  --num_codes 500 \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \
