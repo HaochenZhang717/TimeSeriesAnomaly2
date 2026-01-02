@@ -3,16 +3,16 @@ LR=1e-4
 LEN_WHOLE=600
 MAX_LEN_ANOMALY=450
 MIN_LEN_ANOMALY=40
-GPU_ID=1
-ONE_CHANNEL=1
-FEAT_SIZE=1
+GPU_ID=0
+ONE_CHANNEL=0
+FEAT_SIZE=2
 
 DATA_TYPE="ecg"
 WANDB_PROJECT="dsp_flow_qt_two_channels"
 
 VQVAE_CKPT="none"
-PRETRAIN_CKPT="/root/tianyi/formal_experiment/qtdb_two_channels/dsp_flow/no_context_no_code_pretrain_ckpt"
-FINETUNE_CKPT="/root/tianyi/formal_experiment/qtdb_two_channels/dsp_flow/no_code_impute_finetune_ckpt_lr${LR}"
+PRETRAIN_CKPT="/root/tianyi/formal_experiment/qtdb_two_channels/dsp_flow_no_code/no_context_no_code_pretrain_ckpt"
+FINETUNE_CKPT="/root/tianyi/formal_experiment/qtdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr${LR}"
 
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
