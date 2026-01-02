@@ -1,2 +1,3 @@
 from .catboost_classifier import run_catboost_evaluate
 from .random_forest_classifier import run_rf_evaluate
+from .svm_classifier import run_svm_evaluate

@@ -8,4 +8,4 @@ from .RNN_classifier import calculate_LSTM, calculate_GRU, calculate_TCN, calcul
 
 from .metrics_long import evaluate_model_long_sequence
 
-from .classical_ml_classifier import run_rf_evaluate, run_catboost_evaluate
+from .classical_ml_classifier import run_rf_evaluate, run_catboost_evaluate, run_svm_evaluate

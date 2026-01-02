@@ -4,7 +4,7 @@ import json
 import os
 import numpy as np
 from torch.utils.data import Subset
-from evaluation_utils import run_rf_evaluate, run_catboost_evaluate
+from evaluation_utils import run_rf_evaluate, run_catboost_evaluate, run_svm_evaluate
 from dataset_utils import ImputationECGDataset
 
 
@@ -88,8 +88,9 @@ def main():
 
 
 
-    run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels)
-    run_catboost_evaluate(args, real_data, real_labels, gen_data, gen_labels)
+    # run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels)
+    # run_catboost_evaluate(args, real_data, real_labels, gen_data, gen_labels)
+    run_svm_evaluate(args, real_data, real_labels, gen_data, gen_labels)
 
 
 
