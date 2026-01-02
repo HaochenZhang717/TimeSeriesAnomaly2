@@ -362,4 +362,4 @@ echo "All jobs finished."
 #  --gpu_id ${GPU_ID}
 
 
-cd ./dsp_our_method
+cd dsp_our_method

@@ -121,7 +121,7 @@ for i in ${!GPU_IDS[@]}; do
     --early_stop "true" \
     --patience 500 \
     --wandb_project ${WANDB_PROJECT} \
-    --wandb_run "impute_finetune_mixed__lr${LR}_K${NUM_CODES}" \
+    --wandb_run "impute_finetune_mixed_lr${LR}_K${NUM_CODES}" \
     --ckpt_dir ${FINETUNE_CKPT} \
     --pretrained_ckpt ${PRETRAIN_CKPT} \
     --vqvae_ckpt "${VQVAE_CKPT}/vqvae.pt" \
@@ -357,4 +357,4 @@ echo "All jobs finished."
 #  --gpu_id ${GPU_ID}
 
 
-cd ./dsp_our_method
+cd dsp_our_method
