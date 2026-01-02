@@ -87,7 +87,7 @@ for i in ${!GPU_IDS[@]}; do
     --max_infill_length ${MAX_LEN_ANOMALY} \
     --lr 1e-4 \
     --batch_size 64 \
-    --max_epochs 5 \
+    --max_epochs 100 \
     --grad_clip_norm 1.0 \
     --grad_accum_steps 1 \
     --early_stop "true" \
@@ -120,7 +120,7 @@ for i in ${!GPU_IDS[@]}; do
     --max_infill_length ${MAX_LEN_ANOMALY} \
     --lr ${LR} \
     --batch_size 64 \
-    --max_epochs 5 \
+    --max_epochs 500 \
     --grad_clip_norm 1.0 \
     --grad_accum_steps 1 \
     --early_stop "true" \

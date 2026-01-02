@@ -5,7 +5,7 @@ LR=1e-4
 LEN_WHOLE=1000
 MAX_LEN_ANOMALY=800
 MIN_LEN_ANOMALY=180
-GPU_ID=2
+#GPU_ID=2
 ONE_CHANNEL=0
 FEAT_SIZE=2
 
@@ -84,38 +84,38 @@ for i in ${!GPU_IDS[@]}; do
 #    --one_channel ${ONE_CHANNEL} \
 #    --feat_size ${FEAT_SIZE}
 
-#  python dsp_flow.py \
-#    --what_to_do "no_context_pretrain" \
-#    --num_codes ${NUM_CODES} \
-#    --seq_len ${LEN_WHOLE} \
-#    --data_type ${DATA_TYPE} \
-#    --feature_size ${FEAT_SIZE} \
-#    --one_channel ${ONE_CHANNEL} \
-#    --n_layer_enc 4 \
-#    --n_layer_dec 4 \
-#    --d_model 64 \
-#    --n_heads 4 \
-#    --raw_data_paths_train ${DATA_PATHS} \
-#    --raw_data_paths_test ${TEST_DATA_PATHS} \
-#    --indices_paths_train ${PRETRAIN_INDICES_PATHS} \
-#    --indices_paths_test "[]" \
-#    --indices_paths_anomaly_for_sample "[]" \
-#    --min_infill_length ${MIN_LEN_ANOMALY} \
-#    --max_infill_length ${MAX_LEN_ANOMALY} \
-#    --lr 1e-4 \
-#    --batch_size 64 \
-#    --max_epochs 5 \
-#    --grad_clip_norm 1.0 \
-#    --grad_accum_steps 1 \
-#    --early_stop "true" \
-#    --patience 50 \
-#    --wandb_project ${WANDB_PROJECT} \
-#    --wandb_run "no_context_pretrain_K${NUM_CODES}" \
-#    --ckpt_dir ${PRETRAIN_CKPT} \
-#    --pretrained_ckpt "none" \
-#    --vqvae_ckpt "${VQVAE_CKPT}/vqvae.pt" \
-#    --generated_path "none" \
-#    --gpu_id 0
+  python dsp_flow.py \
+    --what_to_do "no_context_pretrain" \
+    --num_codes ${NUM_CODES} \
+    --seq_len ${LEN_WHOLE} \
+    --data_type ${DATA_TYPE} \
+    --feature_size ${FEAT_SIZE} \
+    --one_channel ${ONE_CHANNEL} \
+    --n_layer_enc 4 \
+    --n_layer_dec 4 \
+    --d_model 64 \
+    --n_heads 4 \
+    --raw_data_paths_train ${DATA_PATHS} \
+    --raw_data_paths_test ${TEST_DATA_PATHS} \
+    --indices_paths_train ${PRETRAIN_INDICES_PATHS} \
+    --indices_paths_test "[]" \
+    --indices_paths_anomaly_for_sample "[]" \
+    --min_infill_length ${MIN_LEN_ANOMALY} \
+    --max_infill_length ${MAX_LEN_ANOMALY} \
+    --lr 1e-4 \
+    --batch_size 64 \
+    --max_epochs 100 \
+    --grad_clip_norm 1.0 \
+    --grad_accum_steps 1 \
+    --early_stop "true" \
+    --patience 50 \
+    --wandb_project ${WANDB_PROJECT} \
+    --wandb_run "no_context_pretrain_K${NUM_CODES}" \
+    --ckpt_dir ${PRETRAIN_CKPT} \
+    --pretrained_ckpt "none" \
+    --vqvae_ckpt "${VQVAE_CKPT}/vqvae.pt" \
+    --generated_path "none" \
+    --gpu_id 0
 
   python dsp_flow.py \
     --what_to_do "imputation_finetune" \
@@ -137,7 +137,7 @@ for i in ${!GPU_IDS[@]}; do
     --max_infill_length ${MAX_LEN_ANOMALY} \
     --lr ${LR} \
     --batch_size 64 \
-    --max_epochs 5 \
+    --max_epochs 500 \
     --grad_clip_norm 1.0 \
     --grad_accum_steps 1 \
     --early_stop "true" \
