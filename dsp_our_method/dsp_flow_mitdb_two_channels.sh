@@ -86,6 +86,7 @@ for i in ${!GPU_IDS[@]}; do
 
   python dsp_flow.py \
     --what_to_do "no_context_pretrain" \
+    --num_codes ${NUM_CODES} \
     --seq_len ${LEN_WHOLE} \
     --data_type ${DATA_TYPE} \
     --feature_size ${FEAT_SIZE} \
@@ -118,6 +119,7 @@ for i in ${!GPU_IDS[@]}; do
 
   python dsp_flow.py \
     --what_to_do "imputation_finetune" \
+    --num_codes ${NUM_CODES} \
     --seq_len ${LEN_WHOLE} \
     --data_type ${DATA_TYPE} \
     --feature_size ${FEAT_SIZE} \

@@ -56,6 +56,7 @@ def get_args():
     parser.add_argument("--seq_len", type=int, required=True)
     parser.add_argument("--feature_size", type=int, required=True)
     parser.add_argument("--one_channel", type=int, required=True)
+    parser.add_argument("--num_codes", type=int, required=True)
 
     """model parameters"""
     parser.add_argument("--n_layer_enc", type=int, required=True)
@@ -178,6 +179,7 @@ def imputation_finetune(args):
     model = DSPFlow(
         seq_length=args.seq_len,
         vqvae_seq_len=args.max_infill_length,
+        num_codes=args.num_codes,
         feature_size=args.feature_size,
         n_layer_enc=args.n_layer_enc,
         n_layer_dec=args.n_layer_dec,
@@ -278,6 +280,7 @@ def no_context_pretrain(args):
     model = DSPFlow(
         seq_length=args.seq_len,
         vqvae_seq_len=args.max_infill_length,
+        num_codes=args.num_codes,
         feature_size=args.feature_size,
         n_layer_enc=args.n_layer_enc,
         n_layer_dec=args.n_layer_dec,
@@ -367,6 +370,7 @@ def no_context_sample(args):
     model = DSPFlow(
         seq_length=args.seq_len,
         vqvae_seq_len=args.max_infill_length,
+        num_codes=args.num_codes,
         feature_size=args.feature_size,
         n_layer_enc=args.n_layer_enc,
         n_layer_dec=args.n_layer_dec,
@@ -440,6 +444,7 @@ def no_context_no_code_pretrain(args):
     model = DSPFlow(
         seq_length=args.seq_len,
         vqvae_seq_len=args.max_infill_length,
+        num_codes=args.num_codes,
         feature_size=args.feature_size,
         n_layer_enc=args.n_layer_enc,
         n_layer_dec=args.n_layer_dec,
@@ -532,6 +537,7 @@ def no_code_imputation_finetune(args):
     model = DSPFlow(
         seq_length=args.seq_len,
         vqvae_seq_len=args.max_infill_length,
+        num_codes=args.num_codes,
         feature_size=args.feature_size,
         n_layer_enc=args.n_layer_enc,
         n_layer_dec=args.n_layer_dec,
@@ -635,6 +641,7 @@ def no_code_imputation_from_scratch(args):
     model = DSPFlow(
         seq_length=args.seq_len,
         vqvae_seq_len=args.max_infill_length,
+        num_codes=args.num_codes,
         feature_size=args.feature_size,
         n_layer_enc=args.n_layer_enc,
         n_layer_dec=args.n_layer_dec,
@@ -708,6 +715,7 @@ def posterior_impute_sample(args):
     model = DSPFlow(
         seq_length=args.seq_len,
         vqvae_seq_len=args.max_infill_length,
+        num_codes=args.num_codes,
         feature_size=args.feature_size,
         n_layer_enc=args.n_layer_enc,
         n_layer_dec=args.n_layer_dec,
@@ -822,6 +830,7 @@ def no_code_impute_sample(args):
     model = DSPFlow(
         seq_length=args.seq_len,
         vqvae_seq_len=args.max_infill_length,
+        num_codes=args.num_codes,
         feature_size=args.feature_size,
         n_layer_enc=args.n_layer_enc,
         n_layer_dec=args.n_layer_dec,
