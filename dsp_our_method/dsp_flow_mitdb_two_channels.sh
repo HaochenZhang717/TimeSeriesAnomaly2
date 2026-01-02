@@ -26,7 +26,7 @@ NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices/slide_windows_
 VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/normal_800.jsonl"]'
 CODE_DIM=8
 CODE_LEN=4
-NUM_CODES=500
+#NUM_CODES=500
 
 #python mini_runnable_vqvae.py \
 #  --wandb_project ${WANDB_PROJECT} \

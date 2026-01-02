@@ -30,7 +30,7 @@ VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_win
 
 CODE_DIM=8
 CODE_LEN=4
-NUM_CODES=500
+#NUM_CODES=500
 
 
 GPU_IDS=(4 5 6 7)
