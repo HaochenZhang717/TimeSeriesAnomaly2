@@ -467,10 +467,16 @@ class NoContextNormalECGDataset(Dataset):
         ts_start = self.index_lines_list[which_list][which_index]["start"]
         ts_end = self.index_lines_list[which_list][which_index]["end"]
         ts_length = ts_end - ts_start
-        infill_length = random.randint(self.min_infill_length, self.max_infill_length)
 
-        relative_anomaly_start = random.randint(0, ts_length - infill_length)
-        relative_anomaly_end = relative_anomaly_start + infill_length
+        if "source_file" in self.index_lines_list[which_list][which_index].keys():
+            infill_length = random.randint(self.min_infill_length, self.max_infill_length)
+            relative_anomaly_start = random.randint(0, ts_length - infill_length)
+            relative_anomaly_end = relative_anomaly_start + infill_length
+        else:
+            infill_length = ts_length
+            relative_anomaly_start = 0
+            relative_anomaly_end = relative_anomaly_start + infill_length
+
 
 
         if self.one_channel:
