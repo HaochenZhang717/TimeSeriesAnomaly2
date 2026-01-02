@@ -68,21 +68,21 @@ for i in ${!GPU_IDS[@]}; do
 
   echo "Launching NUM_CODES=${NUM_CODES} on GPU ${GPU}"
 
-  python mini_runnable_vqvae.py \
-    --wandb_project ${WANDB_PROJECT} \
-    --wandb_run "VQVAE-K${NUM_CODES}" \
-    --max_seq_len ${MAX_LEN_ANOMALY} \
-    --min_seq_len ${MIN_LEN_ANOMALY} \
-    --data_paths ${DATA_PATHS} \
-    --indices_paths ${VQVAE_TRAIN_INDICES_PATHS} \
-    --data_type ${DATA_TYPE} \
-    --gpu_id 0 \
-    --save_dir ${VQVAE_CKPT} \
-    --code_dim ${CODE_DIM} \
-    --code_len ${CODE_LEN} \
-    --num_codes ${NUM_CODES} \
-    --one_channel ${ONE_CHANNEL} \
-    --feat_size ${FEAT_SIZE}
+#  python mini_runnable_vqvae.py \
+#    --wandb_project ${WANDB_PROJECT} \
+#    --wandb_run "VQVAE-K${NUM_CODES}" \
+#    --max_seq_len ${MAX_LEN_ANOMALY} \
+#    --min_seq_len ${MIN_LEN_ANOMALY} \
+#    --data_paths ${DATA_PATHS} \
+#    --indices_paths ${VQVAE_TRAIN_INDICES_PATHS} \
+#    --data_type ${DATA_TYPE} \
+#    --gpu_id 0 \
+#    --save_dir ${VQVAE_CKPT} \
+#    --code_dim ${CODE_DIM} \
+#    --code_len ${CODE_LEN} \
+#    --num_codes ${NUM_CODES} \
+#    --one_channel ${ONE_CHANNEL} \
+#    --feat_size ${FEAT_SIZE}
 
   python dsp_flow.py \
     --what_to_do "no_context_pretrain" \
