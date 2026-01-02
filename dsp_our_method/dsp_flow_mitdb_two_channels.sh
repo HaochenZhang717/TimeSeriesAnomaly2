@@ -65,6 +65,7 @@ for i in ${!GPU_IDS[@]}; do
 
   CUDA_VISIBLE_DEVICES=${GPU} \
   python mini_runnable_vqvae.py \
+    --wandb_project ${WANDB_PROJECT} \
     --wandb_project "VQVAE-K${NUM_CODES}" \
     --max_seq_len ${MAX_LEN_ANOMALY} \
     --min_seq_len ${MIN_LEN_ANOMALY} \
