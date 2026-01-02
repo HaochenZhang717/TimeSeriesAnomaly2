@@ -6,8 +6,8 @@ LEN_WHOLE=1000
 MAX_LEN_ANOMALY=800
 MIN_LEN_ANOMALY=180
 GPU_ID=2
-ONE_CHANNEL=1
-FEAT_SIZE=1
+ONE_CHANNEL=0
+FEAT_SIZE=2
 
 DATA_TYPE="ecg"
 WANDB_PROJECT="dsp_flow_mitdb_two_channels"
@@ -26,8 +26,8 @@ ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices/slide_windows
 NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/normal_1000.jsonl"]'
 
 #VQVAE Train Parameters
-VQVAE_TRAIN_INDICES_PATHS="[../dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/mixed.jsonl]"
-#VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/normal_800.jsonl"]'
+#VQVAE_TRAIN_INDICES_PATHS="[../dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/mixed.jsonl]"
+VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/normal_800.jsonl"]'
 CODE_DIM=8
 CODE_LEN=4
 NUM_CODES=500
