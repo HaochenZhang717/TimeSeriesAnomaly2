@@ -195,4 +195,4 @@ python dsp_flow.py \
 #  --gpu_id ${GPU_ID}
 
 
-cd dsp_no_code
+cd  ./dsp_no_code
