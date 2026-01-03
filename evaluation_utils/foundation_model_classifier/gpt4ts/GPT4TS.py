@@ -146,7 +146,7 @@ def calculate_GPT4TS(
         optimizer,
         mode='min',
         factor=0.8,  # multiply LR by 0.5
-        patience=2,  # wait 3 epochs with no improvement
+        patience=5,  # wait 3 epochs with no improvement
         threshold=1e-4,  # improvement threshold
         min_lr=1e-6,  # min LR clamp
     )
@@ -243,7 +243,7 @@ def run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, devi
     normal_accuracies = []
     anomaly_accuracies = []
     for _ in range(1):
-        random_indices = torch.randperm(len(gen_data))[:1000]
+        random_indices = torch.randperm(len(gen_data))[:10000]
         sampled_gen_data = gen_data[random_indices]
         sampled_gen_labels = gen_labels[random_indices]
 
@@ -261,7 +261,7 @@ def run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, devi
             gen_labels=sampled_gen_labels,
             device=device,
             lr=1e-5,
-            max_epochs=200,
+            max_epochs=2000,
             batch_size=64,
             patience=200)
         precisions.append(precision)
