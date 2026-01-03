@@ -19,8 +19,8 @@ LEN_WHOLE=600
 
 python run_nn_evaluate.py \
     --seq_len ${LEN_WHOLE} \
-    --feature_size 1 \
-    --one_channel 1 \
+    --feature_size 2 \
+    --one_channel 0 \
     --raw_data_paths ${DATA_PATHS} \
     --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
     --max_infill_length ${MAX_LEN_ANOMALY} \
