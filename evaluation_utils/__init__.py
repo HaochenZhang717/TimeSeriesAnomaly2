@@ -6,7 +6,8 @@ from .general_ts_evaluate import predictive_score_metrics, discriminative_score_
 from .robustTAD import calculate_robustTAD
 from .NN_classifier import calculate_LSTM, calculate_GRU, calculate_TCN, calculate_Transformer
 
-from .metrics_long import evaluate_model_long_sequence
 
 from .classical_ml_classifier import run_rf_evaluate, run_catboost_evaluate, run_svm_evaluate
 from .foundation_model_classifier import run_GPT4TS_evaluate
+
+from .non_downstream_eval import calculate_four_metrics
