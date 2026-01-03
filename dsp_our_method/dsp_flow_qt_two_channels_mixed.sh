@@ -131,6 +131,7 @@ for i in ${!GPU_IDS[@]}; do
   python dsp_flow.py \
     --what_to_do "posterior_impute_sample" \
     \
+    --num_codes ${NUM_CODES} \
     --seq_len ${LEN_WHOLE} \
     --data_type ${DATA_TYPE} \
     --feature_size ${FEAT_SIZE} \
