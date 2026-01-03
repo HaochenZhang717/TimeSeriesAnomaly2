@@ -4,8 +4,9 @@ from .pytorch_anomaly_classification_metric import classification_metrics_torch
 
 from .general_ts_evaluate import predictive_score_metrics, discriminative_score_metrics
 from .robustTAD import calculate_robustTAD
-from .RNN_classifier import calculate_LSTM, calculate_GRU, calculate_TCN, calculate_Transformer
+from .NN_classifier import calculate_LSTM, calculate_GRU, calculate_TCN, calculate_Transformer
 
 from .metrics_long import evaluate_model_long_sequence
 
 from .classical_ml_classifier import run_rf_evaluate, run_catboost_evaluate, run_svm_evaluate
+from .foundation_model_classifier import run_GPT4TS_evaluate

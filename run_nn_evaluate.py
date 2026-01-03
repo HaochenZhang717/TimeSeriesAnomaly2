@@ -5,6 +5,7 @@ import os
 import numpy as np
 from torch.utils.data import Subset
 from evaluation_utils import calculate_LSTM, calculate_GRU, calculate_robustTAD, calculate_TCN, calculate_Transformer
+from evaluation_utils import run_GPT4TS_evaluate
 from dataset_utils import ImputationECGDataset
 
 
@@ -351,6 +352,7 @@ def run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
         json.dump(output_record, f, indent=2)
         f.write("\n")
 
+
 def run_transformer_evaluate(args, real_data, real_labels, gen_data, gen_labels, device):
     output_record = {
         "args": vars(args),
@@ -488,8 +490,10 @@ def main():
     # run_lstm_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_gru_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    # run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_transformer_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+
 
 
 
