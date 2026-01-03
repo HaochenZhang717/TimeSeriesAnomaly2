@@ -1,11 +1,17 @@
-export CUDA_VISIBLE_DEVICES=2
+#!/bin/bash
+set -e
+
+# =========================
+# Read arguments
+# =========================
+NUM_CODES=$1
 
 cd ..
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
 FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_test.jsonl"]'
-FINETUNE_CKPT="/root/tianyi/formal_experiment/qtdb_one_channel/dsp_flow/impute_finetune_ckpt_lr1e-4"
-OUTDIR="/root/tianyi/nn_eval/qtdb/dspflow"
+FINETUNE_CKPT="/root/tianyi/formal_experiment/qtdb_two_channels/dsp_flow_mixed_K${NUM_CODES}/impute_finetune_ckpt_lr1e-4"
+OUTDIR="/root/tianyi/nn_eval/qtdb_two_channels/dsp_flow_mixed_K${NUM_CODES}"
 
 MAX_LEN_ANOMALY=450
 LEN_WHOLE=600

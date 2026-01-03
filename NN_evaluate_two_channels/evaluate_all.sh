@@ -1,25 +1,20 @@
-#!/usr/bin/env bash
-set -e
-shopt -s nullglob
+CUDA_VISIBLE_DEVICES=0 bash nn_eval_dsp_mitdb.sh 200 &
+CUDA_VISIBLE_DEVICES=1 bash nn_eval_dsp_mitdb.sh 300 &
+CUDA_VISIBLE_DEVICES=2 bash nn_eval_dsp_mitdb.sh 400 &
+CUDA_VISIBLE_DEVICES=3 bash nn_eval_dsp_mitdb.sh 500 &
 
-run_group () {
-  local scripts=("$@")   # ✅ 直接拿到所有展开后的文件名
-  echo "==== Running group: ${scripts[0]%_*}.sh ===="
+CUDA_VISIBLE_DEVICES=4 bash nn_eval_dsp_qtdb.sh 200 &
+CUDA_VISIBLE_DEVICES=5 bash nn_eval_dsp_qtdb.sh 300 &
+CUDA_VISIBLE_DEVICES=6 bash nn_eval_dsp_qtdb.sh 400 &
+CUDA_VISIBLE_DEVICES=7 bash nn_eval_dsp_qtdb.sh 500 &
 
-  if [ ${#scripts[@]} -eq 0 ]; then
-    echo "⚠️  No scripts matched"
-    return
-  fi
+CUDA_VISIBLE_DEVICES=0 bash nn_eval_dsp_svdb.sh 200 &
+CUDA_VISIBLE_DEVICES=1 bash nn_eval_dsp_svdb.sh 300 &
+CUDA_VISIBLE_DEVICES=2 bash nn_eval_dsp_svdb.sh 400 &
+CUDA_VISIBLE_DEVICES=3 bash nn_eval_dsp_svdb.sh 500 &
 
-  for s in "${scripts[@]}"; do
-    echo "▶ Running $s"
-    bash "$s" > "${s%.sh}.log" 2>&1
-  done
-}
+CUDA_VISIBLE_DEVICES=4 bash nn_eval_dsp_no_code_svdb.sh &
+CUDA_VISIBLE_DEVICES=5 bash nn_eval_dsp_no_code_mitdb.sh &
+CUDA_VISIBLE_DEVICES=6 bash nn_eval_dsp_no_code_qtdb.sh &
 
-run_group nn_eval_*_mitdb.sh &
-run_group nn_eval_*_qtdb.sh &
-run_group nn_eval_*_svdb.sh &
 
-wait
-echo "✅ All dataset groups finished."

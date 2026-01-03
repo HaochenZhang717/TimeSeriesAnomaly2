@@ -1,11 +1,11 @@
-export CUDA_VISIBLE_DEVICES=5
 
 cd ..
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
 FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_test.jsonl"]'
-FINETUNE_CKPT="/root/tianyi/formal_experiment/qtdb_one_channel/dsp_flow/no_code_impute_finetune_ckpt_lr1e-4"
-OUTDIR="/root/tianyi/nn_eval/qtdb/dspflow_no_code"
+FINETUNE_CKPT="/root/tianyi/formal_experiment/qtdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4"
+
+OUTDIR="/root/tianyi/nn_eval/qtdb_two_channels/dspflow_no_code"
 
 MAX_LEN_ANOMALY=450
 LEN_WHOLE=600
@@ -13,8 +13,8 @@ LEN_WHOLE=600
 
 python run_nn_evaluate.py \
     --seq_len ${LEN_WHOLE} \
-    --feature_size 1 \
-    --one_channel 1 \
+    --feature_size 2 \
+    --one_channel 0 \
     --raw_data_paths ${DATA_PATHS} \
     --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
     --max_infill_length ${MAX_LEN_ANOMALY} \

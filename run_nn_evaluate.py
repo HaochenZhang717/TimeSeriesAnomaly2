@@ -203,7 +203,7 @@ def run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, d
     f1s = []
     normal_accuracies = []
     anomaly_accuracies = []
-    for _ in range(1):
+    for _ in range(5):
         random_indices = torch.randperm(len(gen_data))[:50000]
         sampled_gen_data = gen_data[random_indices]
         sampled_gen_labels = gen_labels[random_indices]
@@ -489,10 +489,10 @@ def main():
 
     # run_lstm_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_gru_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    # run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    # run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_transformer_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    # run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
 
 
 
