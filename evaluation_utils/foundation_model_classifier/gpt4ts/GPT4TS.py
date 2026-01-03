@@ -261,9 +261,9 @@ def run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, devi
             gen_labels=sampled_gen_labels,
             device=device,
             lr=1e-5,
-            max_epochs=2000,
+            max_epochs=200,
             batch_size=64,
-            patience=20)
+            patience=200)
         precisions.append(precision)
         recalls.append(recall)
         f1s.append(f1)

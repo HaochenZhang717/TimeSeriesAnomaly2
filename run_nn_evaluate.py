@@ -489,10 +489,10 @@ def main():
 
     # run_lstm_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_gru_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    # run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_transformer_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    # run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
 
 
 
