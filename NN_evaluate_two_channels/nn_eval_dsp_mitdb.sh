@@ -16,6 +16,7 @@ OUTDIR="/root/tianyi/nn_eval/mitdb_two_channels/dsp_flow_mixed_K${NUM_CODES}"
 MAX_LEN_ANOMALY=800
 LEN_WHOLE=1000
 
+echo "Running nn_eval: ${FIENTUNE_CKPT}"
 
 python run_nn_evaluate.py \
     --seq_len ${LEN_WHOLE} \
