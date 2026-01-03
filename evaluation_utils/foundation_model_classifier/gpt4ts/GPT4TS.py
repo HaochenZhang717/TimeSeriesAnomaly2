@@ -2,7 +2,7 @@ import numpy as np
 import os
 import json
 from transformers.models.gpt2.modeling_gpt2 import GPT2Model
-from Embed import DataEmbedding
+from .Embed import DataEmbedding
 import torch
 import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader
