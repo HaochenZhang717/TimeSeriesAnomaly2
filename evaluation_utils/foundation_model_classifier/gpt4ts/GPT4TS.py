@@ -7,6 +7,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader
 from sklearn.metrics import precision_score, recall_score, f1_score
+from einops import rearrange
 
 
 class GPT4TSModel(nn.Module):
@@ -17,7 +18,7 @@ class GPT4TSModel(nn.Module):
         embed = 'timeF'
         dropout = 0.0
         d_ff = 2048
-        d_model = 512
+        d_model = 768
 
         self.is_ln = 1
         self.pred_len = seq_len
@@ -41,58 +42,32 @@ class GPT4TSModel(nn.Module):
             else:
                 param.requires_grad = False
 
-
-        self.predict_linear_pre = nn.Linear(self.seq_len, self.pred_len + self.seq_len)
-        self.predict_linear = nn.Linear(self.patch_size, enc_in)
-        self.ln = nn.LayerNorm(d_ff)
-        self.out_layer = nn.Linear(d_ff, 1)
+        self.act = nn.functional.gelu
+        self.ln_proj = nn.LayerNorm(d_model)
+        self.out_layer = nn.Linear(d_model, 1)
 
 
     def forward(self, x_enc):
-        dec_out = self.forecast(x_enc, x_mark_enc=None)
-        return dec_out[:, -self.pred_len:, :]  # [B, L, D]
+        dec_out = self.classification(x_enc, x_mark_enc=None)
+        return dec_out[:, -self.pred_len:, :].permute(0,2,1)  # [B, L, D]
 
 
-    def forecast(self, x_enc, x_mark_enc):
+    def classification(self, x_enc, x_mark_enc):
+        # print(x_enc.shape)
         B, L, M = x_enc.shape
-        
-        # Normalization from Non-stationary Transformer
-        means = x_enc.mean(1, keepdim=True).detach()
-        x_enc = x_enc - means
-        stdev = torch.sqrt(
-            torch.var(x_enc, dim=1, keepdim=True, unbiased=False) + 1e-5)
-        x_enc /= stdev
+        input_x = rearrange(x_enc, 'b l m -> b m l')
+        input_x = self.padding_patch_layer(input_x)
+        input_x = input_x.unfold(dimension=-1, size=self.patch_size, step=self.stride)
+        input_x = rearrange(input_x, 'b m n p -> b n (p m)')
 
-        # embedding
-        enc_out = self.enc_embedding(x_enc, x_mark_enc)  # [B,T,C]
-        enc_out = self.predict_linear_pre(enc_out.permute(0, 2, 1)).permute(
-            0, 2, 1)  # align temporal dimension
-        enc_out = torch.nn.functional.pad(enc_out, (0, 768-enc_out.shape[-1]))
+        outputs = self.enc_embedding(input_x, None)
 
-        # enc_out = rearrange(enc_out, 'b l m -> b m l')
-        # enc_out = self.padding_patch_layer(enc_out)
-        # enc_out = enc_out.unfold(dimension=-1, size=self.patch_size, step=self.stride)
-        # enc_out = self.predict_linear(enc_out)
-        # enc_out = rearrange(enc_out, 'b m n p -> b n (m p)')
+        outputs = self.gpt2(inputs_embeds=outputs).last_hidden_state
+        outputs = self.act(outputs)
+        outputs = self.ln_proj(outputs)
+        outputs = self.out_layer(outputs)
 
-        dec_out = self.gpt2(inputs_embeds=enc_out).last_hidden_state
-        dec_out = dec_out[:, :, :self.d_ff]
-        # dec_out = dec_out.reshape(B, -1)
-        
-        # dec_out = self.ln(dec_out)
-        dec_out = self.out_layer(dec_out)
-        # print(dec_out.shape)
-        # dec_out = dec_out.reshape(B, self.pred_len + self.seq_len, -1)
-        
-        # De-Normalization from Non-stationary Transformer
-        dec_out = dec_out * \
-                  (stdev[:, 0, :].unsqueeze(1).repeat(
-                      1, self.pred_len + self.seq_len, 1))
-        dec_out = dec_out + \
-                  (means[:, 0, :].unsqueeze(1).repeat(
-                      1, self.pred_len + self.seq_len, 1))
-        
-        return dec_out
+        return outputs
 
 
 class WeightedBCEWithLogitsLoss(nn.Module):

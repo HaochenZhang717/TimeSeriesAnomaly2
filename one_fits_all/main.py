@@ -12,7 +12,7 @@ def get_args():
     # ========================
     # Task settings
     # ========================
-    parser.add_argument('--task_name', type=str, default='short_term_forecast',
+    parser.add_argument('--task_name', type=str, default='classification',
                         choices=['long_term_forecast', 'short_term_forecast',
                                  'imputation', 'anomaly_detection', 'classification'],
                         help='task name')
@@ -42,7 +42,7 @@ def get_args():
     # ========================
     # Embedding & model dims
     # ========================
-    parser.add_argument('--d_model', type=int, default=512,
+    parser.add_argument('--d_model', type=int, default=768,
                         help='embedding dimension')
     parser.add_argument('--d_ff', type=int, default=512,
                         help='hidden dimension used from GPT output')
@@ -130,3 +130,4 @@ if __name__ == '__main__':
     input_ts = torch.randn(2, args.seq_len, args.enc_in)
 
     out = model(input_ts)
+    print(out.shape)
