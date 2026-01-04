@@ -37,18 +37,24 @@ args = parser.parse_args()
 ori_data = torch.load(args.samples_path)
 real = ori_data["all_reals"]        # (B, T, C)
 fake = ori_data["all_samples"]      # (B, N, T, C)
+mask = ori_data["all_labels"]
 
 mse_list = []
 mae_list = []
 
 num_samples = fake.shape[1]
+mse_loss = torch.nn.MSELoss(reduction="none")
+mae_loss = torch.nn.L1Loss(reduction="none")
 
 for i in range(num_samples):
     pred = fake[:, i]   # (B, T, C)
     label = real
 
-    mse = F.mse_loss(pred, label, reduction="mean")
-    mae = F.l1_loss(pred, label, reduction="mean")
+
+    mse = mse_loss(pred, label).mean(-1)
+    mse = mse.sum() / mask.sum()
+    mae = F.l1_loss(pred, label).mean(-1)
+    mae = mae.sum() / mask.sum()
 
     mse_list.append(mse.item())
     mae_list.append(mae.item())
