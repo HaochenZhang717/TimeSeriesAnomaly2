@@ -4,8 +4,8 @@ PRETRAIN_CKPT_DIR="/root/tianyi/formal_experiment/svdb_two_channels/cgats/pretra
 LEN_WHOLE=800
 MAX_LEN_ANOMALY=360
 MIN_LEN_ANOMALY=30
-FEATURE_SIZE=0
-ONE_CHANNEL=2
+FEATURE_SIZE=2
+ONE_CHANNEL=0
 
 RAW_DATA_PATHS="./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"
 
