@@ -53,7 +53,7 @@ for i in range(num_samples):
 
     mse = mse_loss(pred, label).mean(-1)
     mse = mse.sum() / mask.sum()
-    mae = F.l1_loss(pred, label).mean(-1)
+    mae = mae_loss(pred, label).mean(-1)
     mae = mae.sum() / mask.sum()
 
     mse_list.append(mse.item())
