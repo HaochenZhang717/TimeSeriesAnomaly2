@@ -1,4 +1,4 @@
-cd ..
+#cd ..
 
 LR=1e-4
 LEN_WHOLE=800
@@ -142,4 +142,4 @@ python diffusion_ts.py \
   --gpu_id 0
 
 
-cd ./diffusionts_baseline
+#cd ./diffusionts_baseline

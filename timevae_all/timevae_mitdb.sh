@@ -1,4 +1,4 @@
-cd ..
+
 
 LR=1e-4
 LEN_WHOLE=1000
@@ -149,4 +149,3 @@ python timevae_pipeline.py \
 
 
 
-cd ./timevae_all

@@ -1,4 +1,4 @@
-cd ..
+#cd ..
 
 export hucfg_t_sampling=logitnorm
 LR=1e-4
@@ -152,5 +152,5 @@ python dsp_flow.py \
 
 
 
-cd ./flowts_baseline
+#cd ./flowts_baseline
 

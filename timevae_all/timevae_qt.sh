@@ -1,4 +1,3 @@
-cd ..
 
 LR=1e-4
 LEN_WHOLE=600
@@ -149,4 +148,3 @@ python timevae_pipeline.py \
   --gpu_id 0
 
 
-cd ./timevae_all
