@@ -50,7 +50,8 @@ class DSPFlow(nn.Module):
         )
         # when debug i comment this out
         if not vqvae_ckpt.startswith("none"):
-            pretrained_vqvae_ckpt = torch.load(vqvae_ckpt)
+            model_device = next(self.parameters()).device
+            pretrained_vqvae_ckpt = torch.load(vqvae_ckpt, map_location=model_device)
             self.vqvae.load_state_dict(pretrained_vqvae_ckpt["model_state"])
 
         for param in self.vqvae.parameters():
