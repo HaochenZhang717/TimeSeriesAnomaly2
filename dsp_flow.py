@@ -867,7 +867,8 @@ def posterior_impute_sample_non_downstream(args):
     all_samples = []
     all_labels = []
     all_reals = []
-
+    print(len(anomaly_loader))
+    breakpoint()
     for batch in anomaly_loader:
         signals = batch['signals'].to(device, dtype=torch.float32)          # (B, T, C)
         attn_mask = batch['attn_mask'].to(device, dtype=torch.bool)         # (B, T)
