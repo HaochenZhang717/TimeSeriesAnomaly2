@@ -16,7 +16,7 @@ WANDB_PROJECT="CGATS-SVDB"
 python CGATSPretrainPipeline.py \
   --seq_len ${LEN_WHOLE} \
   --feature_size ${FEATURE_SIZE} \
-  --on_channel ${ONE_CHANNEL} \
+  --one_channel ${ONE_CHANNEL} \
   \
   --latent_dim 64 \
   --trend_poly 3 \
