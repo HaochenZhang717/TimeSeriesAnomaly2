@@ -477,7 +477,7 @@ def get_default_args():
     parser.add_argument('--seq_len', type=int, default=512,
                         help='sequence length for each sample, currently only support 512 for MOMENT')
     parser.add_argument('--load_cache', type=bool, default=True, help='whether to load cached dataset')
-    args = parser.parse_args()
+    args = parser.parse_args([])
     return args
 
 
