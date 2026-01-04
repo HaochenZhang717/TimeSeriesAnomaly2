@@ -18,9 +18,9 @@ parser.add_argument("--save_dir", type=str, required=True)
 
 args = parser.parse_args()
 ori_data = torch.load(args.real_data_path)
-ori_data = ori_data["all_samples"]
+ori_data = ori_data["all_samples"].cuda()
 fake_data = torch.load(args.fake_data_path) # todo: this is a dict
-fake_data = fake_data["all_samples"]
+fake_data = fake_data["all_samples"].cuda()
 # print(fake_data.keys())
 # breakpoint()
 calculate_four_metrics(
