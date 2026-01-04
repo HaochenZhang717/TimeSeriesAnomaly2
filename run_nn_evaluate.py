@@ -490,7 +490,7 @@ def main():
 
     # run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    # run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     run_moment_evaluate(
         real_data, real_labels, gen_data, gen_labels,
         model_name="large", one_channel=args.one_channel,
