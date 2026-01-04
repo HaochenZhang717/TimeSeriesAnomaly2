@@ -4,6 +4,7 @@ import torch
 import json
 import torch
 import torch.nn.functional as F
+import os
 
 
 parser = argparse.ArgumentParser(description="parameters for non-downstream evaluation")
@@ -79,6 +80,9 @@ results = {
 }
 
 save_path = args.save_dir
+dir_path = os.path.dirname(save_path)
+os.makedirs(dir_path, exist_ok=True)
+
 
 with open(save_path, "w") as f:
     f.write(json.dumps(results) + "\n")
