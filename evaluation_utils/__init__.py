@@ -8,6 +8,6 @@ from .NN_classifier import calculate_LSTM, calculate_GRU, calculate_TCN, calcula
 
 
 from .classical_ml_classifier import run_rf_evaluate, run_catboost_evaluate, run_svm_evaluate
-from .foundation_model_classifier import run_GPT4TS_evaluate
+from .foundation_model_classifier import run_GPT4TS_evaluate, run_moment_evaluate
 
 from .non_downstream_eval import calculate_four_metrics

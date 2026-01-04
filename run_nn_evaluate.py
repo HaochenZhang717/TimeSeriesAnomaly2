@@ -5,7 +5,8 @@ import os
 import numpy as np
 from torch.utils.data import Subset
 from evaluation_utils import calculate_LSTM, calculate_GRU, calculate_robustTAD, calculate_TCN, calculate_Transformer
-from evaluation_utils import run_GPT4TS_evaluate
+from evaluation_utils import run_GPT4TS_evaluate, run_moment_evaluate
+from evaluation_utils import run_rf_evaluate, run_catboost_evaluate
 from dataset_utils import ImputationECGDataset
 
 
@@ -487,14 +488,17 @@ def main():
 
 
 
-    # run_lstm_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    # run_gru_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    # run_transformer_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    # run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    # run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    # run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    run_moment_evaluate(
+        real_data, real_labels, gen_data, gen_labels,
+        model_name="large", one_channel=args.one_channel,
+        output_path=args.out_dir
+    )
 
-
+    run_catboost_evaluate(args, real_data, real_labels, gen_data, gen_labels)
+    run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels)
 
 
 if __name__ == "__main__":
