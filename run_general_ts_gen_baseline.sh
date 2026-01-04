@@ -6,7 +6,7 @@
 #CUDA_VISIBLE_DEVICES=2 bash timevae_all/timevae_svdb.sh &
 
 
-CUDA_VISIBLE_DEVICES=0 bash diffusionts_baseline/diffts_mitdb106.sh
+CUDA_VISIBLE_DEVICES=0 bash diffusionts_baseline/diffts_mit106.sh
 #CUDA_VISIBLE_DEVICES=1 bash diffusionts_baseline/diffts_qt233.sh &
 #CUDA_VISIBLE_DEVICES=2 bash diffusionts_baseline/diffts_svdb.sh &
 
