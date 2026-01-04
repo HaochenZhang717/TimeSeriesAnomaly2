@@ -23,14 +23,14 @@ def calculate_four_metrics(
     for i in range(num_runs):
         print(f"[Run {i+1}/{num_runs}]")
 
-        disc_score = calculate_discriminator_score(
-            ori_data,
-            fake_data[:, i],
-            device=device,
-            lr=5e-4,
-            max_epochs=200,
-            batch_size=32,
-        )
+        # disc_score = calculate_discriminator_score(
+        #     ori_data,
+        #     fake_data[:, i],
+        #     device=device,
+        #     lr=5e-4,
+        #     max_epochs=200,
+        #     batch_size=32,
+        # )
 
         pred_score = calculate_predictive_score(
             ori_data,
@@ -41,21 +41,21 @@ def calculate_four_metrics(
             batch_size=32,
         )
 
-        ctx_fid = calculate_Context_FID(
-            ori_data,
-            fake_data[:, i],
-            device=device,
-        )
+        # ctx_fid = calculate_Context_FID(
+        #     ori_data,
+        #     fake_data[:, i],
+        #     device=device,
+        # )
 
-        corr = calculate_correlational(
-            ori_data,
-            fake_data[:, i],
-        )
+        # corr = calculate_correlational(
+        #     ori_data,
+        #     fake_data[:, i],
+        # )
 
-        discriminator_scores.append(disc_score)
+        # discriminator_scores.append(disc_score)
         predictive_scores.append(pred_score)
-        context_fids.append(ctx_fid)
-        correlations.append(corr)
+        # context_fids.append(ctx_fid)
+        # correlations.append(corr)
 
     # ---------
     # statistics
