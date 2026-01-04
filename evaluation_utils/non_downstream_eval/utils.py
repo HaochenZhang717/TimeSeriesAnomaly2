@@ -25,7 +25,7 @@ def calculate_four_metrics(
 
         disc_score = calculate_discriminator_score(
             ori_data,
-            fake_data[i],
+            fake_data[:, i],
             device=device,
             lr=5e-4,
             max_epochs=200,
@@ -34,7 +34,7 @@ def calculate_four_metrics(
 
         pred_score = calculate_predictive_score(
             ori_data,
-            fake_data[i],
+            fake_data[:, i],
             device=device,
             lr=5e-4,
             max_epochs=2000,
@@ -43,13 +43,13 @@ def calculate_four_metrics(
 
         ctx_fid = calculate_Context_FID(
             ori_data,
-            fake_data[i],
+            fake_data[:, i],
             device=device,
         )
 
         corr = calculate_correlational(
             ori_data,
-            fake_data[i],
+            fake_data[:, i],
         )
 
         discriminator_scores.append(disc_score)
