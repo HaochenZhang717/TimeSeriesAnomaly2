@@ -1015,8 +1015,8 @@ def no_code_impute_sample_non_downstream(args):
         mlp_hidden_times=4,
         vqvae_ckpt=args.vqvae_ckpt
     )
-    model.load_state_dict(torch.load(f"{args.ckpt_dir}/ckpt.pth"))
     device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
+    model.load_state_dict(torch.load(f"{args.ckpt_dir}/ckpt.pth", map_location=device))
     model.to(device)
     model.eval()
 
@@ -1079,6 +1079,7 @@ def no_code_impute_sample_non_downstream(args):
     save_path = f"{args.ckpt_dir}/no_code_impute_samples_non_downstream.pth"
     torch.save(all_results, save_path)
     print(f"[Saved] {save_path} | samples shape = {all_samples.shape}")
+
 
 def anomaly_evaluate(args):
     device = torch.device(f"cuda:{args.gpu_id}")

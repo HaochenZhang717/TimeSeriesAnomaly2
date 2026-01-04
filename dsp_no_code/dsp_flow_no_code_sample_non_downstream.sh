@@ -1,0 +1,4 @@
+CUDA_VISIBLE_DEVICES=3 bash dsp_flow_mitdb_no_code_sample_non_downstream.sh &
+CUDA_VISIBLE_DEVICES=4 bash dsp_flow_qt_no_code_sample_non_downstream.sh &
+CUDA_VISIBLE_DEVICES=5 bash dsp_flow_svdb_no_code_sample_non_downstream.sh &
+
