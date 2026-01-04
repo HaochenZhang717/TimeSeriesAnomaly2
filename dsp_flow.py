@@ -900,7 +900,7 @@ def posterior_impute_sample_non_downstream(args):
         all_reals.append(signals)
 
     # -------- 3️⃣ 拼接所有 batch --------
-    all_samples = torch.cat(all_samples, dim=0).transpose(0,1)  # (K, N, T, C)
+    all_samples = torch.cat(all_samples, dim=0)  # (N, K, T, C)
     all_labels = torch.cat(all_labels, dim=0)    # (N, T)
     all_reals = torch.cat(all_reals, dim=0)      # (N, T, C)
 
@@ -1066,7 +1066,7 @@ def no_code_impute_sample_non_downstream(args):
         all_reals.append(signals)
 
     # -------- 拼接所有 batch --------
-    all_samples = torch.cat(all_samples, dim=0).transpose(0, 1) # (K, N T, C)
+    all_samples = torch.cat(all_samples, dim=0) # (N, K T, C)
     all_labels = torch.cat(all_labels, dim=0)    # (N, T)
     all_reals = torch.cat(all_reals, dim=0)      # (N, T, C)
 
