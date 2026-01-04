@@ -849,7 +849,7 @@ def posterior_impute_sample_non_downstream(args):
 
     anomaly_set = ImputationECGDataset(
         raw_data_paths=args.raw_data_paths_train,
-        indices_paths=args.indices_paths_test,
+        indices_paths=args.indices_paths_train,
         seq_len=args.seq_len,
         one_channel=args.one_channel,
         max_infill_length=args.max_infill_length,
@@ -1022,7 +1022,7 @@ def no_code_impute_sample_non_downstream(args):
 
     anomaly_set = ImputationECGDataset(
         raw_data_paths=args.raw_data_paths_train,
-        indices_paths=args.indices_paths_test,
+        indices_paths=args.indices_paths_train,
         seq_len=args.seq_len,
         one_channel=args.one_channel,
         max_infill_length=args.max_infill_length,
