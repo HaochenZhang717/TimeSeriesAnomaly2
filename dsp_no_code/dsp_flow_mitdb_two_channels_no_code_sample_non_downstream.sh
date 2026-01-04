@@ -26,7 +26,7 @@ ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices/slide_windows
 NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/normal_1000.jsonl"]'
 
 
-
+echo "mitdb sample start."
 python dsp_flow.py \
   --what_to_do "no_code_impute_sample_non_downstream" \
   \
@@ -68,5 +68,6 @@ python dsp_flow.py \
   \
   --gpu_id 0
 
+echo "mitdb sample end."
 
 cd  ./dsp_no_code

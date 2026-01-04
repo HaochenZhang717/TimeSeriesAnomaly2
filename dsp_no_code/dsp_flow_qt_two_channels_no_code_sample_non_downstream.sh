@@ -26,6 +26,9 @@ ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_qtdb/slide_wi
 NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/normal_600.jsonl"]'
 
 
+echo "qtdb sample start."
+
+
 python dsp_flow.py \
   --what_to_do "no_code_impute_sample_non_downstream" \
   \
@@ -69,6 +72,7 @@ python dsp_flow.py \
 
 
 
+echo "qtdb sample end."
 
 
 cd  ./dsp_no_code

@@ -26,6 +26,9 @@ FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_w
 ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_segments_train.jsonl"]'
 NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/normal_800.jsonl"]'
 
+echo "svdb sample start."
+
+
 python dsp_flow.py \
   --what_to_do "no_code_impute_sample_non_downstream" \
   \
@@ -68,6 +71,7 @@ python dsp_flow.py \
   --gpu_id 0
 
 
+echo "svdb sample end."
 
 
 cd  ./dsp_no_code
