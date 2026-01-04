@@ -346,6 +346,7 @@ def calculate_discriminator_score(
                 probs = torch.sigmoid(logits)  # [B]
                 preds = (probs > 0.5).long()  # {0,1}
 
+            breakpoint()
             val_correct += (preds == label_batch).sum().item()
             val_seen += label_batch.numel()
 
