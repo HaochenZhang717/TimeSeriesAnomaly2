@@ -287,10 +287,9 @@ def calculate_discriminator_score(
     signal_fake = torch.tensor(gen_data, dtype=torch.float32)
     signal = torch.cat((signal_real, signal_fake), dim=0)
 
-    ori_labels = torch.ones_like(signal_real).sum(dim=(1,2)).unsqueeze(-1)
-    gen_labels = torch.zeros_like(signal_fake).sum(dim=(1,2)).unsqueeze(-1)
-    label_real = torch.tensor(ori_labels, dtype=torch.float32)
-    label_fake = torch.tensor(gen_labels, dtype=torch.float32)
+    label_real = torch.ones(signal_real.shape[0], 1).to(device)
+    label_fake = torch.zeros(signal_fake.shape[0], 1).to(device)
+
     label = torch.cat((label_real, label_fake), dim=0)
 
     train_ds = TensorDataset(signal, label)
