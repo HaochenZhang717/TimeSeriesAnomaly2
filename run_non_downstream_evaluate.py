@@ -53,7 +53,7 @@ for i in range(num_samples):
     mse_list.append(mse.item())
     mae_list.append(mae.item())
 
-    print(f"[sample {i}] MSE={mse.item():.6f}, MAE={mae.item():.6f}")
+    # print(f"[sample {i}] MSE={mse.item():.6f}, MAE={mae.item():.6f}")
 
 # --------
 # statistics
@@ -78,7 +78,8 @@ results = {
         "raw": mae_list,
     },
 }
-
+print("mean mse:", mse_mean)
+print("mean mae:", mae_mean)
 save_path = args.save_dir
 dir_path = os.path.dirname(save_path)
 os.makedirs(dir_path, exist_ok=True)
