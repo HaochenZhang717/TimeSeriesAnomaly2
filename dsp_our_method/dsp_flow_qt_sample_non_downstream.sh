@@ -1,3 +1,5 @@
+cd ..
+
 export hucfg_t_sampling=logitnorm
 LR=1e-4
 LEN_WHOLE=600
