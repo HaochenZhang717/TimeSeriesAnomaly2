@@ -179,10 +179,8 @@ class PTBXL_Trainer:
                                                              total_steps=self.args.epochs * len(
                                                                  self.train_dataloader))
 
-        # create log file to store training logs
-        if not os.path.exists(self.args.output_path):
-            os.makedirs(self.args.output_path, exist_ok=True)
-        self.log_file = open(os.path.join(self.args.output_path, f'log_{self.args.mode}.txt'), 'w')
+
+        self.log_file = open(f'log_{self.args.mode}.txt', 'w')
         self.log_file.write(f'PTBXL classification training, mode: {self.args.mode}\n')
 
     def get_embeddings(self, dataloader: DataLoader):
