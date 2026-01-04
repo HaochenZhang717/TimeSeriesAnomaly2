@@ -282,9 +282,9 @@ class Discriminator(nn.Module):
        input  (B, T, C)
        output (B, 1)
     """
-    def __init__(self, input_dim, hidden_dim=64):
+    def __init__(self, in_ch, hidden_dim=64):
         super().__init__()
-        self.gru = nn.GRU(input_dim, hidden_dim, batch_first=True)
+        self.gru = nn.GRU(in_ch, hidden_dim, batch_first=True)
         self.fc = nn.Linear(hidden_dim, 1)
 
     def forward(self, x):
