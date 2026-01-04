@@ -20,8 +20,9 @@ args = parser.parse_args()
 ori_data = torch.load(args.real_data_path)
 ori_data = ori_data["all_samples"]
 fake_data = torch.load(args.fake_data_path) # todo: this is a dict
-print(fake_data.keys())
-breakpoint()
+fake_data = fake_data["all_samples"]
+# print(fake_data.keys())
+# breakpoint()
 calculate_four_metrics(
     ori_data,
     fake_data,
