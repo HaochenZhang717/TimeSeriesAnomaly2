@@ -1,13 +1,11 @@
 cd ..
 
-GPU_ID=0
-
-PRETRAIN_CKPT_DIR="/root/tianyi/formal_experiment/svdb_one_channel/cgats/pretrain_ckpt"
+PRETRAIN_CKPT_DIR="/root/tianyi/formal_experiment/svdb_two_channels/cgats/pretrain_ckpt"
 LEN_WHOLE=800
 MAX_LEN_ANOMALY=360
 MIN_LEN_ANOMALY=30
-FEATURE_SIZE=1
-ONE_CHANNEL=1
+FEATURE_SIZE=0
+ONE_CHANNEL=2
 
 RAW_DATA_PATHS="./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"
 
@@ -33,16 +31,16 @@ python CGATSPretrainPipeline.py \
   \
   --lr 1e-5 \
   --batch_size 128 \
-  --epochs 2000 \
+  --epochs 1 \
   --grad_clip_norm 1.0 \
   --early_stop "true" \
-  --patience 500 \
+  --patience 100 \
   \
   --wandb_project ${WANDB_PROJECT} \
   --wandb_run pretrain \
   \
   --ckpt_dir ${PRETRAIN_CKPT_DIR} \
-  --gpu_id ${GPU_ID}
+  --gpu_id 0
 
 
 
@@ -67,7 +65,7 @@ python CGATSFinetunePipeline.py \
   \
   --lr 1e-5 \
   --batch_size 128 \
-  --epochs 2000 \
+  --epochs 20 \
   --grad_clip_norm 1.0 \
   --early_stop "true" \
   --patience 500 \
@@ -76,7 +74,7 @@ python CGATSFinetunePipeline.py \
   --wandb_run pretrain \
   \
   --ckpt_dir ${PRETRAIN_CKPT_DIR} \
-  --gpu_id ${GPU_ID}
+  --gpu_id 0
 
 
 cd ./cgats_baseline
