@@ -4,15 +4,15 @@ LR=1e-4
 LEN_WHOLE=600
 MAX_LEN_ANOMALY=450
 MIN_LEN_ANOMALY=80
-GPU_ID=0
-ONE_CHANNEL=1
-FEAT_SIZE=1
+
+ONE_CHANNEL=0
+FEAT_SIZE=2
 
 DATA_TYPE="ecg"
-WANDB_PROJECT="TimeVAE_qt_one_channel"
+WANDB_PROJECT="TimeVAE_qt_two_channels"
 
 
-FINETUNE_CKPT="/root/tianyi/formal_experiment/qtdb_one_channel/TimeVAE/no_code_impute_from_scratch_ckpt_lr${LR}"
+FINETUNE_CKPT="/root/tianyi/formal_experiment/qtdb_two_channels/TimeVAE/no_code_impute_from_scratch_ckpt_lr${LR}"
 
 
 DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
@@ -65,7 +65,7 @@ python timevae_pipeline.py \
   \
   --generated_path "none" \
   \
-  --gpu_id ${GPU_ID}
+  --gpu_id 0
 
 
 python timevae_pipeline.py \
@@ -105,12 +105,12 @@ python timevae_pipeline.py \
   \
   --generated_path "" \
   \
-  --gpu_id ${GPU_ID}
+  --gpu_id 0
 
 
 
 python timevae_pipeline.py \
-  --what_to_do "anomaly_evaluate" \
+  --what_to_do "impute_sample_non_downstream" \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
@@ -125,9 +125,9 @@ python timevae_pipeline.py \
   \
   --raw_data_paths_train ${DATA_PATHS} \
   --raw_data_paths_test ${TEST_DATA_PATHS} \
-  --indices_paths_train "[]" \
-  --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
-  --indices_paths_anomaly_for_sample "[]" \
+  --indices_paths_train ${FINETUNE_TEST_INDICES_PATHS} \
+  --indices_paths_test "[]" \
+  --indices_paths_anomaly_for_sample ${ANOMALY_INDICES_FOR_SAMPLE} \
   --min_infill_length ${MIN_LEN_ANOMALY} \
   --max_infill_length ${MAX_LEN_ANOMALY} \
   \
@@ -142,10 +142,11 @@ python timevae_pipeline.py \
   --wandb_project "none" \
   --wandb_run "none" \
   \
-  --ckpt_dir "${FINETUNE_CKPT}" \
+  --ckpt_dir ${FINETUNE_CKPT} \
   \
-  --generated_path "${FINETUNE_CKPT}/no_code_impute_samples.pth" \
+  --generated_path "" \
   \
-  --gpu_id ${GPU_ID}
+  --gpu_id 0
+
 
 cd ./timevae_all

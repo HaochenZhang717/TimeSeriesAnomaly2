@@ -63,7 +63,7 @@ for i in ${!GPU_IDS[@]}; do
     \
     --raw_data_paths_train ${DATA_PATHS} \
     --raw_data_paths_test ${TEST_DATA_PATHS} \
-    --indices_paths_train ${FINETUNE_TRAIN_INDICES_PATHS} \
+    --indices_paths_train ${FINETUNE_TEST_INDICES_PATHS} \
     --indices_paths_test "[]" \
     --indices_paths_anomaly_for_sample ${ANOMALY_INDICES_FOR_SAMPLE} \
     --min_infill_length ${MIN_LEN_ANOMALY} \

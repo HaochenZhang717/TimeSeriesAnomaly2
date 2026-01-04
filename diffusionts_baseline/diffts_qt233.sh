@@ -4,14 +4,14 @@ LR=1e-4
 LEN_WHOLE=600
 MAX_LEN_ANOMALY=450
 MIN_LEN_ANOMALY=80
-GPU_ID=5
-ONE_CHANNEL=1
-FEAT_SIZE=1
+
+ONE_CHANNEL=0
+FEAT_SIZE=2
 
 DATA_TYPE="ecg"
 WANDB_PROJECT="diffusion_ts_qtdb"
 
-TRAIN_CKPT="/root/tianyi/formal_experiment/qtdb_one_channel/diffusion_ts/ckpt_lr${LR}"
+TRAIN_CKPT="/root/tianyi/formal_experiment/qtdb_two_channels/diffusion_ts/ckpt_lr${LR}"
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
 TEST_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
@@ -23,43 +23,43 @@ NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_qtdb/slide_win
 
 
 
-#python diffusion_ts.py \
-#  --what_to_do "no_code_imputation_train" \
-#  \
-#  --seq_len ${LEN_WHOLE} \
-#  --data_type ${DATA_TYPE} \
-#  --feature_size ${FEAT_SIZE} \
-#  --one_channel ${ONE_CHANNEL} \
-#  \
-#  --n_layer_enc 4 \
-#  --n_layer_dec 4 \
-#  --d_model 64 \
-#  --n_heads 4 \
-#  \
-#  --raw_data_paths_train ${DATA_PATHS} \
-#  --raw_data_paths_test ${TEST_DATA_PATHS} \
-#  --indices_paths_train ${FINETUNE_TRAIN_INDICES_PATHS} \
-#  --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
-#  --indices_paths_anomaly_for_sample "[]" \
-#  --min_infill_length ${MIN_LEN_ANOMALY} \
-#  --max_infill_length ${MAX_LEN_ANOMALY} \
-#  \
-#  --lr ${LR} \
-#  --batch_size 64 \
-#  --max_epochs 2000 \
-#  --grad_clip_norm 1.0 \
-#  --grad_accum_steps 1 \
-#  --early_stop "true" \
-#  --patience 500 \
-#  \
-#  --wandb_project ${WANDB_PROJECT} \
-#  --wandb_run "impute_lr${LR}" \
-#  \
-#  --ckpt_dir ${TRAIN_CKPT} \
-#  \
-#  --generated_path "none" \
-#  \
-#  --gpu_id ${GPU_ID}
+python diffusion_ts.py \
+  --what_to_do "no_code_imputation_train" \
+  \
+  --seq_len ${LEN_WHOLE} \
+  --data_type ${DATA_TYPE} \
+  --feature_size ${FEAT_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
+  \
+  --n_layer_enc 4 \
+  --n_layer_dec 4 \
+  --d_model 64 \
+  --n_heads 4 \
+  \
+  --raw_data_paths_train ${DATA_PATHS} \
+  --raw_data_paths_test ${TEST_DATA_PATHS} \
+  --indices_paths_train ${FINETUNE_TRAIN_INDICES_PATHS} \
+  --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
+  --indices_paths_anomaly_for_sample "[]" \
+  --min_infill_length ${MIN_LEN_ANOMALY} \
+  --max_infill_length ${MAX_LEN_ANOMALY} \
+  \
+  --lr ${LR} \
+  --batch_size 64 \
+  --max_epochs 2000 \
+  --grad_clip_norm 1.0 \
+  --grad_accum_steps 1 \
+  --early_stop "true" \
+  --patience 500 \
+  \
+  --wandb_project ${WANDB_PROJECT} \
+  --wandb_run "impute_lr${LR}" \
+  \
+  --ckpt_dir ${TRAIN_CKPT} \
+  \
+  --generated_path "none" \
+  \
+  --gpu_id 0
 
 
 python diffusion_ts.py \
@@ -98,12 +98,12 @@ python diffusion_ts.py \
   \
   --generated_path "" \
   \
-  --gpu_id ${GPU_ID}
+  --gpu_id 0
 
 
 
 python diffusion_ts.py \
-  --what_to_do "anomaly_evaluate" \
+  --what_to_do "impute_sample_non_downstream" \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
@@ -117,14 +117,14 @@ python diffusion_ts.py \
   \
   --raw_data_paths_train ${DATA_PATHS} \
   --raw_data_paths_test ${TEST_DATA_PATHS} \
-  --indices_paths_train "[]" \
-  --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
-  --indices_paths_anomaly_for_sample "[]" \
+  --indices_paths_train ${FINETUNE_TEST_INDICES_PATHS} \
+  --indices_paths_test "[]" \
+  --indices_paths_anomaly_for_sample ${ANOMALY_INDICES_FOR_SAMPLE} \
   --min_infill_length ${MIN_LEN_ANOMALY} \
   --max_infill_length ${MAX_LEN_ANOMALY} \
   \
   --lr 1e-4 \
-  --batch_size 64 \
+  --batch_size 1024 \
   --max_epochs 2000 \
   --grad_clip_norm 1.0 \
   --grad_accum_steps 1 \
@@ -134,10 +134,10 @@ python diffusion_ts.py \
   --wandb_project "none" \
   --wandb_run "none" \
   \
-  --ckpt_dir "${TRAIN_CKPT}" \
+  --ckpt_dir ${TRAIN_CKPT} \
   \
-  --generated_path "${TRAIN_CKPT}/no_code_impute_samples.pth" \
+  --generated_path "" \
   \
-  --gpu_id ${GPU_ID}
+  --gpu_id 0
 
 cd ./diffusionts_baseline
