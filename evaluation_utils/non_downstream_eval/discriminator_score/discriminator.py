@@ -205,74 +205,94 @@ class UpBlock(nn.Module):
 
 
 
+# class Discriminator(nn.Module):
+#     def __init__(self, in_ch, pooling="mean"):
+#         super().__init__()
+#         self.pooling = pooling
+#
+#         # -------- Encoder --------
+#         self.conv1 = DoubleConv(in_ch, 16)
+#         self.conv2 = DoubleConv(16, 32)
+#         self.conv3 = DoubleConv(32, 64)
+#         self.conv4 = DoubleConv(64, 128)
+#         self.conv5 = DoubleConv(128, 256)
+#         self.pool = nn.MaxPool1d(2)
+#
+#         # -------- Decoder --------
+#         self.up4 = UpBlock(256, 128)
+#         self.up3 = UpBlock(128, 64)
+#         self.up2 = UpBlock(64, 32)
+#         self.up1 = UpBlock(32, 16)
+#
+#         # -------- Classification head --------
+#         self.proj = nn.Conv1d(16, 128, kernel_size=1, bias=False)  # feature projection
+#         self.classifier = nn.Linear(128, 1)
+#
+#     def forward(self, x):
+#         """
+#         x: (B, T, C)
+#         """
+#         x = x.permute(0, 2, 1)  # (B, C, T)
+#
+#         # ---- Encoder ----
+#         c1 = self.conv1(x)
+#         p1 = self.pool(c1)
+#
+#         c2 = self.conv2(p1)
+#         p2 = self.pool(c2)
+#
+#         c3 = self.conv3(p2)
+#         p3 = self.pool(c3)
+#
+#         c4 = self.conv4(p3)
+#         p4 = self.pool(c4)
+#
+#         c5 = self.conv5(p4)
+#
+#         # ---- Decoder ----
+#         u4 = self.up4(c5, c4)
+#         u3 = self.up3(u4, c3)
+#         u2 = self.up2(u3, c2)
+#         u1 = self.up1(u2, c1)   # (B,16,T)
+#
+#         feat = self.proj(u1)    # (B,128,T)
+#
+#         # ---- Temporal pooling ----
+#         if self.pooling == "mean":
+#             feat = feat.mean(dim=-1)
+#         elif self.pooling == "max":
+#             feat = feat.max(dim=-1).values
+#         elif self.pooling == "mean_max":
+#             feat = torch.cat(
+#                 [feat.mean(dim=-1), feat.max(dim=-1).values],
+#                 dim=1
+#             )
+#         else:
+#             raise ValueError("Unknown pooling type")
+#
+#         logits = self.classifier(feat)  # (B, num_classes)
+#         return logits
+
+
+
+
 class Discriminator(nn.Module):
-    def __init__(self, in_ch, pooling="mean"):
+    """
+    GRU-based binary classifier:
+       input  (B, T, C)
+       output (B, 1)
+    """
+    def __init__(self, input_dim, hidden_dim=64):
         super().__init__()
-        self.pooling = pooling
-
-        # -------- Encoder --------
-        self.conv1 = DoubleConv(in_ch, 16)
-        self.conv2 = DoubleConv(16, 32)
-        self.conv3 = DoubleConv(32, 64)
-        self.conv4 = DoubleConv(64, 128)
-        self.conv5 = DoubleConv(128, 256)
-        self.pool = nn.MaxPool1d(2)
-
-        # -------- Decoder --------
-        self.up4 = UpBlock(256, 128)
-        self.up3 = UpBlock(128, 64)
-        self.up2 = UpBlock(64, 32)
-        self.up1 = UpBlock(32, 16)
-
-        # -------- Classification head --------
-        self.proj = nn.Conv1d(16, 128, kernel_size=1, bias=False)  # feature projection
-        self.classifier = nn.Linear(128, 1)
+        self.gru = nn.GRU(input_dim, hidden_dim, batch_first=True)
+        self.fc = nn.Linear(hidden_dim, 1)
 
     def forward(self, x):
-        """
-        x: (B, T, C)
-        """
-        x = x.permute(0, 2, 1)  # (B, C, T)
-
-        # ---- Encoder ----
-        c1 = self.conv1(x)
-        p1 = self.pool(c1)
-
-        c2 = self.conv2(p1)
-        p2 = self.pool(c2)
-
-        c3 = self.conv3(p2)
-        p3 = self.pool(c3)
-
-        c4 = self.conv4(p3)
-        p4 = self.pool(c4)
-
-        c5 = self.conv5(p4)
-
-        # ---- Decoder ----
-        u4 = self.up4(c5, c4)
-        u3 = self.up3(u4, c3)
-        u2 = self.up2(u3, c2)
-        u1 = self.up1(u2, c1)   # (B,16,T)
-
-        feat = self.proj(u1)    # (B,128,T)
-
-        # ---- Temporal pooling ----
-        if self.pooling == "mean":
-            feat = feat.mean(dim=-1)
-        elif self.pooling == "max":
-            feat = feat.max(dim=-1).values
-        elif self.pooling == "mean_max":
-            feat = torch.cat(
-                [feat.mean(dim=-1), feat.max(dim=-1).values],
-                dim=1
-            )
-        else:
-            raise ValueError("Unknown pooling type")
-
-        logits = self.classifier(feat)  # (B, num_classes)
-        return logits
-
+        out, _ = self.gru(x)
+        last_state = out[:, -1, :]   # final hidden state
+        logit = self.fc(last_state)
+        # prob = torch.sigmoid(logit)
+        return logit
 
 
 def calculate_discriminator_score(
