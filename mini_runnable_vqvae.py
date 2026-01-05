@@ -270,9 +270,6 @@ class MixedAugmentedDataset(Dataset):
         return (1-lam)*anomaly_signal + lam*signal, pad_mask
 
 
-
-
-
 # --------------------------
 # Utils: pad mask
 # --------------------------
@@ -963,6 +960,73 @@ def extract_code_segments(
 
 
 
+
+@torch.no_grad()
+def show_reconstruction(
+    in_channels,
+    code_dim,
+    num_codes,
+    model_path,
+    raw_data_paths,
+    indices_paths,
+    data_type,
+    one_channel,
+    device,
+    save_path,
+    down_ratio,
+    up_ratio,
+    max_length,
+    min_length,
+    encoder_channels,
+    decoder_channels,
+    code_len,
+):
+    model = VQVAE1D(
+        in_channels=in_channels,
+        code_dim=code_dim,
+        num_codes=num_codes,
+        down_ratio=down_ratio,
+        up_ratio=up_ratio,
+        encoder_channels=encoder_channels,
+        decoder_channels=decoder_channels,
+        code_len=code_len,
+        seq_len=max_length,
+    ).to(device)
+    model.eval()
+    ckpt = torch.load(model_path, map_location=device)
+    model.load_state_dict(ckpt["model_state"])
+
+
+    dataset = AnomalyDataset(
+        raw_data_paths=raw_data_paths,
+        indices_paths=indices_paths,
+        one_channel=one_channel,
+        max_length=max_length,
+        min_length=min_length,
+        data_type=data_type,
+    )
+
+    loader = DataLoader(
+        dataset,
+        batch_size=512,
+        shuffle=False,
+        drop_last=False,
+    )
+
+    all_codes = []
+    for x, loss_mask in tqdm(loader, desc="Extracting code ids"):
+        x = x.to(device)  # [B, T, C]
+        x_hat, ids, vq_loss = model(x, loss_mask)
+        plt.plot((x_hat[0,:,0] * loss_mask[0,:,0]).detach().cpu().numpy(), label="recon")
+        plt.plot((x[0,:,0] * loss_mask[0,:,0]).detach().cpu().numpy(), label="real")
+        plt.legend()
+        plt.show()
+        # breakpoint()
+
+
+
+
+
 # -------------------------
 # cluster analysis
 # -------------------------
@@ -1251,7 +1315,28 @@ if __name__ == "__main__":
         save_path=args.save_dir,
 
     )
-    model = train_vqvae(cfg)
+    # model = train_vqvae(cfg)
+    show_reconstruction(
+        in_channels=args.feat_size,
+        code_dim=args.code_dim,
+        num_codes=args.num_codes,
+        model_path=f"{args.save_dir}/vqvae.pt",
+        raw_data_paths=args.data_paths,
+        indices_paths=args.indices_paths,
+        data_type=args.data_type,
+        one_channel=args.one_channel,
+        # device="cuda:7",
+        device="cpu",
+        save_path=f"{args.save_dir}/code_segments.pt",
+        down_ratio=2,
+        up_ratio=2,
+        max_length=args.max_seq_len,
+        min_length=args.min_seq_len,
+        encoder_channels=(64, 64, 64),
+        decoder_channels=(64, 64, 32, 32, 16, 16),
+        code_len=args.code_len,
+    )
+
     # extract_code_segments(
     #     in_channels=args.feat_size,
     #     code_dim=args.code_dim,

@@ -1,5 +1,5 @@
 from Trainers import TimeVAETrainer
-from generation_models import TimeVAE
+from generation_models import TimeVAE, CNNVAE
 from dataset_utils import ImputationNormalECGDataset
 from dataset_utils import ImputationECGDataset
 import argparse
@@ -34,7 +34,7 @@ def get_args():
         "--what_to_do", type=str, required=True,
         choices=[
             "imputation_train",
-            "imputation_pretrain",
+            "imputation_train",
             "imputation_finetune",
             "impute_sample",
             "impute_sample_non_downstream",
@@ -172,16 +172,29 @@ def imputation_pretrain(args):
     os.makedirs(args.ckpt_dir, exist_ok=True)
     save_args_to_jsonl(args, f"{args.ckpt_dir}/config.jsonl")
 
-    model = TimeVAE(
-        hidden_layer_sizes=args.hidden_layer_sizes,
-        trend_poly=args.trend_poly,
-        custom_seas=args.custom_seas,
-        use_residual_conn=True,
+    # model = TimeVAE(
+    #     hidden_layer_sizes=args.hidden_layer_sizes,
+    #     trend_poly=args.trend_poly,
+    #     custom_seas=args.custom_seas,
+    #     use_residual_conn=True,
+    #     seq_len=args.seq_len,
+    #     feat_dim=args.feature_size,
+    #     latent_dim=args.latent_dim,
+    #     kl_wt=args.kl_wt,
+    # )
+
+    model = CNNVAE(
+        in_channels=args.feature_size,
+        encoder_channels=[64, 64, 64, 64],
+        decoder_channels=[64, 64, 32, 32, 16, 16],
+        code_dim=args.latent_dim,
+        down_ratio=1,
+        up_ratio=2,
+        code_len=8,
         seq_len=args.seq_len,
-        feat_dim=args.feature_size,
-        latent_dim=args.latent_dim,
         kl_wt=args.kl_wt,
     )
+
 
     assert args.data_type == "ecg"
 

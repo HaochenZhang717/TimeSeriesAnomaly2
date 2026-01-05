@@ -13,3 +13,5 @@ from .DSPFlow import DSPFlow
 # import all of my baselines
 from .diffusion_ts import Diffusion_TS
 from .TimeVAE import TimeVAE
+from .CNNVAE import CNNVAE
+
