@@ -1,20 +1,22 @@
 cd ..
 
-PRETRAIN_CKPT_DIR="/root/tianyi/formal_experiment/mitdb_two_channels/cgats/pretrain_ckpt"
-LEN_WHOLE=1000
-MAX_LEN_ANOMALY=800
-MIN_LEN_ANOMALY=180
+PRETRAIN_CKPT_DIR="/root/tianyi/formal_experiment/qtdb_two_channels/cgats/pretrain_ckpt"
+FINETUNE_CKPT_DIR="/root/tianyi/formal_experiment/qtdb_two_channels/cgats/finetune_ckpt"
+
+LEN_WHOLE=600
+MAX_LEN_ANOMALY=450
+MIN_LEN_ANOMALY=80
 FEATURE_SIZE=2
 ONE_CHANNEL=0
 
-RAW_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data/106.npz"]'
-PRETRAIN_INDICES_PATHS_TRAIN="./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/normal_1000.jsonl"
-INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/normal_1000.jsonl"]'
-FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_train.jsonl"]'
-FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"]'
+RAW_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
+PRETRAIN_INDICES_PATHS_TRAIN="./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/normal_600.jsonl"
+INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/normal_600.jsonl"]'
+FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_train.jsonl"]'
+FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_test.jsonl"]'
 
 
-WANDB_PROJECT="CGATS-MITDB"
+WANDB_PROJECT="CGATS-QTDB"
 
 python CGATSPretrainPipeline.py \
   --seq_len ${LEN_WHOLE} \
@@ -117,7 +119,6 @@ python CGATSFinetunePipeline.py \
   --pretrained_ckpt "none" \
   \
   --gpu_id 0
-
 
 cd ./cgats_baseline
 
