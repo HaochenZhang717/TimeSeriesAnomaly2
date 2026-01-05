@@ -159,8 +159,6 @@ WANDB_PROJECT="CGATS-MITDB"
 
 
 
-
-
 python CGATSFinetunePipeline.py \
   --what_to_do "sample_normal" \
   \
@@ -191,10 +189,11 @@ python CGATSFinetunePipeline.py \
   --wandb_project ${WANDB_PROJECT} \
   --wandb_run "finetune" \
   \
-  --ckpt_dir ${FINETUNE_CKPT_DIR} \
+  --ckpt_dir ${PRETRAIN_CKPT_DIR} \
   --pretrained_ckpt "none" \
   \
   --gpu_id 0
+
 
 cd ./cgats_baseline
 

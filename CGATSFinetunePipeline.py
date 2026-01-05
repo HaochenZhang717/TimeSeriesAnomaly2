@@ -231,6 +231,78 @@ def impute_sample(args):
     torch.save(all_results, f"{args.ckpt_dir}/no_code_impute_samples.pth")
 
 
+
+def impute_sample_normal(args):
+    # device = torch.device("cuda:%d" % args.gpu_id)
+    model = TimeVAECGATS(
+        hidden_layer_sizes=args.hidden_layer_sizes,
+        trend_poly=args.trend_poly,
+        custom_seas=args.custom_seas,
+        use_residual_conn=True,
+        seq_len=args.seq_len,
+        feat_dim=args.feature_size,
+        latent_dim=args.latent_dim,
+        kl_wt=args.kl_wt,
+    )
+    model.load_state_dict(torch.load(f"{args.ckpt_dir}/ckpt.pth"))
+    device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
+    model.to(device=device)
+    model.eval()
+
+    normal_set = ImputationNormalECGDataset(
+        raw_data_paths=args.raw_data_paths_train,
+        indices_paths=args.indices_paths_train,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        min_infill_length=args.min_anomaly_length,
+        max_infill_length=args.max_anomaly_length,
+    )
+
+    normal_loader = torch.utils.data.DataLoader(
+        normal_set, batch_size=args.batch_size,
+        shuffle=True, drop_last=True,
+        collate_fn=dict_collate_fn,
+    )
+
+    num_generate = 10000
+    all_samples = []
+    all_labels = []
+    all_reals = []
+    num_samples = 0
+
+    while num_samples < num_generate:
+        for normal_batch in normal_loader:
+            signals = normal_batch['signals'].to(device=device, dtype=torch.float32)  # (batch_size, seq_len, ts_dim)
+            attn_mask = normal_batch['attn_mask'].to(device=device, dtype=torch.bool)  # (batch_size, seq_len)
+            noise_mask = normal_batch['noise_mask'].to(device=device, dtype=torch.long)
+
+            x_occluded = signals * attn_mask.unsqueeze(-1)
+
+            with torch.no_grad():
+                z_mean, z_log_var, z = model.encoder(x_occluded)
+                samples = model.normal_decoder(z)
+
+            all_samples.append(samples)
+            all_labels.append(noise_mask)
+            all_reals.append(signals)
+
+            num_samples += samples.shape[0]
+            print(f"Generated {num_samples}/{num_generate} ")
+            if num_samples >= num_generate:
+                break
+
+    all_samples = torch.cat(all_samples, dim=0)
+    all_labels = torch.cat(all_labels, dim=0)
+    all_reals = torch.cat(all_reals, dim=0)
+
+    all_results = {
+        'all_samples': all_samples,
+        'all_labels': all_labels,
+        'all_reals': all_reals,
+    }
+    torch.save(all_results, f"{args.ckpt_dir}/no_code_impute_normal_samples.pth")
+
+
 def impute_sample_normal(args):
     # device = torch.device("cuda:%d" % args.gpu_id)
     model = TimeVAECGATS(
