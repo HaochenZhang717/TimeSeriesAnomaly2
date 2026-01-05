@@ -205,25 +205,29 @@ class CGATFinetune(object):
                 tr_seen += 1
                 global_steps += 1
 
-                # ====== 记录训练到 wandb ======
-                # wandb.log({
-                #     "train/step_total_loss": loss.item(),
-                #     "lr": self.optimizer.param_groups[0]["lr"],
-                #     "step": global_steps
-                # })
             train_total_avg = total_loss / tr_seen
 
             """evaluation"""
             self.model.eval()
             val_total, val_seen = 0, 0
             for batch in self.val_loader:
-                X_occluded = batch["original_occluded_signal"].to(self.device)
-                X_target = batch["orig_signal"].to(self.device)
-                anomaly_label = batch["anomaly_label"].unsqueeze(-1).to(self.device)
+                model_dtype = next(self.model.parameters()).dtype
+                batch["signals"] = batch["signals"].to(dtype=model_dtype, device=self.device)
+                batch["missing_signals"] = batch["missing_signals"].to(dtype=model_dtype, device=self.device)
+                batch["attn_mask"] = batch["attn_mask"].to(dtype=torch.bool, device=self.device)
+                batch["noise_mask"] = batch["noise_mask"].to(dtype=torch.long, device=self.device)
+
+                X_occluded = batch["signals"] * batch["attn_mask"].unsqueeze(-1)
+
                 with torch.no_grad():
                     z_mean, z_log_var, z = self.model.encoder(X_occluded)
-                    reconstruction = self.model.anomaly_decoder(z, anomaly_label)
-                loss = torch.nn.MSELoss()(reconstruction, X_target)
+                    reconstruction = self.model.anomaly_decoder(z, batch["noise_mask"].unsqueeze(-1))
+                reconstruction = reconstruction * batch["noise_mask"].unsqueeze(-1)
+                target = batch["signals"] * batch["noise_mask"].unsqueeze(-1)
+
+                loss = torch.nn.MSELoss(reduction="none")(reconstruction, target).mean(-1)
+
+                loss = loss.sum() / batch["noise_mask"].sum()
 
                 val_total += loss.item()
                 val_seen += 1
