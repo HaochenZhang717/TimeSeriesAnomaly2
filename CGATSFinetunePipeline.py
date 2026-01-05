@@ -230,6 +230,7 @@ def impute_sample(args):
     }
     torch.save(all_results, f"{args.ckpt_dir}/no_code_impute_samples.pth")
 
+
 def impute_sample_normal(args):
     # device = torch.device("cuda:%d" % args.gpu_id)
     model = TimeVAECGATS(
@@ -248,8 +249,8 @@ def impute_sample_normal(args):
     model.eval()
 
     normal_set = ECGDataset(
-        raw_data_paths=args.raw_data_paths_train,
-        indices_paths=args.indices_paths_train,
+        raw_data_paths="./dataset_utils/ECG_datasets/raw_data/106.npz",
+        indices_paths="./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/normal_1000.jsonl",
         seq_len=args.seq_len,
         max_anomaly_length=args.max_anomaly_length,
         min_anomaly_length=args.min_anomaly_length,
