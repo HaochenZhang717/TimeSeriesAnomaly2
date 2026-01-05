@@ -8,6 +8,8 @@ FEATURE_SIZE=2
 ONE_CHANNEL=0
 
 RAW_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data/106.npz"]'
+PRETRAIN_RAW_DATA_PATHS="./dataset_utils/ECG_datasets/raw_data/106.npz"
+
 PRETRAIN_INDICES_PATHS_TRAIN="./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/normal_1000.jsonl"
 INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/normal_1000.jsonl"]'
 FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_train.jsonl"]'
@@ -29,7 +31,7 @@ python CGATSPretrainPipeline.py \
   \
   --max_anomaly_length ${MAX_LEN_ANOMALY} \
   --min_anomaly_length ${MIN_LEN_ANOMALY} \
-  --raw_data_paths_train ${RAW_DATA_PATHS} \
+  --raw_data_paths_train ${PRETRAIN_RAW_DATA_PATHS} \
   --indices_paths_train ${PRETRAIN_INDICES_PATHS_TRAIN} \
   \
   --lr 1e-5 \
