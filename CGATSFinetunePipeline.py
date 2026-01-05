@@ -49,8 +49,8 @@ def get_args():
     parser.add_argument("--custom_seas", type=json.loads, required=True)
 
     """data parameters"""
-    parser.add_argument("--max_anomaly_length", type=float, required=True)
-    parser.add_argument("--min_anomaly_length", type=float, required=True)
+    parser.add_argument("--max_anomaly_length", type=int, required=True)
+    parser.add_argument("--min_anomaly_length", type=int, required=True)
     parser.add_argument("--raw_data_paths_train", type=json.loads, required=True)
     parser.add_argument("--raw_data_paths_test", type=json.loads, required=True)
     parser.add_argument("--normal_indices_paths_train", type=str, required=True)
