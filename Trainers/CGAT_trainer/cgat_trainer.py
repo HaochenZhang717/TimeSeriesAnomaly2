@@ -188,7 +188,7 @@ class CGATFinetune(object):
                 self.optimizer.zero_grad()
 
                 z_mean, z_log_var, z = self.model.encoder(X_occluded)
-                reconstruction = self.model.anomaly_decoder(z, batch["noise_mask"])
+                reconstruction = self.model.anomaly_decoder(z, batch["noise_mask"].unsqueeze(-1))
                 reconstruction = reconstruction * batch["noise_mask"].unsqueeze(-1)
                 target = batch["signals"] * batch["noise_mask"].unsqueeze(-1)
 
