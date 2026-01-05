@@ -112,7 +112,7 @@ def finetune(args):
         indices_paths=args.indices_paths_train,
         seq_len=args.seq_len,
         one_channel=args.one_channel,
-        max_infill_length=args.max_infill_length,
+        max_infill_length=args.max_anomaly_length,
     )
 
     val_set = ImputationECGDataset(
@@ -120,7 +120,7 @@ def finetune(args):
         indices_paths=args.indices_paths_test,
         seq_len=args.seq_len,
         one_channel=args.one_channel,
-        max_infill_length=args.max_infill_length,
+        max_infill_length=args.max_anomaly_length,
     )
 
     train_loader = torch.utils.data.DataLoader(
