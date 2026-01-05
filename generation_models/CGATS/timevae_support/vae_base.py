@@ -451,7 +451,7 @@ class BaseVariationalAutoencoder(nn.Module, ABC):
 
     def get_anomaly_samples(self, x_occluded, noise_mask):
         z_mean, z_log_var, z = self.encoder(x_occluded)
-        sample = self.anomaly_decoder(z, noise_mask)
+        sample = self.anomaly_decoder(z, noise_mask.unsqueeze(-1))
         output = sample * noise_mask.unsqueeze(-1) + x_occluded * (1 - noise_mask.unsqueeze(-1))
         return output
 
