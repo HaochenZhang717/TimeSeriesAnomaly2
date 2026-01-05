@@ -51,8 +51,8 @@ def get_args():
     """data parameters"""
     parser.add_argument("--max_anomaly_length", type=float, required=True)
     parser.add_argument("--min_anomaly_length", type=float, required=True)
-    parser.add_argument("--raw_data_paths_train", type=str, required=True)
-    parser.add_argument("--raw_data_paths_test", type=str, required=True)
+    parser.add_argument("--raw_data_paths_train", type=json.loads, required=True)
+    parser.add_argument("--raw_data_paths_test", type=json.loads, required=True)
     parser.add_argument("--normal_indices_paths_train", type=str, required=True)
     parser.add_argument("--indices_paths_train", type=json.loads, required=True)
     parser.add_argument("--indices_paths_test", type=json.loads, required=True)
@@ -106,9 +106,9 @@ def finetune(args):
     '''during pretraining, we did not update parameters in anomaly decoder, so we can just load'''
     pretrained_state_dict = torch.load(args.pretrained_ckpt)
     model.load_state_dict(pretrained_state_dict)
-    print(args.raw_data_paths_train)
-    print(args.indices_paths_train)
-    breakpoint()
+    # print(args.raw_data_paths_train)
+    # print(args.indices_paths_train)
+
     train_set = ImputationECGDataset(
         raw_data_paths=args.raw_data_paths_train,
         indices_paths=args.indices_paths_train,
