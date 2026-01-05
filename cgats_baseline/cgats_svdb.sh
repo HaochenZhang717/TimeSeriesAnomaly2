@@ -7,7 +7,7 @@ MIN_LEN_ANOMALY=30
 FEATURE_SIZE=2
 ONE_CHANNEL=0
 
-RAW_DATA_PATHS="./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"
+RAW_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"]'
 
 PRETRAIN_INDICES_PATHS_TRAIN="./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/normal_800.jsonl"
 FINETUNE_TRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_train.jsonl"]'
