@@ -191,7 +191,7 @@ def impute_sample(args):
         collate_fn=dict_collate_fn,
     )
 
-    num_generate = 10000
+    num_generate = 100
     all_samples = []
     all_labels = []
     all_reals = []
