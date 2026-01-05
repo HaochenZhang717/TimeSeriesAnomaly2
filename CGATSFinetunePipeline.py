@@ -232,6 +232,85 @@ def impute_sample(args):
 
 
 
+def impute_sample_non_downstream(args):
+    model = TimeVAECGATS(
+        hidden_layer_sizes=args.hidden_layer_sizes,
+        trend_poly=args.trend_poly,
+        custom_seas=args.custom_seas,
+        use_residual_conn=True,
+        seq_len=args.seq_len,
+        feat_dim=args.feature_size,
+        latent_dim=args.latent_dim,
+        kl_wt=args.kl_wt,
+    )
+
+    device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
+    model.load_state_dict(torch.load(f"{args.ckpt_dir}/ckpt.pth", map_location=device))
+    model.to(device=device)
+    model.eval()
+
+    anomaly_set = ImputationECGDataset(
+        raw_data_paths=args.raw_data_paths_train,
+        indices_paths=args.indices_paths_train,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        max_infill_length=args.max_infill_length,
+    )
+
+    anomaly_loader = torch.utils.data.DataLoader(
+        anomaly_set,
+        batch_size=args.batch_size,
+        shuffle=False,
+        drop_last=False,
+        collate_fn=dict_collate_fn,
+    )
+
+    num_samples_per_input = 5  # ⭐ 每个样本采 5 次
+
+    all_samples = []
+    all_labels = []
+    all_reals = []
+
+    for batch in anomaly_loader:
+
+
+        signals = batch['signals'].to(device=device, dtype=torch.float32)  # (batch_size, seq_len, ts_dim)
+        attn_mask = batch['attn_mask'].to(device=device, dtype=torch.bool)  # (batch_size, seq_len)
+        noise_mask = batch['noise_mask'].to(device=device, dtype=torch.long)
+
+        x_occluded = signals * attn_mask.unsqueeze(-1)
+        # -------- 多次 stochastic sampling --------
+        batch_samples = []
+        with torch.no_grad():
+            for _ in range(num_samples_per_input):
+                samples = model.get_anomaly_samples(
+                    x_occluded,
+                    noise_mask
+                )
+                batch_samples.append(samples.unsqueeze(1))  # (B, 1, T, C)
+
+        # (B, K, T, C)
+        batch_samples = torch.cat(batch_samples, dim=1)
+
+        all_samples.append(batch_samples)
+        all_labels.append(noise_mask)
+        all_reals.append(signals)
+
+    all_samples = torch.cat(all_samples, dim=0)  # (N, K T, C)
+    all_labels = torch.cat(all_labels, dim=0)  # (N, T)
+    all_reals = torch.cat(all_reals, dim=0)  # (N, T, C)
+
+    all_results = {
+        "all_samples": all_samples,
+        "all_labels": all_labels,
+        "all_reals": all_reals,
+    }
+
+    save_path = f"{args.ckpt_dir}/no_code_impute_samples_non_downstream.pth"
+    torch.save(all_results, save_path)
+    print(f"[Saved] {save_path} | samples shape = {all_samples.shape}")
+
+
 
 if __name__ == "__main__":
 
@@ -240,5 +319,7 @@ if __name__ == "__main__":
         finetune(args)
     elif args.what_to_do == "sample_anomaly":
         impute_sample(args)
+    elif args.what_to_do == "sample_anomaly_non_downstream":
+        impute_sample_non_downstream(args)
     else:
         raise ValueError("what_to_do must be 'finetune' or 'sample_anomaly'")

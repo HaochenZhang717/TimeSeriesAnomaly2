@@ -27,7 +27,7 @@ python CGATSPretrainPipeline.py \
   --trend_poly 3 \
   --kl_wt 1e-3 \
   --hidden_layer_sizes "[50,100,200]" \
-  --custom_seas "[[10,80],[20,40],[40,20],[80,10]]" \
+  --custom_seas "[[10,60],[20,30],[40,15],[60,10]]" \
   \
   --max_anomaly_length ${MAX_LEN_ANOMALY} \
   --min_anomaly_length ${MIN_LEN_ANOMALY} \
@@ -60,7 +60,7 @@ python CGATSFinetunePipeline.py \
   --trend_poly 3 \
   --kl_wt 1e-3 \
   --hidden_layer_sizes "[50,100,200]" \
-  --custom_seas "[[10,80],[20,40],[40,20],[80,10]]" \
+  --custom_seas "[[10,60],[20,30],[40,15],[60,10]]" \
   \
   --max_anomaly_length ${MAX_LEN_ANOMALY} \
   --min_anomaly_length ${MIN_LEN_ANOMALY} \
@@ -96,7 +96,7 @@ python CGATSFinetunePipeline.py \
   --trend_poly 3 \
   --kl_wt 1e-3 \
   --hidden_layer_sizes "[50,100,200]" \
-  --custom_seas "[[10,80],[20,40],[40,20],[80,10]]" \
+  --custom_seas "[[10,60],[20,30],[40,15],[60,10]]" \
   \
   --max_anomaly_length ${MAX_LEN_ANOMALY} \
   --min_anomaly_length ${MIN_LEN_ANOMALY} \
@@ -119,6 +119,45 @@ python CGATSFinetunePipeline.py \
   --pretrained_ckpt "none" \
   \
   --gpu_id 0
+
+
+
+
+python CGATSFinetunePipeline.py \
+  --what_to_do "sample_anomaly_non_downstream" \
+  \
+  --seq_len ${LEN_WHOLE} \
+  --feature_size ${FEATURE_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
+  \
+  --latent_dim 64 \
+  --trend_poly 3 \
+  --kl_wt 1e-3 \
+  --hidden_layer_sizes "[50,100,200]" \
+  --custom_seas "[[10,60],[20,30],[40,15],[60,10]]" \
+  \
+  --max_anomaly_length ${MAX_LEN_ANOMALY} \
+  --min_anomaly_length ${MIN_LEN_ANOMALY} \
+  --raw_data_paths_train ${RAW_DATA_PATHS} \
+  --raw_data_paths_test ${RAW_DATA_PATHS} \
+  --indices_paths_train ${INDICES_FOR_SAMPLE} \
+  --indices_paths_test ${INDICES_FOR_SAMPLE} \
+  \
+  --lr 1e-5 \
+  --batch_size 128 \
+  --epochs 20 \
+  --grad_clip_norm 1.0 \
+  --early_stop "true" \
+  --patience 500 \
+  \
+  --wandb_project ${WANDB_PROJECT} \
+  --wandb_run "finetune" \
+  \
+  --ckpt_dir ${FINETUNE_CKPT_DIR} \
+  --pretrained_ckpt "none" \
+  \
+  --gpu_id 0
+
 
 cd ./cgats_baseline
 
