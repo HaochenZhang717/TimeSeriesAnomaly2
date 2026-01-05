@@ -37,7 +37,7 @@ python CGATSPretrainPipeline.py \
   \
   --lr 1e-5 \
   --batch_size 128 \
-  --epochs 1 \
+  --epochs 1000 \
   --grad_clip_norm 1.0 \
   --early_stop "true" \
   --patience 200 \
@@ -72,7 +72,7 @@ python CGATSFinetunePipeline.py \
   \
   --lr 1e-5 \
   --batch_size 64 \
-  --epochs 5 \
+  --epochs 500 \
   --grad_clip_norm 1.0 \
   --early_stop "true" \
   --patience 500 \

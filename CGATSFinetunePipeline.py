@@ -191,7 +191,7 @@ def impute_sample(args):
         collate_fn=dict_collate_fn,
     )
 
-    num_generate = 100
+    num_generate = 10000
     all_samples = []
     all_labels = []
     all_reals = []
@@ -229,7 +229,6 @@ def impute_sample(args):
         'all_reals': all_reals,
     }
     torch.save(all_results, f"{args.ckpt_dir}/no_code_impute_samples.pth")
-
 
 
 def impute_sample_non_downstream(args):
