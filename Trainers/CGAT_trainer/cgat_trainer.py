@@ -87,52 +87,52 @@ class CGATPretrain(object):
 
 
             """evaluation"""
-            self.model.eval()
-            with torch.no_grad():
-                val_total, val_recon, val_kl, val_seen = 0, 0, 0, 0
-                for batch in self.val_loader:
-                    X_occluded = batch["signal_random_occluded"].to(self.device)
-                    X_normal = batch["orig_signal"].to(self.device)
-                    z_mean, z_log_var, z = self.model.encoder(X_occluded)
-                    reconstruction = self.model.normal_decoder(z)
-                    loss, recon_loss, kl = self.model.loss_function(X_normal, reconstruction, z_mean, z_log_var)
-                    val_total += loss.item()
-                    val_recon += recon_loss.item()
-                    val_kl += kl.item()
-                    val_seen += 1
-
-                val_total /= val_seen
-                val_recon /= val_seen
-                val_kl /= val_seen
-
-                # 记录到 wandb
-                wandb.log({
-                    "train/total_loss": train_total_avg,
-                    "train/recon_loss": train_recon_avg,
-                    "train/kl_loss": train_kl_avg,
-                    "val/total_loss": val_total,
-                    "val/recon_loss": val_recon,
-                    "val/kl_loss": val_kl,
-                    "epoch": epoch,
-                    "step": global_steps,
-                    "lr": self.optimizer.param_groups[0]["lr"],
-                })
-
-                if self.early_stop == "true":
-                    if val_total < best_val_loss:
-                        best_val_loss = val_total
-                        no_improve_epochs = 0
-                        torch.save(self.model.state_dict(), f"{self.save_dir}/ckpt.pth")
-                    else:
-                        no_improve_epochs += 1
-
-                    if no_improve_epochs >= self.patience:
-                        print(f"⛔ Early stopping triggered at Step {global_steps}.")
-                        break
-                else:
-                    torch.save(self.model.state_dict(), f"{self.save_dir}/ckpt.pth")
-
-                self.scheduler.step(val_total)
+            # self.model.eval()
+            # with torch.no_grad():
+            #     val_total, val_recon, val_kl, val_seen = 0, 0, 0, 0
+            #     for batch in self.val_loader:
+            #         X_occluded = batch["signal_random_occluded"].to(self.device)
+            #         X_normal = batch["orig_signal"].to(self.device)
+            #         z_mean, z_log_var, z = self.model.encoder(X_occluded)
+            #         reconstruction = self.model.normal_decoder(z)
+            #         loss, recon_loss, kl = self.model.loss_function(X_normal, reconstruction, z_mean, z_log_var)
+            #         val_total += loss.item()
+            #         val_recon += recon_loss.item()
+            #         val_kl += kl.item()
+            #         val_seen += 1
+            #
+            #     val_total /= val_seen
+            #     val_recon /= val_seen
+            #     val_kl /= val_seen
+            #
+            #     # 记录到 wandb
+            #     wandb.log({
+            #         "train/total_loss": train_total_avg,
+            #         "train/recon_loss": train_recon_avg,
+            #         "train/kl_loss": train_kl_avg,
+            #         "val/total_loss": val_total,
+            #         "val/recon_loss": val_recon,
+            #         "val/kl_loss": val_kl,
+            #         "epoch": epoch,
+            #         "step": global_steps,
+            #         "lr": self.optimizer.param_groups[0]["lr"],
+            #     })
+            #
+            #     if self.early_stop == "true":
+            #         if val_total < best_val_loss:
+            #             best_val_loss = val_total
+            #             no_improve_epochs = 0
+            #             torch.save(self.model.state_dict(), f"{self.save_dir}/ckpt.pth")
+            #         else:
+            #             no_improve_epochs += 1
+            #
+            #         if no_improve_epochs >= self.patience:
+            #             print(f"⛔ Early stopping triggered at Step {global_steps}.")
+            #             break
+            #     else:
+            #         torch.save(self.model.state_dict(), f"{self.save_dir}/ckpt.pth")
+            #
+            #     self.scheduler.step(val_total)
 
         wandb.finish()
 
