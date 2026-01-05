@@ -139,7 +139,7 @@ python CGATSFinetunePipeline.py \
   --min_anomaly_length ${MIN_LEN_ANOMALY} \
   --raw_data_paths_train ${RAW_DATA_PATHS} \
   --raw_data_paths_test ${RAW_DATA_PATHS} \
-  --indices_paths_train ${INDICES_FOR_SAMPLE} \
+  --indices_paths_train ${FINETUNE_TEST_INDICES_PATHS} \
   --indices_paths_test ${INDICES_FOR_SAMPLE} \
   \
   --lr 1e-5 \
