@@ -39,7 +39,7 @@ WANDB_PROJECT="CGATS-SVDB"
 #  --patience 100 \
 #  \
 #  --wandb_project ${WANDB_PROJECT} \
-#  --wandb_run pretrain \
+#  --wandb_run "pretrain" \
 #  \
 #  --ckpt_dir ${PRETRAIN_CKPT_DIR} \
 #  --gpu_id 0
@@ -63,7 +63,6 @@ python CGATSFinetunePipeline.py \
   --min_anomaly_length ${MIN_LEN_ANOMALY} \
   --raw_data_paths_train ${RAW_DATA_PATHS} \
   --raw_data_paths_test ${RAW_DATA_PATHS} \
-  --normal_indices_paths_train "none" \
   --indices_paths_train ${FINETUNE_TRAIN_INDICES_PATHS} \
   --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
   \
@@ -75,17 +74,48 @@ python CGATSFinetunePipeline.py \
   --patience 500 \
   \
   --wandb_project ${WANDB_PROJECT} \
-  --wandb_run pretrain \
+  --wandb_run "finetune" \
   \
   --ckpt_dir ${PRETRAIN_CKPT_DIR} \
   --pretrained_ckpt "${PRETRAIN_CKPT_DIR}/ckpt.pth" \
   \
-  --tuned_ckpt "none" \
-  --num_samples 0 \
-  --generated_path "none" \
-  --eval_train_size 0 \
   --gpu_id 0
 
+
+python CGATSFinetunePipeline.py \
+  --what_to_do "sample_anomaly" \
+  \
+  --seq_len ${LEN_WHOLE} \
+  --feature_size ${FEATURE_SIZE} \
+  --one_channel ${ONE_CHANNEL} \
+  \
+  --latent_dim 64 \
+  --trend_poly 3 \
+  --kl_wt 1e-3 \
+  --hidden_layer_sizes "[50,100,200]" \
+  --custom_seas "[[10,80],[20,40],[40,20],[80,10]]" \
+  \
+  --max_anomaly_length ${MAX_LEN_ANOMALY} \
+  --min_anomaly_length ${MIN_LEN_ANOMALY} \
+  --raw_data_paths_train ${RAW_DATA_PATHS} \
+  --raw_data_paths_test ${RAW_DATA_PATHS} \
+  --indices_paths_train ${PRETRAIN_INDICES_PATHS_TRAIN} \
+  --indices_paths_test "none" \
+  \
+  --lr 1e-5 \
+  --batch_size 128 \
+  --epochs 20 \
+  --grad_clip_norm 1.0 \
+  --early_stop "true" \
+  --patience 500 \
+  \
+  --wandb_project ${WANDB_PROJECT} \
+  --wandb_run "finetune" \
+  \
+  --ckpt_dir ${PRETRAIN_CKPT_DIR} \
+  --pretrained_ckpt "${PRETRAIN_CKPT_DIR}/ckpt.pth" \
+  \
+  --gpu_id 0
 
 cd ./cgats_baseline
 

@@ -195,7 +195,7 @@ class CGATFinetune(object):
                 loss = torch.nn.MSELoss(reduction="none")(reconstruction, target).mean(-1)
 
                 loss = loss.sum() / batch["noise_mask"].sum()
-                breakpoint()
+
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.grad_clip_norm)
                 self.optimizer.step()
