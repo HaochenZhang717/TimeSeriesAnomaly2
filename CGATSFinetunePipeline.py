@@ -106,6 +106,8 @@ def finetune(args):
     '''during pretraining, we did not update parameters in anomaly decoder, so we can just load'''
     pretrained_state_dict = torch.load(args.pretrained_ckpt)
     model.load_state_dict(pretrained_state_dict)
+    print(args.raw_data_paths_train)
+    print(args.indices_paths_train)
     breakpoint()
     train_set = ImputationECGDataset(
         raw_data_paths=args.raw_data_paths_train,
