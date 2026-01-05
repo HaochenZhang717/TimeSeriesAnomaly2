@@ -35,7 +35,7 @@ def get_args():
         choices=[
             "no_code_imputation_train",
             "impute_sample",
-            "impute_sample_non_downstream"
+            "impute_sample_non_downstream",
             "anomaly_evaluate"
         ],
         help="what to do"
