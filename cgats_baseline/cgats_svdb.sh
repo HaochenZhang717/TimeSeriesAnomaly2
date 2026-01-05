@@ -35,7 +35,7 @@ python CGATSPretrainPipeline.py \
   \
   --lr 1e-5 \
   --batch_size 128 \
-  --epochs 1000 \
+  --epochs 1 \
   --grad_clip_norm 1.0 \
   --early_stop "true" \
   --patience 200 \
@@ -70,7 +70,7 @@ python CGATSFinetunePipeline.py \
   \
   --lr 1e-5 \
   --batch_size 64 \
-  --epochs 500 \
+  --epochs 5 \
   --grad_clip_norm 1.0 \
   --early_stop "true" \
   --patience 500 \
@@ -137,7 +137,7 @@ python CGATSFinetunePipeline.py \
   --min_anomaly_length ${MIN_LEN_ANOMALY} \
   --raw_data_paths_train ${RAW_DATA_PATHS} \
   --raw_data_paths_test ${RAW_DATA_PATHS} \
-  --indices_paths_train ${INDICES_FOR_SAMPLE} \
+  --indices_paths_train ${FINETUNE_TEST_INDICES_PATHS} \
   --indices_paths_test ${INDICES_FOR_SAMPLE} \
   \
   --lr 1e-5 \
