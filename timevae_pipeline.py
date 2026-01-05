@@ -34,7 +34,7 @@ def get_args():
         "--what_to_do", type=str, required=True,
         choices=[
             "imputation_train",
-            "imputation_train",
+            "imputation_pretrain",
             "imputation_finetune",
             "impute_sample",
             "impute_sample_non_downstream",
