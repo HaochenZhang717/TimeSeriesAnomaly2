@@ -62,8 +62,10 @@ python CGATSFinetunePipeline.py \
   --max_anomaly_length ${MAX_LEN_ANOMALY} \
   --min_anomaly_length ${MIN_LEN_ANOMALY} \
   --raw_data_paths_train ${RAW_DATA_PATHS} \
+  --raw_data_paths_test ${RAW_DATA_PATHS} \
   --normal_indices_paths_train "none" \
-  --anomaly_indices_paths_train ${FINETUNE_TRAIN_INDICES_PATHS} \
+  --indices_paths_train ${FINETUNE_TRAIN_INDICES_PATHS} \
+  --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
   \
   --lr 1e-5 \
   --batch_size 128 \
