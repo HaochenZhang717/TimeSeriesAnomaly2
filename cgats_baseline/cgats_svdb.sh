@@ -101,7 +101,7 @@ python CGATSFinetunePipeline.py \
   --raw_data_paths_train ${RAW_DATA_PATHS} \
   --raw_data_paths_test ${RAW_DATA_PATHS} \
   --indices_paths_train ${INDICES_FOR_SAMPLE} \
-  --indices_paths_test "none" \
+  --indices_paths_test ${INDICES_FOR_SAMPLE} \
   \
   --lr 1e-5 \
   --batch_size 128 \
