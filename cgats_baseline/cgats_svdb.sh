@@ -69,7 +69,7 @@ python CGATSFinetunePipeline.py \
   \
   --lr 1e-5 \
   --batch_size 128 \
-  --epochs 20 \
+  --epochs 2 \
   --grad_clip_norm 1.0 \
   --early_stop "true" \
   --patience 500 \
