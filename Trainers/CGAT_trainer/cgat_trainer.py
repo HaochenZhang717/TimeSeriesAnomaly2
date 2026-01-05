@@ -152,6 +152,7 @@ class CGATFinetune(object):
 
     def finetune(self, config):
         # freeze encoder
+
         for param in self.model.encoder.parameters():
             param.requires_grad = False
         for param in self.model.normal_decoder.parameters():
@@ -159,6 +160,8 @@ class CGATFinetune(object):
         # only train anomaly_decoder
         for param in self.model.anomaly_decoder.parameters():
             param.requires_grad = True
+        self.model.encoder.eval()
+        self.model.normal_decoder.eval()
 
         # 初始化 wandb
         wandb.init(
@@ -176,7 +179,7 @@ class CGATFinetune(object):
         for epoch in range(self.max_epochs):
             total_loss = 0
             tr_seen = 0
-            self.model.train()
+            self.model.anomaly_decoder.train()
             for batch in tqdm(self.train_loader, desc=f"Epoch {epoch}"):
                 model_dtype = next(self.model.parameters()).dtype
                 batch["signals"] = batch["signals"].to(dtype=model_dtype, device=self.device)

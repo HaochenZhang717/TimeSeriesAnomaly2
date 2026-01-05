@@ -91,6 +91,7 @@ def pretrain():
         min_anomaly_length=args.min_anomaly_length,
         one_channel=args.one_channel,
     )
+
     N = len(full_set)
     indices = np.arange(N)
 

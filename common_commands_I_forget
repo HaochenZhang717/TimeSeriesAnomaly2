@@ -90,3 +90,5 @@ scp -r root@134.199.134.61:/root/tianyi/formal_experiment/mitdb_two_channels/dsp
 
 
 scp -r root@134.199.134.61:/root/tianyi/formal_experiment/mitdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples.pth .
+scp -r root@134.199.134.61:/root/tianyi/formal_experiment/mitdb_two_channels/cgats/finetune_ckpt/no_code_impute_samples_non_downstream.pth .
+
