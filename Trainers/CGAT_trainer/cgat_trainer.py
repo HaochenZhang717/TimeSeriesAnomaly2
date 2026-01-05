@@ -134,7 +134,7 @@ class CGATFinetune(object):
             self, optimizer, scheduler, model, train_loader,
             val_loader, max_epochs, device, save_dir,
             wandb_project_name, wandb_run_name, grad_clip_norm,
-            early_stop
+            early_stop, patience
     ):
         self.optimizer = optimizer
         self.scheduler = scheduler
@@ -148,6 +148,7 @@ class CGATFinetune(object):
         self.wandb_run_name = wandb_run_name
         self.grad_clip_norm = grad_clip_norm
         self.early_stop = early_stop
+        self.patience = patience
 
     def finetune(self, config):
         # freeze encoder
@@ -177,15 +178,24 @@ class CGATFinetune(object):
             tr_seen = 0
             self.model.train()
             for batch in tqdm(self.train_loader, desc=f"Epoch {epoch}"):
-                X_occluded = batch["original_occluded_signal"].to(self.device)
-                X_target = batch["orig_signal"].to(self.device)
-                anomaly_label = batch["anomaly_label"].unsqueeze(-1).to(self.device)
+                model_dtype = next(self.model.parameters()).dtype
+                batch["signals"] = batch["signals"].to(dtype=model_dtype, device=self.device)
+                batch["missing_signals"] = batch["missing_signals"].to(dtype=model_dtype, device=self.device)
+                batch["attn_mask"] = batch["attn_mask"].to(dtype=torch.bool, device=self.device)
+                batch["noise_mask"] = batch["noise_mask"].to(dtype=torch.long, device=self.device)
 
+                X_occluded = batch["signals"] * batch["attn_mask"].unsqueeze(-1)
                 self.optimizer.zero_grad()
 
                 z_mean, z_log_var, z = self.model.encoder(X_occluded)
-                reconstruction = self.model.anomaly_decoder(z, anomaly_label)
-                loss = torch.nn.MSELoss()(reconstruction, X_target)
+                reconstruction = self.model.anomaly_decoder(z, batch["noise_mask"])
+                reconstruction = reconstruction * batch["noise_mask"].unsqueeze(-1)
+                target = batch["signals"] * batch["noise_mask"].unsqueeze(-1)
+
+                loss = torch.nn.MSELoss(reduction="none")(reconstruction, target).mean(-1)
+
+                loss = loss.sum() / batch["noise_mask"].sum()
+                breakpoint()
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.grad_clip_norm)
                 self.optimizer.step()

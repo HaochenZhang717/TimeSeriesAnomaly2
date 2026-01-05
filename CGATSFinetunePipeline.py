@@ -1,6 +1,7 @@
 from generation_models import TimeVAECGATS
 from Trainers import CGATFinetune
 from dataset_utils import build_dataset
+from dataset_utils import ImputationECGDataset
 import argparse
 import torch
 import json
@@ -11,6 +12,12 @@ import os
 from tqdm import tqdm
 from evaluation_utils import calculate_robustTAD
 import numpy as np
+
+def dict_collate_fn(batch):
+    out = {}
+    for key in batch[0].keys():
+        out[key] = torch.stack([sample[key] for sample in batch], dim=0)
+    return out
 
 
 def save_args_to_jsonl(args, output_path):
@@ -99,20 +106,32 @@ def finetune(args):
     pretrained_state_dict = torch.load(args.pretrained_ckpt)
     model.load_state_dict(pretrained_state_dict)
 
-
-    data_set = build_dataset(
-        args.dataset_name,
-        'non_iterable',
+    train_set = ImputationECGDataset(
         raw_data_paths=args.raw_data_paths_train,
-        indices_paths=args.anomaly_indices_paths_train,
+        indices_paths=args.indices_paths_train,
         seq_len=args.seq_len,
-        max_anomaly_length=args.max_anomaly_length,
-        min_anomaly_length=args.min_anomaly_length,
         one_channel=args.one_channel,
+        max_infill_length=args.max_infill_length,
     )
 
-    train_loader = torch.utils.data.DataLoader(data_set, batch_size=args.batch_size, shuffle=True, drop_last=True)
-    val_loader = torch.utils.data.DataLoader(data_set, batch_size=args.batch_size, shuffle=False, drop_last=False)
+    val_set = ImputationECGDataset(
+        raw_data_paths=args.raw_data_paths_test,
+        indices_paths=args.indices_paths_test,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        max_infill_length=args.max_infill_length,
+    )
+
+    train_loader = torch.utils.data.DataLoader(
+        train_set, batch_size=args.batch_size,
+        shuffle=True, drop_last=True,
+        collate_fn=dict_collate_fn,
+    )
+    val_loader = torch.utils.data.DataLoader(
+        val_set, batch_size=args.batch_size,
+        shuffle=False, drop_last=False,
+        collate_fn=dict_collate_fn,
+    )
 
 
     optimizer= torch.optim.Adam(model.parameters(), lr=args.lr)
@@ -139,6 +158,7 @@ def finetune(args):
         wandb_project_name=args.wandb_project,
         grad_clip_norm=args.grad_clip_norm,
         early_stop=args.early_stop,
+        patience=args.patience,
     )
     trainer.finetune(config=vars(args))
 

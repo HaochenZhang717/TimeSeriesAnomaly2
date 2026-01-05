@@ -10,6 +10,8 @@ ONE_CHANNEL=0
 RAW_DATA_PATHS="./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"
 
 PRETRAIN_INDICES_PATHS_TRAIN="./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/normal_800.jsonl"
+FINETUNE_TRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_train.jsonl"]'
+FINETUNE_TEST_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_test.jsonl"]'
 
 WANDB_PROJECT="CGATS-SVDB"
 
@@ -60,8 +62,8 @@ python CGATSFinetunePipeline.py \
   --max_anomaly_length ${MAX_LEN_ANOMALY} \
   --min_anomaly_length ${MIN_LEN_ANOMALY} \
   --raw_data_paths_train ${RAW_DATA_PATHS} \
-  --normal_indices_paths_train  \
-  --anomaly_indices_paths_train \
+  --normal_indices_paths_train "none" \
+  --anomaly_indices_paths_train ${FINETUNE_TRAIN_INDICES_PATHS} \
   \
   --lr 1e-5 \
   --batch_size 128 \
@@ -74,6 +76,12 @@ python CGATSFinetunePipeline.py \
   --wandb_run pretrain \
   \
   --ckpt_dir ${PRETRAIN_CKPT_DIR} \
+  --pretrained_ckpt "${PRETRAIN_CKPT_DIR}/ckpt.pth" \
+  \
+  --tuned_ckpt "none" \
+  --num_samples 0 \
+  --generated_path "none" \
+  --eval_train_size 0 \
   --gpu_id 0
 
 
