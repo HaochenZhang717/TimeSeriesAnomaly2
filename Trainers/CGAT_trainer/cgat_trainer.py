@@ -54,6 +54,14 @@ class CGATPretrain(object):
                 self.optimizer.zero_grad()
                 z_mean, z_log_var, z = self.model.encoder(X_occluded)
                 reconstruction = self.model.normal_decoder(z)
+                if epoch > 500:
+                    to_save = {
+                        "normal": X_normal,
+                        "occluded": X_occluded,
+                        "reconstruction": reconstruction,
+                    }
+                    torch.save(to_save, f"{self.save_dir}/save_during_training.pth")
+                    breakpoint()
                 loss, recon_loss, kl = self.model.loss_function(X_normal, reconstruction, z_mean, z_log_var)
                 loss.backward()
                 torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.grad_clip_norm)
