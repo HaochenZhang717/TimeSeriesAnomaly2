@@ -9,6 +9,7 @@ ONE_CHANNEL=0
 
 RAW_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"]'
 PRETRAIN_INDICES_PATHS_TRAIN="./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/normal_800.jsonl"
+INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/normal_800.jsonl"]'
 FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_train.jsonl"]'
 FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"]'
 
@@ -99,7 +100,7 @@ python CGATSFinetunePipeline.py \
   --min_anomaly_length ${MIN_LEN_ANOMALY} \
   --raw_data_paths_train ${RAW_DATA_PATHS} \
   --raw_data_paths_test ${RAW_DATA_PATHS} \
-  --indices_paths_train ${PRETRAIN_INDICES_PATHS_TRAIN} \
+  --indices_paths_train ${INDICES_FOR_SAMPLE} \
   --indices_paths_test "none" \
   \
   --lr 1e-5 \
