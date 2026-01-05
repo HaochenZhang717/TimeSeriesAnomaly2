@@ -1,6 +1,7 @@
 cd ..
 
 PRETRAIN_CKPT_DIR="/root/tianyi/formal_experiment/mitdb_two_channels/cgats/pretrain_ckpt"
+FINETUNE_CKPT_DIR="/root/tianyi/formal_experiment/mitdb_two_channels/cgats/finetune_ckpt"
 LEN_WHOLE=1000
 MAX_LEN_ANOMALY=800
 MIN_LEN_ANOMALY=180
@@ -36,7 +37,7 @@ python CGATSPretrainPipeline.py \
   \
   --lr 1e-5 \
   --batch_size 128 \
-  --epochs 5 \
+  --epochs 1 \
   --grad_clip_norm 1.0 \
   --early_stop "true" \
   --patience 200 \

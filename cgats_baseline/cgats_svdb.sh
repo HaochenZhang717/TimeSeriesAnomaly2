@@ -1,6 +1,7 @@
 cd ..
 
 PRETRAIN_CKPT_DIR="/root/tianyi/formal_experiment/svdb_two_channels/cgats/pretrain_ckpt"
+FINETUNE_CKPT_DIR="/root/tianyi/formal_experiment/svdb_two_channels/cgats/finetune_ckpt"
 LEN_WHOLE=800
 MAX_LEN_ANOMALY=360
 MIN_LEN_ANOMALY=30
