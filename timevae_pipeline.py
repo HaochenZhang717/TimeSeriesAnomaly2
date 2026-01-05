@@ -166,6 +166,164 @@ def imputation_train(args):
     trainer.train(config=vars(args))
 
 
+def imputation_pretrain(args):
+    os.makedirs(args.ckpt_dir, exist_ok=True)
+    save_args_to_jsonl(args, f"{args.ckpt_dir}/config.jsonl")
+
+    model = TimeVAE(
+        hidden_layer_sizes=args.hidden_layer_sizes,
+        trend_poly=args.trend_poly,
+        custom_seas=args.custom_seas,
+        use_residual_conn=True,
+        seq_len=args.seq_len,
+        feat_dim=args.feature_size,
+        latent_dim=args.latent_dim,
+        kl_wt=args.kl_wt,
+    )
+
+    assert args.data_type == "ecg"
+
+
+    full_set = ImputationNormalECGDataset(
+            raw_data_paths=args.raw_data_paths_train,
+            indices_paths=args.indices_paths_train,
+            seq_len=args.seq_len,
+            one_channel=args.one_channel,
+            min_infill_length=args.min_infill_length,
+            max_infill_length=args.max_infill_length,
+        )
+    N = len(full_set)
+    indices = np.arange(N)
+
+    split = int(0.8 * N)
+    train_idx = indices[:split]
+    val_idx = indices[split:]
+
+    train_set = Subset(full_set, train_idx)
+    val_set = Subset(full_set, val_idx)
+
+    train_loader = torch.utils.data.DataLoader(
+        train_set, batch_size=args.batch_size,
+        shuffle=True, drop_last=True,
+        collate_fn = dict_collate_fn,
+    )
+    val_loader = torch.utils.data.DataLoader(
+        val_set, batch_size=args.batch_size,
+        shuffle=False, drop_last=False,
+        collate_fn=dict_collate_fn,
+    )
+
+    optimizer= torch.optim.Adam(model.parameters(), lr=args.lr)
+
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer,
+        mode='min',
+        factor=0.8,  # multiply LR by 0.5
+        patience=1,  # wait 3 epochs with no improvement
+        threshold=1e-4,  # improvement threshold
+        min_lr=1e-5,  # min LR clamp
+    )
+
+    device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
+    trainer = TimeVAETrainer(
+        optimizer=optimizer,
+        scheduler=scheduler,
+        model=model,
+        train_loader=train_loader,
+        val_loader=val_loader,
+        max_epochs=args.max_epochs,
+        device=device,
+        save_dir=args.ckpt_dir,
+        wandb_run_name=args.wandb_run,
+        wandb_project_name=args.wandb_project,
+        grad_clip_norm=args.grad_clip_norm,
+        early_stop=args.early_stop,
+        patience=args.patience,
+    )
+
+    trainer.train(config=vars(args))
+
+    torch.save(model.encoder.state_dict(), f"{args.ckpt_dir}/pretrained_encoder.pt")
+
+
+
+def imputation_finetune(args):
+    os.makedirs(args.ckpt_dir, exist_ok=True)
+    save_args_to_jsonl(args, f"{args.ckpt_dir}/config.jsonl")
+
+    model = TimeVAE(
+        hidden_layer_sizes=args.hidden_layer_sizes,
+        trend_poly=args.trend_poly,
+        custom_seas=args.custom_seas,
+        use_residual_conn=True,
+        seq_len=args.seq_len,
+        feat_dim=args.feature_size,
+        latent_dim=args.latent_dim,
+        kl_wt=args.kl_wt,
+    )
+    encoder_state_dict = torch.load(f"{args.ckpt_dir}/pretrained_encoder.pt", map_location="cuda")
+    model.encoder.load_state_dict(encoder_state_dict)
+    for param in model.encoder.parameters():
+        param.requires_grad = False
+
+    assert args.data_type == "ecg"
+
+    train_set = ImputationECGDataset(
+        raw_data_paths=args.raw_data_paths_train,
+        indices_paths=args.indices_paths_train,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        max_infill_length=args.max_infill_length,
+    )
+
+    val_set = ImputationECGDataset(
+        raw_data_paths=args.raw_data_paths_test,
+        indices_paths=args.indices_paths_test,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        max_infill_length=args.max_infill_length,
+    )
+
+    train_loader = torch.utils.data.DataLoader(
+        train_set, batch_size=args.batch_size,
+        shuffle=True, drop_last=True,
+        collate_fn = dict_collate_fn,
+    )
+    val_loader = torch.utils.data.DataLoader(
+        val_set, batch_size=args.batch_size,
+        shuffle=False, drop_last=False,
+        collate_fn=dict_collate_fn,
+    )
+
+    optimizer= torch.optim.Adam(model.parameters(), lr=args.lr)
+
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer,
+        mode='min',
+        factor=0.8,  # multiply LR by 0.5
+        patience=1,  # wait 3 epochs with no improvement
+        threshold=1e-4,  # improvement threshold
+        min_lr=1e-5,  # min LR clamp
+    )
+
+    device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
+    trainer = TimeVAETrainer(
+        optimizer=optimizer,
+        scheduler=scheduler,
+        model=model,
+        train_loader=train_loader,
+        val_loader=val_loader,
+        max_epochs=args.max_epochs,
+        device=device,
+        save_dir=args.ckpt_dir,
+        wandb_run_name=args.wandb_run,
+        wandb_project_name=args.wandb_project,
+        grad_clip_norm=args.grad_clip_norm,
+        early_stop=args.early_stop,
+        patience=args.patience,
+    )
+
+    trainer.train(config=vars(args))
 
 
 def impute_sample(args):
@@ -534,6 +692,10 @@ def main():
     args = get_args()
     if args.what_to_do == "imputation_train":
         imputation_train(args)
+    elif args.what_to_do == "imputation_pretrain":
+        imputation_pretrain(args)
+    elif args.what_to_do == "imputation_finetune":
+        imputation_finetune(args)
     elif args.what_to_do == "impute_sample":
         impute_sample(args)
     elif args.what_to_do == "impute_sample_non_downstream":
