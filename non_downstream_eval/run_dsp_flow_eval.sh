@@ -54,22 +54,22 @@ python run_non_downstream_evaluate.py \
 --save_dir "/root/tianyi/non_downstream_eval_result/svdb_two_channels/timevae.jsonl" \
 
 
-# FlowTS
-## MITDB
-CUDA_VISIBLE_DEVICES=7 \
-python run_non_downstream_evaluate.py \
---samples_path "/root/tianyi/formal_experiment/mitdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth" \
---save_dir "/root/tianyi/non_downstream_eval_result/mitdb_two_channels/flowts.jsonl" \
-## QTDB
-CUDA_VISIBLE_DEVICES=7 \
-python run_non_downstream_evaluate.py \
---samples_path "/root/tianyi/formal_experiment/qtdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth" \
---save_dir "/root/tianyi/non_downstream_eval_result/qtdb_two_channels/flowts.jsonl" \
-## SVDB
-CUDA_VISIBLE_DEVICES=7 \
-python run_non_downstream_evaluate.py \
---samples_path "/root/tianyi/formal_experiment/svdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth" \
---save_dir "/root/tianyi/non_downstream_eval_result/svdb_two_channels/flowts.jsonl" \
+## FlowTS
+### MITDB
+#CUDA_VISIBLE_DEVICES=7 \
+#python run_non_downstream_evaluate.py \
+#--samples_path "/root/tianyi/formal_experiment/mitdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth" \
+#--save_dir "/root/tianyi/non_downstream_eval_result/mitdb_two_channels/flowts.jsonl" \
+### QTDB
+#CUDA_VISIBLE_DEVICES=7 \
+#python run_non_downstream_evaluate.py \
+#--samples_path "/root/tianyi/formal_experiment/qtdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth" \
+#--save_dir "/root/tianyi/non_downstream_eval_result/qtdb_two_channels/flowts.jsonl" \
+### SVDB
+#CUDA_VISIBLE_DEVICES=7 \
+#python run_non_downstream_evaluate.py \
+#--samples_path "/root/tianyi/formal_experiment/svdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth" \
+#--save_dir "/root/tianyi/non_downstream_eval_result/svdb_two_channels/flowts.jsonl" \
 
 # Diffusion-TS
 ## MITDB
