@@ -33,7 +33,7 @@ def get_args():
         "--what_to_do",
         type=str,
         required=True,
-        choices=["finetune", "sample_anomaly"]
+        choices=["finetune", "sample_anomaly", "sample_anomaly_non_downstream"]
     )
 
     """time series general parameters"""
