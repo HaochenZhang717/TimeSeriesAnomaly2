@@ -254,7 +254,7 @@ def impute_sample_non_downstream(args):
         indices_paths=args.indices_paths_train,
         seq_len=args.seq_len,
         one_channel=args.one_channel,
-        max_infill_length=args.max_infill_length,
+        max_infill_length=args.max_anomaly_length,
     )
 
     anomaly_loader = torch.utils.data.DataLoader(
