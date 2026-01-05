@@ -54,8 +54,8 @@ def get_args():
     parser.add_argument("--raw_data_paths_train", type=str, required=True)
     parser.add_argument("--raw_data_paths_test", type=str, required=True)
     parser.add_argument("--normal_indices_paths_train", type=str, required=True)
-    parser.add_argument("--indices_paths_train", type=str, required=True)
-    parser.add_argument("--indices_paths_test", type=str, required=True)
+    parser.add_argument("--indices_paths_train", type=json.loads, required=True)
+    parser.add_argument("--indices_paths_test", type=json.loads, required=True)
 
     """training parameters"""
     parser.add_argument("--lr", type=float, required=True)
