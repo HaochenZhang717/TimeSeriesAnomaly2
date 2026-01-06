@@ -223,7 +223,7 @@ def run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, d
             gen_data=sampled_gen_data,
             gen_labels=sampled_gen_labels,
             device=device,
-            lr=1e-5,
+            lr=1e-4,
             max_epochs=2000,
             batch_size=64,
             patience=20)
@@ -491,15 +491,15 @@ def main():
 
     # run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    # run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_moment_evaluate(
     #     real_data, real_labels, gen_data, gen_labels,
     #     model_name="large", one_channel=args.one_channel,
     #     output_path=args.out_dir
     # )
 
-    # run_catboost_evaluate(args, real_data, real_labels, gen_data, gen_labels)
-    # run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels)
+    run_catboost_evaluate(args, real_data, real_labels, gen_data, gen_labels)
+    run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels)
 
 
 if __name__ == "__main__":
