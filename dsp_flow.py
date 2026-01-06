@@ -874,6 +874,8 @@ def posterior_impute_sample_non_downstream(args):
         attn_mask = batch['attn_mask'].to(device, dtype=torch.bool)         # (B, T)
         noise_mask = batch['noise_mask'].to(device, dtype=torch.long)       # (B, T)
 
+        print(signals.shape)
+        breakpoint()
         missing_signals = batch["missing_signals"].to(device, dtype=torch.float32)
         missing_signals_mask = batch["missing_signals_mask"].to(device, dtype=torch.long)
 
