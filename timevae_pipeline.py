@@ -332,7 +332,7 @@ def imputation_finetune(args):
         factor=0.8,  # multiply LR by 0.5
         patience=1,  # wait 3 epochs with no improvement
         threshold=1e-4,  # improvement threshold
-        min_lr=1e-5,  # min LR clamp
+        min_lr=5e-5,  # min LR clamp
     )
 
     device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")

@@ -81,7 +81,7 @@ python timevae_pipeline.py \
   --trend_poly ${TREND_POLY} \
   --custom_seas ${CUSTOM_SEAS} \
   --latent_dim ${LATENT_DIM}  \
-  --kl_wt ${KL_WT} \
+  --kl_wt 0.0 \
   \
   --raw_data_paths_train ${DATA_PATHS} \
   --raw_data_paths_test ${TEST_DATA_PATHS} \
@@ -93,7 +93,7 @@ python timevae_pipeline.py \
   \
   --lr ${LR} \
   --batch_size 64 \
-  --max_epochs 2000 \
+  --max_epochs 10000 \
   --grad_clip_norm 1.0 \
   --grad_accum_steps 1 \
   --early_stop "true" \
