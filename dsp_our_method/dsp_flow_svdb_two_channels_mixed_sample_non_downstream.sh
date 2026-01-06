@@ -33,9 +33,7 @@ NUM_CODES_LIST=(500)
 
 
 for i in ${!GPU_IDS[@]}; do
-(
-  set -e
-
+#  set -e
   GPU=${GPU_IDS[$i]}
   NUM_CODES=${NUM_CODES_LIST[$i]}
   export CUDA_VISIBLE_DEVICES=${GPU}
@@ -87,7 +85,6 @@ for i in ${!GPU_IDS[@]}; do
     --generated_path "" \
     \
     --gpu_id 0
-) &
 done
 
 wait
