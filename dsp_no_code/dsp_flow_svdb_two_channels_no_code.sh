@@ -1,4 +1,4 @@
-cd ..
+#cd ..
 
 
 export hucfg_t_sampling=logitnorm
@@ -6,7 +6,7 @@ LR=1e-4
 LEN_WHOLE=800
 MAX_LEN_ANOMALY=360
 MIN_LEN_ANOMALY=30
-GPU_ID=0
+
 ONE_CHANNEL=0
 FEAT_SIZE=2
 
@@ -151,7 +151,7 @@ python dsp_flow.py \
   \
   --generated_path "" \
   \
-  --gpu_id ${GPU_ID}
+  --gpu_id 0
 
 
 
@@ -196,4 +196,4 @@ python dsp_flow.py \
 #  --gpu_id ${GPU_ID}
 
 
-cd  ./dsp_no_code
+#cd  ./dsp_no_code
