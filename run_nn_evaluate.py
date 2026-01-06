@@ -206,7 +206,7 @@ def run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, d
     normal_accuracies = []
     anomaly_accuracies = []
     for _ in range(5):
-        random_indices = torch.randperm(len(gen_data))[:50000]
+        random_indices = torch.randperm(len(gen_data))[:10000]
         sampled_gen_data = gen_data[random_indices]
         sampled_gen_labels = gen_labels[random_indices]
 
@@ -303,7 +303,7 @@ def run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
             gen_data=sampled_gen_data,
             gen_labels=sampled_gen_labels,
             device=device,
-            lr=1e-5,
+            lr=1e-4,
             max_epochs=2000,
             batch_size=64,
             patience=100)
