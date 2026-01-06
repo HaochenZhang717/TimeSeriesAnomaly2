@@ -489,7 +489,7 @@ def run_moment_evaluate(
         output_path
     ):
     all_results = []
-    for run_id in range(5):
+    for run_id in range(3):
         print(f"\n========== Run {run_id} ==========\n")
         seed = run_id
         control_randomness(seed)
