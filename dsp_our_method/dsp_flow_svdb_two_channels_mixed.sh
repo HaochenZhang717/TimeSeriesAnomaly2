@@ -1,4 +1,4 @@
-#cd ..
+cd ..
 
 export hucfg_t_sampling=logitnorm
 LR=1e-4
@@ -181,4 +181,4 @@ echo "All jobs finished."
 
 
 
-#cd dsp_our_method
+cd dsp_our_method

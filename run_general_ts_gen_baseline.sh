@@ -19,9 +19,9 @@ CUDA_VISIBLE_DEVICES=5 bash diffusionts_baseline/diffts_svdb.sh &
 #CUDA_VISIBLE_DEVICES=1 bash flowts_baseline/flowts_qt233.sh &
 CUDA_VISIBLE_DEVICES=2 bash flowts_baseline/flowts_svdb.sh &
 
-bash dsp_our_method/dsp_flow_svdb_two_channels_mixed.sh &
+#bash dsp_our_method/dsp_flow_svdb_two_channels_mixed.sh &
 
-CUDA_VISIBLE_DEVICES=3 dsp_no_code/dsp_flow_svdb_two_channels_no_code.sh &
+#CUDA_VISIBLE_DEVICES=3 dsp_no_code/dsp_flow_svdb_two_channels_no_code.sh &
 
 
 
