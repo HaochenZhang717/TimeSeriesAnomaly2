@@ -93,17 +93,17 @@ cd ..
 ### MITDB
 CUDA_VISIBLE_DEVICES=7 \
 python run_non_downstream_evaluate.py \
---samples_path "/root/tianyi/formal_experiment/mitdb_two_channels/cgats/finetune_ckpt/no_code_impute_samples_non_downstream.pth" \
+--samples_path "/root/tianyi/formal_experiment/mitdb_two_channels/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth" \
 --save_dir "/root/tianyi/non_downstream_eval_result/mitdb_two_channels/cgats.jsonl" \
 ## QTDB
 CUDA_VISIBLE_DEVICES=7 \
 python run_non_downstream_evaluate.py \
---samples_path "/root/tianyi/formal_experiment/qtdb_two_channels/cgats/finetune_ckpt/no_code_impute_samples_non_downstream.pth" \
+--samples_path "/root/tianyi/formal_experiment/qtdb_two_channels/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth" \
 --save_dir "/root/tianyi/non_downstream_eval_result/qtdb_two_channels/cgats.jsonl" \
 ## SVDB
 CUDA_VISIBLE_DEVICES=7 \
 python run_non_downstream_evaluate.py \
---samples_path "/root/tianyi/formal_experiment/svdb_two_channels/cgats/finetune_ckpt/no_code_impute_samples_non_downstream.pth" \
+--samples_path "/root/tianyi/formal_experiment/svdb_two_channels/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth" \
 --save_dir "/root/tianyi/non_downstream_eval_result/svdb_two_channels/cgats.jsonl" \
 
 
