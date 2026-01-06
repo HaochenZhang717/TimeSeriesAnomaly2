@@ -314,6 +314,11 @@ class CNNVAE(nn.Module):
         # total_loss = self.reconstruction_wt * reconstruction_loss + kl_loss
         return total_loss, reconstruction_loss, kl_loss
 
+    def get_anomaly_samples(self, x_occluded, noise_mask):
+        z_mean, z_log_var, z = self.encoder(x_occluded)
+        sample = self.decoder(z, x_occluded.shape[1])
+        output = sample * noise_mask.unsqueeze(-1) + x_occluded * (1 - noise_mask.unsqueeze(-1))
+        return output
 
 if __name__ == "__main__":
     model = CNNVAE(
