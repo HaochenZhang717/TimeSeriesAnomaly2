@@ -21,6 +21,8 @@ FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_
 FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"]'
 ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_segments_train.jsonl"]'
 NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/normal_800.jsonl"]'
+EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/event_label.npy"]'
+
 #VQVAE Train Parameters
 VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/mixed.jsonl"]'
 CODE_DIM=8
@@ -149,6 +151,7 @@ for i in ${!GPU_IDS[@]}; do
     \
     --raw_data_paths_train ${DATA_PATHS} \
     --raw_data_paths_test ${TEST_DATA_PATHS} \
+    --event_labels_paths_train ${EVENT_LABELS_PATHS} \
     --indices_paths_train ${NORMAL_INDICES_FOR_SAMPLE} \
     --indices_paths_test "[]" \
     --indices_paths_anomaly_for_sample ${ANOMALY_INDICES_FOR_SAMPLE} \

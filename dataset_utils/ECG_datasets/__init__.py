@@ -1,3 +1,4 @@
 from .ecg_datasets import ECGDataset, IterableECGDataset, NoContextECGDataset, ImputationECGDataset
 from .ecg_datasets import ImputationNormalECGDataset, NoContextNormalECGDataset
 from .ecg_datasets import NoContextAnomalyECGDataset
+from .ecg_datasets import ImputationNormalECGDatasetForSample

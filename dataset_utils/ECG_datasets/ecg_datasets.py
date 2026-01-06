@@ -419,6 +419,118 @@ class ImputationNormalECGDataset(Dataset):
         return len(self.global_index)
 
 
+class ImputationNormalECGDatasetForSample(Dataset):
+    def __init__(
+            self,
+            raw_data_paths,
+            indices_paths,
+            event_labels_paths,
+            seq_len,
+            one_channel,
+            min_infill_length,
+            max_infill_length,
+    ):
+        super(ImputationNormalECGDatasetForSample, self).__init__()
+        self.seq_len = seq_len
+        self.one_channel = one_channel
+        self.raw_data_paths = raw_data_paths
+        self.indices_paths = indices_paths
+        self.event_labels_paths = event_labels_paths
+
+        self.min_infill_length = min_infill_length
+        self.max_infill_length = max_infill_length
+
+        self.normed_signal_list = []
+        self.index_lines_list = []
+        self.anomaly_label_list = []
+        self.event_label_list = []
+        for raw_data_path, indices_path, event_labels_path in zip(self.raw_data_paths, self.indices_paths, self.event_labels_paths):
+            raw_data = np.load(raw_data_path)
+            raw_signal = raw_data["signal"]
+            anomaly_label = raw_data["anomaly_label"]
+
+            scaler = MinMaxScaler()
+            normed_signal = scaler.fit_transform(raw_signal)
+            index_lines = load_jsonl(indices_path)
+
+            self.normed_signal_list.append(normed_signal)
+            self.anomaly_label_list.append(anomaly_label)
+            self.index_lines_list.append(index_lines)
+            self.event_label_list.append(np.load(event_labels_path))
+
+
+        self.global_index = []
+        for region_id, index_lines in enumerate(self.index_lines_list):
+            for i in range(len(index_lines)):
+                self.global_index.append((region_id, i))
+
+
+    def __getitem__(self, index):
+        which_list, which_index = self.global_index[index]
+
+        ts_start = self.index_lines_list[which_list][which_index]["start"]
+        ts_end = self.index_lines_list[which_list][which_index]["end"]
+        ts_length = ts_end - ts_start
+
+
+        event_pos = self.event_label_list[which_list]
+        event_pos = event_pos[(event_pos >= ts_start) & (event_pos < ts_end)]
+        event_pos = event_pos - ts_start  # relative positions
+        start_event_idx = random.randint(0, len(event_pos) - 3)
+        relative_anomaly_start = int(event_pos[start_event_idx])
+
+        possible_infill_lengths = []
+        for end_event_idx in range(start_event_idx, len(event_pos)):
+            length_tmp = event_pos[end_event_idx] - event_pos[start_event_idx]
+            if 0.9 * self.min_infill_length < length_tmp < self.max_infill_length:
+                possible_infill_lengths.append(length_tmp)
+
+
+        infill_length = random.choice(possible_infill_lengths)
+        relative_anomaly_end = relative_anomaly_start + infill_length
+
+
+        if self.one_channel:
+            signal = torch.from_numpy(self.normed_signal_list[which_list][ts_start:ts_end, :1])
+        else:
+            signal = torch.from_numpy(self.normed_signal_list[which_list][ts_start:ts_end])
+
+        # normalize each slide window
+        # scaler = MinMaxScaler()
+        # signal = scaler.fit_transform(signal)
+
+        # ===== missing signals =====
+        missing_signals = torch.zeros(self.max_infill_length, signal.shape[-1])
+        missing_signals[:infill_length] = signal[relative_anomaly_start:relative_anomaly_end]
+        missing_signals_mask = torch.zeros(self.max_infill_length)
+        missing_signals_mask[:infill_length] = 1
+
+        anomaly_label = torch.from_numpy(self.anomaly_label_list[which_list][ts_start:ts_end])
+        T = anomaly_label.shape[0]
+        # ===== attention mask =====
+        # normal + target anomaly are visible
+        context_mask = torch.zeros(T, dtype=torch.long)
+        context_mask[anomaly_label == 0] = 1
+        context_mask[relative_anomaly_start:relative_anomaly_end] = 1
+
+        # ===== noise mask =====
+        noise_mask = torch.zeros(T, dtype=torch.long)
+        noise_mask[relative_anomaly_start:relative_anomaly_end] = 1
+
+
+        return {
+            'signals': signal,
+            'missing_signals': missing_signals,
+            'missing_signals_mask': missing_signals_mask,
+            'attn_mask': context_mask,
+            'noise_mask': noise_mask,
+        }
+
+
+    def __len__(self):
+        return len(self.global_index)
+
+
 
 class NoContextNormalECGDataset(Dataset):
     def __init__(
