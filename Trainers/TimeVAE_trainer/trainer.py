@@ -53,7 +53,9 @@ class TimeVAETrainer(object):
                 X_occluded = batch["signals"] * batch["attn_mask"].unsqueeze(-1)
                 self.optimizer.zero_grad()
                 z_mean, z_log_var, z = self.model.encoder(X_occluded)
-                reconstruction = self.model.decoder(z, X_occluded.shape[1])
+
+                # reconstruction = self.model.decoder(z, X_occluded.shape[1])
+                reconstruction = self.model.decoder(z)
                 loss, recon_loss, kl = self.model.loss_function(
                     batch["signals"], reconstruction,
                     batch["noise_mask"], z_mean, z_log_var
@@ -90,7 +92,8 @@ class TimeVAETrainer(object):
 
 
                     z_mean, z_log_var, z = self.model.encoder(X_occluded)
-                    reconstruction = self.model.decoder(z, X_occluded.shape[1])
+                    # reconstruction = self.model.decoder(z, X_occluded.shape[1])
+                    reconstruction = self.model.decoder(z)
                     loss, recon_loss, kl = self.model.loss_function(
                         batch["signals"], reconstruction,
                         batch["noise_mask"], z_mean, z_log_var
