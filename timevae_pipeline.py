@@ -1,4 +1,4 @@
-from Trainers import TimeVAETrainer
+from Trainers import TimeVAETrainer, CNNVAETrainer
 from generation_models import TimeVAE, CNNVAE
 from dataset_utils import ImputationNormalECGDataset
 from dataset_utils import ImputationECGDataset
@@ -240,7 +240,7 @@ def imputation_pretrain(args):
     )
 
     device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
-    trainer = TimeVAETrainer(
+    trainer = CNNVAETrainer(
         optimizer=optimizer,
         scheduler=scheduler,
         model=model,
@@ -336,7 +336,7 @@ def imputation_finetune(args):
     )
 
     device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
-    trainer = TimeVAETrainer(
+    trainer = CNNVAETrainer(
         optimizer=optimizer,
         scheduler=scheduler,
         model=model,

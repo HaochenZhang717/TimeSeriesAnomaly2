@@ -7,4 +7,4 @@ from .DSPFlow_trainer import DSPFlowTrainer
 
 # import trainers for baselines
 from .diffusion_ts_trainer import DiffusionTSTrainer
-from .TimeVAE_trainer import TimeVAETrainer
+from .TimeVAE_trainer import TimeVAETrainer, CNNVAETrainer

@@ -1,1 +1,1 @@
-from .trainer import TimeVAETrainer
+from .trainer import TimeVAETrainer, CNNVAETrainer
