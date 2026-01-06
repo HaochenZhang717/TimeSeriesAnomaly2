@@ -37,7 +37,9 @@ def get_args():
             "imputation_pretrain",
             "imputation_finetune",
             "impute_sample",
+            "cgats_impute_sample",
             "impute_sample_non_downstream",
+            "cgats_impute_sample_non_downstream",
             "anomaly_evaluate"
         ],
         help="what to do"
@@ -882,6 +884,10 @@ def main():
         impute_sample(args)
     elif args.what_to_do == "impute_sample_non_downstream":
         impute_sample_non_downstream(args)
+    elif args.what_to_do == "cgats_impute_sample":
+        cgats_impute_sample(args)
+    elif args.what_to_do == "cgats_impute_sample_non_downstream":
+        cgats_impute_sample_non_downstream(args)
     elif args.what_to_do == "anomaly_evaluate":
         anomaly_evaluate(args)
     else:

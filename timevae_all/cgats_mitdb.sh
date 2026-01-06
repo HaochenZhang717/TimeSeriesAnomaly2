@@ -105,7 +105,7 @@ KL_WT=1e-4
 #  --gpu_id 0
 
 python timevae_pipeline.py \
-  --what_to_do "impute_sample" \
+  --what_to_do "cgats_impute_sample" \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
@@ -146,7 +146,7 @@ python timevae_pipeline.py \
 
 
 python timevae_pipeline.py \
-  --what_to_do "impute_sample_non_downstream" \
+  --what_to_do "cgats_impute_sample_non_downstream" \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
