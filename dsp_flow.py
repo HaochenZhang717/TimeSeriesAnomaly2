@@ -848,7 +848,6 @@ def posterior_impute_sample(args):
     torch.save(all_results, f"{args.ckpt_dir}/posterior_impute_samples.pth")
 
 
-
 def posterior_impute_sample_non_downstream(args):
     model = DSPFlow(
         seq_length=args.seq_len,
@@ -956,26 +955,36 @@ def no_code_impute_sample(args):
     model.eval()
 
 
-    if args.data_type == "ecg":
-        normal_set = ImputationNormalECGDataset(
-            raw_data_paths=args.raw_data_paths_train,
-            indices_paths=args.indices_paths_train,
-            seq_len=args.seq_len,
-            one_channel=args.one_channel,
-            min_infill_length=args.min_infill_length,
-            max_infill_length=args.max_infill_length,
-        )
-    elif args.data_type == "ercot":
-        normal_set = ImputationNormalERCOTDataset(
-            raw_data_paths=args.raw_data_paths_train,
-            indices_paths=args.indices_paths_train,
-            seq_len=args.seq_len,
-            one_channel=args.one_channel,
-            min_infill_length=args.min_infill_length,
-            max_infill_length=args.max_infill_length,
-        )
-    else:
-        raise ValueError(f"Unknown data_type {args.data_type}")
+    # if args.data_type == "ecg":
+    #     normal_set = ImputationNormalECGDataset(
+    #         raw_data_paths=args.raw_data_paths_train,
+    #         indices_paths=args.indices_paths_train,
+    #         seq_len=args.seq_len,
+    #         one_channel=args.one_channel,
+    #         min_infill_length=args.min_infill_length,
+    #         max_infill_length=args.max_infill_length,
+    #     )
+    # elif args.data_type == "ercot":
+    #     normal_set = ImputationNormalERCOTDataset(
+    #         raw_data_paths=args.raw_data_paths_train,
+    #         indices_paths=args.indices_paths_train,
+    #         seq_len=args.seq_len,
+    #         one_channel=args.one_channel,
+    #         min_infill_length=args.min_infill_length,
+    #         max_infill_length=args.max_infill_length,
+    #     )
+    # else:
+    #     raise ValueError(f"Unknown data_type {args.data_type}")
+
+    normal_set = ImputationNormalECGDatasetForSample(
+        raw_data_paths=args.raw_data_paths_train,
+        indices_paths=args.indices_paths_train,
+        event_labels_paths=args.event_labels_paths_train,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        min_infill_length=args.min_infill_length,
+        max_infill_length=args.max_infill_length,
+    )
 
     normal_loader = torch.utils.data.DataLoader(
         normal_set, batch_size=args.batch_size,

@@ -16,6 +16,7 @@ WANDB_PROJECT="dsp_flow_svdb_two_channels"
 VQVAE_CKPT="none"
 PRETRAIN_CKPT="/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_no_code/no_context_no_code_pretrain_ckpt"
 FINETUNE_CKPT="/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr${LR}"
+EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/event_label.npy"]'
 
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"]'
@@ -128,6 +129,7 @@ python dsp_flow.py \
   \
   --raw_data_paths_train ${DATA_PATHS} \
   --raw_data_paths_test ${TEST_DATA_PATHS} \
+  --event_labels_paths_train ${EVENT_LABELS_PATHS} \
   --indices_paths_train ${NORMAL_INDICES_FOR_SAMPLE} \
   --indices_paths_test "[]" \
   --indices_paths_anomaly_for_sample ${ANOMALY_INDICES_FOR_SAMPLE} \
