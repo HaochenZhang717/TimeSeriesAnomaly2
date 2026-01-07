@@ -426,8 +426,8 @@ def run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, devi
     # gen_labels = gen_labels.reshape(-1, seq_len//2)
     # breakpoint()
 
-    gen_data = real_data.clone()
-    gen_labels = real_labels.clone()
+    # gen_data = real_data.clone()
+    # gen_labels = real_labels.clone()
 
     precisions = []
     recalls = []
