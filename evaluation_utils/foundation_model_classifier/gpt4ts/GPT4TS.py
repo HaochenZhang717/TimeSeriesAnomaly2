@@ -115,7 +115,131 @@ class Wrapped_GPT4TSModel(nn.Module):
         return (probs > 0.5).to(torch.long).squeeze(1)
 
 
-def calculate_GPT4TS(
+# def calculate_GPT4TS(
+#         anomaly_weight, feature_size,
+#         ori_data, ori_labels,
+#         gen_data, gen_labels,
+#         device, lr,
+#         max_epochs=2000,
+#         batch_size=64,
+#         patience=20,
+# ):
+#     X_real = torch.tensor(ori_data, dtype=torch.float32)
+#     X_fake = torch.tensor(gen_data, dtype=torch.float32)
+#
+#     y_real = torch.tensor(ori_labels, dtype=torch.float32)
+#     y_fake = torch.tensor(gen_labels, dtype=torch.float32)
+#
+#     train_ds = TensorDataset(X_fake, y_fake)
+#     test_ds = TensorDataset(X_real, y_real)
+#
+#     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, drop_last=True)
+#     test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False, drop_last=False)
+#
+#     model = Wrapped_GPT4TSModel(
+#         in_ch=feature_size, seq_len=X_real.shape[1], anomaly_weight=anomaly_weight,
+#     ).to(device)
+#
+#     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
+#
+#     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+#         optimizer,
+#         mode='min',
+#         factor=0.8,  # multiply LR by 0.5
+#         patience=5,  # wait 3 epochs with no improvement
+#         threshold=1e-4,  # improvement threshold
+#         min_lr=1e-6,  # min LR clamp
+#     )
+#
+#
+#
+#     best_val_loss = float("inf")
+#     best_state = None
+#     patience_counter = 0
+#
+#
+#     for epoch in range(max_epochs):
+#         model.train()
+#         # for Xb, yb in tqdm(train_loader, desc=f"Epoch{epoch}"):
+#         train_loss = 0.0
+#         train_seen = 0
+#         for Xb, yb in train_loader:
+#             Xb, yb = Xb.to(device), yb.to(device)
+#             loss = model(Xb, yb)
+#             # breakpoint()
+#             # print(loss.item())
+#             train_loss += loss.item() * Xb.shape[0]
+#             train_seen += Xb.shape[0]
+#             optimizer.zero_grad()
+#             loss.backward()
+#             optimizer.step()
+#
+#         train_loss_avg = train_loss / train_seen
+#         model.eval()
+#         val_loss = 0.0
+#         val_seen = 0
+#         for Xb, yb in test_loader:
+#             Xb, yb = Xb.to(device), yb.to(device)
+#             with torch.no_grad():
+#                 loss = model(Xb, yb)
+#
+#             val_loss += loss.item() * Xb.shape[0]
+#             val_seen += Xb.shape[0]
+#         val_loss_avg = val_loss / val_seen
+#         print(f"Epoch{epoch}: train_loss: {train_loss_avg} | val_loss: {val_loss_avg} | lr: {optimizer.param_groups[0]['lr']} ||")
+#
+#
+#
+#
+#
+#         scheduler.step(val_loss_avg)
+#
+#         if best_val_loss > val_loss_avg:
+#             best_val_loss = val_loss_avg
+#             best_state = model.state_dict()
+#             patience_counter = 0
+#         else:
+#             patience_counter += 1
+#
+#         if patience_counter >= patience:
+#             print(f"\nEarly stopping at epoch {epoch}. Best val_loss = {best_val_loss:.6f}")
+#             break
+#
+#     model.load_state_dict(best_state)
+#     model.eval()
+#
+#     ### run evaluation on test set
+#     normal_correct = 0
+#     normal_num = 0
+#     anomaly_correct = 0
+#     anomaly_num = 0
+#     all_preds = []
+#     all_labels = []
+#
+#     for Xb, yb in test_loader:
+#         Xb, yb = Xb.to(device), yb.to(device)
+#         y_pred = model.predict(Xb)
+#         normal_num += (yb == 0).sum().item()
+#         anomaly_num += (yb == 1).sum().item()
+#         normal_correct += ((y_pred==yb) * (yb==0)).sum().item()
+#         anomaly_correct += ((y_pred==yb) * (yb==1)).sum().item()
+#         all_preds.append(y_pred.detach().cpu())
+#         all_labels.append(yb.detach().cpu())
+#     normal_accuracy = normal_correct / normal_num
+#     anomaly_accuracy = anomaly_correct / anomaly_num
+#
+#     all_preds = torch.cat(all_preds).flatten().numpy()
+#     all_labels = torch.cat(all_labels).flatten().numpy()
+#
+#     precision = precision_score(all_labels, all_preds, zero_division=0)
+#     recall = recall_score(all_labels, all_preds, zero_division=0)
+#     f1 = f1_score(all_labels, all_preds, zero_division=0)
+#
+#     return normal_accuracy, anomaly_accuracy, precision, recall, f1
+
+
+
+def calculate_GPT4TS_new(
         anomaly_weight, feature_size,
         ori_data, ori_labels,
         gen_data, gen_labels,
@@ -137,89 +261,143 @@ def calculate_GPT4TS(
     test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False, drop_last=False)
 
     model = Wrapped_GPT4TSModel(
-        in_ch=feature_size, seq_len=X_real.shape[1], anomaly_weight=anomaly_weight,
+        in_ch=feature_size,
+        seq_len=X_real.shape[1],
+        anomaly_weight=anomaly_weight,
     ).to(device)
 
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
+    # =========================
+    # 使用 F1 作为调度指标
+    # =========================
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer,
-        mode='min',
-        factor=0.8,  # multiply LR by 0.5
-        patience=5,  # wait 3 epochs with no improvement
-        threshold=1e-4,  # improvement threshold
-        min_lr=1e-6,  # min LR clamp
+        mode='max',      # ← 关键
+        factor=0.8,
+        patience=5,
+        threshold=1e-4,
+        min_lr=1e-6,
     )
 
-
-
-    best_val_loss = float("inf")
+    best_val_f1 = -float("inf")
     best_state = None
     patience_counter = 0
 
-
     for epoch in range(max_epochs):
+        # -------------------
+        # Train
+        # -------------------
         model.train()
-        # for Xb, yb in tqdm(train_loader, desc=f"Epoch{epoch}"):
         train_loss = 0.0
         train_seen = 0
+
         for Xb, yb in train_loader:
             Xb, yb = Xb.to(device), yb.to(device)
             loss = model(Xb, yb)
-            # breakpoint()
-            # print(loss.item())
+
             train_loss += loss.item() * Xb.shape[0]
             train_seen += Xb.shape[0]
+
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+
         train_loss_avg = train_loss / train_seen
+
+        # -------------------
+        # Validation (F1)
+        # -------------------
         model.eval()
         val_loss = 0.0
         val_seen = 0
+
+        all_preds = []
+        all_labels = []
+
         for Xb, yb in test_loader:
             Xb, yb = Xb.to(device), yb.to(device)
             with torch.no_grad():
                 loss = model(Xb, yb)
+                y_pred = model.predict(Xb)
+
             val_loss += loss.item() * Xb.shape[0]
             val_seen += Xb.shape[0]
-        val_loss_avg = val_loss / val_seen
-        print(f"Epoch{epoch}: train_loss: {train_loss_avg} | val_loss: {val_loss_avg} | lr: {optimizer.param_groups[0]['lr']} ||")
-        scheduler.step(val_loss_avg)
 
-        if best_val_loss > val_loss_avg:
-            best_val_loss = val_loss_avg
+            all_preds.append(y_pred.detach().cpu())
+            all_labels.append(yb.detach().cpu())
+
+        val_loss_avg = val_loss / val_seen
+
+        all_preds = torch.cat(all_preds).flatten().numpy()
+        all_labels = torch.cat(all_labels).flatten().numpy()
+
+        precision = precision_score(all_labels, all_preds, zero_division=0)
+        recall = recall_score(all_labels, all_preds, zero_division=0)
+        val_f1 = f1_score(all_labels, all_preds, zero_division=0)
+
+        print(
+            f"Epoch {epoch}: "
+            f"train_loss={train_loss_avg:.6f} | "
+            f"val_loss={val_loss_avg:.6f} | "
+            f"val_f1={val_f1:.4f} | "
+            f"lr={optimizer.param_groups[0]['lr']:.2e}"
+        )
+
+        # -------------------
+        # 用 F1 调度学习率
+        # -------------------
+        scheduler.step(val_f1)
+
+        # -------------------
+        # Early stopping (by F1)
+        # -------------------
+        if val_f1 > best_val_f1:
+            best_val_f1 = val_f1
             best_state = model.state_dict()
             patience_counter = 0
         else:
             patience_counter += 1
 
         if patience_counter >= patience:
-            print(f"\nEarly stopping at epoch {epoch}. Best val_loss = {best_val_loss:.6f}")
+            print(
+                f"\nEarly stopping at epoch {epoch}. "
+                f"Best val F1 = {best_val_f1:.4f}"
+            )
             break
 
+    # =========================
+    # Load best model
+    # =========================
     model.load_state_dict(best_state)
     model.eval()
 
-    ### run evaluation on test set
+    # =========================
+    # Final evaluation
+    # =========================
     normal_correct = 0
     normal_num = 0
     anomaly_correct = 0
     anomaly_num = 0
+
     all_preds = []
     all_labels = []
 
     for Xb, yb in test_loader:
         Xb, yb = Xb.to(device), yb.to(device)
         y_pred = model.predict(Xb)
+
         normal_num += (yb == 0).sum().item()
         anomaly_num += (yb == 1).sum().item()
-        normal_correct += ((y_pred==yb) * (yb==0)).sum().item()
-        anomaly_correct += ((y_pred==yb) * (yb==1)).sum().item()
+
+        normal_correct += ((y_pred == yb) & (yb == 0)).sum().item()
+        anomaly_correct += ((y_pred == yb) & (yb == 1)).sum().item()
+
         all_preds.append(y_pred.detach().cpu())
         all_labels.append(yb.detach().cpu())
-    normal_accuracy = normal_correct / normal_num
-    anomaly_accuracy = anomaly_correct / anomaly_num
+
+    normal_accuracy = normal_correct / max(normal_num, 1)
+    anomaly_accuracy = anomaly_correct / max(anomaly_num, 1)
 
     all_preds = torch.cat(all_preds).flatten().numpy()
     all_labels = torch.cat(all_labels).flatten().numpy()
@@ -229,7 +407,6 @@ def calculate_GPT4TS(
     f1 = f1_score(all_labels, all_preds, zero_division=0)
 
     return normal_accuracy, anomaly_accuracy, precision, recall, f1
-
 
 
 def run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device):
@@ -252,7 +429,7 @@ def run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, devi
         print("gen_data.shape:", gen_data.shape)
         print("gen_labels.shape:", gen_labels.shape)
 
-        normal_accuracy, anomaly_accuracy, precision, recall, f1 = calculate_GPT4TS(
+        normal_accuracy, anomaly_accuracy, precision, recall, f1 = calculate_GPT4TS_new(
             anomaly_weight=1.0,
             feature_size=args.feature_size,
             ori_data=real_data,
