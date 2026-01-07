@@ -417,7 +417,8 @@ def run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, devi
     output_record = {
         "args": vars(args),
     }
-
+    torch.save(real_data, "/root/tianyi/real_data.pt")
+    torch.save(real_labels, "/root/tianyi/real_labels.pt")
     breakpoint()
     precisions = []
     recalls = []
