@@ -151,7 +151,7 @@ for i in ${!GPU_IDS[@]}; do
 #    --gpu_id 0
 
   python dsp_flow.py \
-    --what_to_do "posterior_impute_sample" \
+    --what_to_do "principle_posterior_impute_sample" \
     \
     --num_codes ${NUM_CODES} \
     --seq_len ${LEN_WHOLE} \

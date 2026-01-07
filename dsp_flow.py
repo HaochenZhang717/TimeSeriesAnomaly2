@@ -848,6 +848,103 @@ def posterior_impute_sample(args):
     torch.save(all_results, f"{args.ckpt_dir}/posterior_impute_samples.pth")
 
 
+def principle_posterior_impute_sample(args):
+    model = DSPFlow(
+        seq_length=args.seq_len,
+        vqvae_seq_len=args.max_infill_length,
+        num_codes=args.num_codes,
+        feature_size=args.feature_size,
+        n_layer_enc=args.n_layer_enc,
+        n_layer_dec=args.n_layer_dec,
+        d_model=args.d_model,
+        n_heads=args.n_heads,
+        mlp_hidden_times=4,
+        vqvae_ckpt=args.vqvae_ckpt
+    )
+    model.load_state_dict(torch.load(f"{args.ckpt_dir}/ckpt.pth"))
+    device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
+    model.to(device=device)
+    model.eval()
+
+    anomaly_set = NoContextAnomalyECGDataset(
+        raw_data_paths=args.raw_data_paths_train,
+        indices_paths=args.indices_paths_anomaly_for_sample,
+        seq_len=args.max_infill_length,
+        one_channel=args.one_channel,
+    )
+
+    normal_set = ImputationNormalECGDatasetForSample(
+        raw_data_paths=args.raw_data_paths_train,
+        indices_paths=args.indices_paths_train,
+        event_labels_paths=args.event_labels_paths_train,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        min_infill_length=args.min_infill_length,
+        max_infill_length=args.max_infill_length,
+    )
+
+    anomaly_loader = torch.utils.data.DataLoader(
+        anomaly_set, batch_size=args.batch_size,
+        shuffle=False, drop_last=False,
+        collate_fn=dict_collate_fn,
+    )
+
+    normal_loader = torch.utils.data.DataLoader(
+        normal_set, batch_size=args.batch_size,
+        shuffle=True, drop_last=True,
+        collate_fn=dict_collate_fn,
+    )
+
+
+    # first get all the latent variables of anomaly segments
+    discrete_embeds = []
+    for anomaly_batch in anomaly_loader:
+        anomaly_signals = anomaly_batch['signals'].to(device=device)
+        anomaly_signals_attn_mask = anomaly_batch['attn_mask'].to(device=device)
+        discrete_embed = model.vqvae.encode(anomaly_signals, anomaly_signals_attn_mask)
+        discrete_embeds.append(discrete_embed)
+    discrete_embeds = torch.cat(discrete_embeds, dim=0)
+
+    num_generate = 10000
+    all_samples = []
+    all_labels = []
+    all_reals = []
+    num_samples = 0
+    while num_samples < num_generate:
+        for normal_batch in normal_loader:
+            signals = normal_batch['signals'].to(device=device, dtype=torch.float32) #(batch_size, seq_len, ts_dim)
+            attn_mask = normal_batch['attn_mask'].to(device=device, dtype=torch.bool) # (batch_size, seq_len)
+            noise_mask = normal_batch['noise_mask'].to(device=device, dtype=torch.long)
+
+            idx = torch.randint(0, discrete_embeds.shape[0], (noise_mask.shape[0],), device=device)
+            posterior = discrete_embeds[idx].to(device=device)
+
+            with torch.no_grad():
+                samples = model.posterior_impute(
+                    signals, posterior,
+                    attn_mask=attn_mask,
+                    noise_mask=noise_mask
+                )
+            all_samples.append(samples)
+            all_labels.append(noise_mask)
+            all_reals.append(signals)
+
+            num_samples += samples.shape[0]
+            print(f"Generated {num_samples}/{num_generate} ")
+            if num_samples >= num_generate:
+                break
+
+    all_samples = torch.cat(all_samples, dim=0)
+    all_labels = torch.cat(all_labels, dim=0)
+    all_reals = torch.cat(all_reals, dim=0)
+    all_results = {
+        'all_samples': all_samples,
+        'all_labels': all_labels,
+        'all_reals': all_reals,
+    }
+    torch.save(all_results, f"{args.ckpt_dir}/principle_posterior_impute_samples.pth")
+
+
 def posterior_impute_sample_non_downstream(args):
     model = DSPFlow(
         seq_length=args.seq_len,
@@ -1031,6 +1128,82 @@ def no_code_impute_sample(args):
         'all_reals': all_reals,
     }
     torch.save(all_results, f"{args.ckpt_dir}/no_code_impute_samples.pth")
+
+
+def principle_no_code_impute_sample(args):
+    model = DSPFlow(
+        seq_length=args.seq_len,
+        vqvae_seq_len=args.max_infill_length,
+        num_codes=args.num_codes,
+        feature_size=args.feature_size,
+        n_layer_enc=args.n_layer_enc,
+        n_layer_dec=args.n_layer_dec,
+        d_model=args.d_model,
+        n_heads=args.n_heads,
+        mlp_hidden_times=4,
+        vqvae_ckpt=args.vqvae_ckpt
+    )
+    model.load_state_dict(torch.load(f"{args.ckpt_dir}/ckpt.pth"))
+    device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
+    model.to(device=device)
+    model.eval()
+
+
+    normal_set = ImputationNormalECGDatasetForSample(
+        raw_data_paths=args.raw_data_paths_train,
+        indices_paths=args.indices_paths_train,
+        event_labels_paths=args.event_labels_paths_train,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        min_infill_length=args.min_infill_length,
+        max_infill_length=args.max_infill_length,
+    )
+
+    normal_loader = torch.utils.data.DataLoader(
+        normal_set, batch_size=args.batch_size,
+        shuffle=True, drop_last=True,
+        collate_fn=dict_collate_fn,
+    )
+
+
+
+    num_generate = 10000
+    all_samples = []
+    all_labels = []
+    all_reals = []
+    num_samples = 0
+    while num_samples < num_generate:
+        for normal_batch in normal_loader:
+            signals = normal_batch['signals'].to(device=device, dtype=torch.float32) #(batch_size, seq_len, ts_dim)
+            attn_mask = normal_batch['attn_mask'].to(device=device, dtype=torch.bool) # (batch_size, seq_len)
+            noise_mask = normal_batch['noise_mask'].to(device=device, dtype=torch.long)
+
+            with torch.no_grad():
+                samples = model.no_code_impute(
+                    signals,
+                    attn_mask=attn_mask,
+                    noise_mask=noise_mask
+                )
+
+            all_samples.append(samples)
+            all_labels.append(noise_mask)
+            all_reals.append(signals)
+
+            num_samples += samples.shape[0]
+            print(f"Generated {num_samples}/{num_generate} ")
+            if num_samples >= num_generate:
+                break
+
+    all_samples = torch.cat(all_samples, dim=0)
+    all_labels = torch.cat(all_labels, dim=0)
+    all_reals = torch.cat(all_reals, dim=0)
+
+    all_results = {
+        'all_samples': all_samples,
+        'all_labels': all_labels,
+        'all_reals': all_reals,
+    }
+    torch.save(all_results, f"{args.ckpt_dir}/principle_no_code_impute_samples.pth")
 
 
 def no_code_impute_sample_non_downstream(args):
@@ -1347,10 +1520,14 @@ def main():
         no_context_no_code_pretrain(args)
     elif args.what_to_do == "posterior_impute_sample":
         posterior_impute_sample(args)
+    elif args.what_to_do == "principle_posterior_impute_sample":
+        principle_posterior_impute_sample(args)
     elif args.what_to_do == "posterior_impute_sample_non_downstream":
         posterior_impute_sample_non_downstream(args)
     elif args.what_to_do == "no_code_impute_sample":
         no_code_impute_sample(args)
+    elif args.what_to_do == "principle_no_code_impute_sample":
+        principle_no_code_impute_sample(args)
     elif args.what_to_do == "no_code_impute_sample_non_downstream":
         no_code_impute_sample_non_downstream(args)
     elif args.what_to_do == "anomaly_evaluate":
