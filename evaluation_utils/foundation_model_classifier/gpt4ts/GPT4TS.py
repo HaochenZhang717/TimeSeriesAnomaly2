@@ -148,7 +148,7 @@ def calculate_GPT4TS(
         factor=0.8,  # multiply LR by 0.5
         patience=5,  # wait 3 epochs with no improvement
         threshold=1e-4,  # improvement threshold
-        min_lr=1e-5,  # min LR clamp
+        min_lr=1e-6,  # min LR clamp
     )
 
 
@@ -260,7 +260,7 @@ def run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, devi
             gen_data=sampled_gen_data,
             gen_labels=sampled_gen_labels,
             device=device,
-            lr=1e-4,
+            lr=1e-5,
             max_epochs=1000,
             batch_size=16,
             patience=20)
