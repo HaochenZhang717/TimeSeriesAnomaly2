@@ -16,7 +16,6 @@ WANDB_PROJECT="dsp_flow_svdb_two_channels"
 VQVAE_CKPT="none"
 PRETRAIN_CKPT="/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_no_code/no_context_no_code_pretrain_ckpt"
 FINETUNE_CKPT="/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr${LR}"
-#EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/event_label.npy"]'
 
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"]'
