@@ -52,6 +52,10 @@ class GPT4TSModel(nn.Module):
 
 
     def forward(self, x_enc):
+        """
+        :param x_enc: (batch_size, seq_len, d_ts)
+        : return (batch_size, 1, seq_len)
+        """
         dec_out = self.classification(x_enc, x_mark_enc=None)
         return dec_out[:, -self.pred_len:, :].permute(0,2,1)  # [B, L, D]
 
