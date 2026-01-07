@@ -21,6 +21,7 @@ FINETUNE_TRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/EC
 FINETUNE_TEST_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"]'
 ANOMALY_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_segments_train.jsonl"]'
 NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/normal_800.jsonl"]'
+EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/event_label.npy"]'
 
 
 
@@ -70,6 +71,7 @@ python diffusion_ts.py \
   --data_type ${DATA_TYPE} \
   --feature_size ${FEAT_SIZE} \
   --one_channel ${ONE_CHANNEL} \
+  --event_labels_paths_train ${EVENT_LABELS_PATHS} \
   \
   --n_layer_enc 4 \
   --n_layer_dec 4 \

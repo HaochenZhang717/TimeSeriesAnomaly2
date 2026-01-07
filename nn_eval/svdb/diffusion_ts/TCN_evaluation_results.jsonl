@@ -1,0 +1,30 @@
+{
+  "args": {
+    "seq_len": 800,
+    "feature_size": 1,
+    "one_channel": 1,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"
+    ],
+    "max_infill_length": 360,
+    "ckpt_dir": "/root/tianyi/formal_experiment/svdb_one_channel/diffusion_ts/ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/svdb/diffusion_ts",
+    "generated_path": "/root/tianyi/formal_experiment/svdb_one_channel/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_TCN": {
+    "precision_mean": 0.7919866645987603,
+    "precision_std": 0.06011359342490986,
+    "recall_mean": 0.6522791827459891,
+    "recall_std": 0.03326429038311741,
+    "f1_mean": 0.7130292214764716,
+    "f1_std": 0.019744471532954132,
+    "normal_accuracy_mean": 0.9753371043851351,
+    "normal_accuracy_std": 0.009880653559175659,
+    "anomaly_accuracy_mean": 0.6522791827459891,
+    "anomaly_accuracy_std": 0.03326429038311741
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "args": {
+    "seq_len": 600,
+    "feature_size": 2,
+    "one_channel": 0,
+    "feat_window_size": 300,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_test.jsonl"
+    ],
+    "max_infill_length": 450,
+    "ckpt_dir": "/root/tianyi/formal_experiment/qtdb_two_channels/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/qtdb_two_channels/timevae",
+    "generated_path": "/root/tianyi/formal_experiment/qtdb_two_channels/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_RF": {
+    "precision_mean": 0.7897531462443717,
+    "precision_std": 0.00481511222837447,
+    "recall_mean": 0.5393290567427107,
+    "recall_std": 0.007873872860707481,
+    "f1_mean": 0.6409236304812664,
+    "f1_std": 0.00649656355206901,
+    "normal_accuracy_mean": 0.9290908709426995,
+    "normal_accuracy_std": 0.0017825887922556718,
+    "anomaly_accuracy_mean": 0.5393290567427107,
+    "anomaly_accuracy_std": 0.007873872860707481
+  }
+}

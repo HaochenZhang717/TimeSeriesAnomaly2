@@ -1,0 +1,62 @@
+{
+  "args": {
+    "seq_len": 600,
+    "feature_size": 2,
+    "one_channel": 0,
+    "feat_window_size": 300,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_test.jsonl"
+    ],
+    "max_infill_length": 450,
+    "ckpt_dir": "/root/tianyi/formal_experiment/qtdb_two_channels/diffusion_ts/ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/qtdb_two_channels/diffusion_ts",
+    "generated_path": "/root/tianyi/formal_experiment/qtdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_CatBoost": {
+    "precision_mean": 0.8671119941128387,
+    "precision_std": 0.0037513238898891576,
+    "recall_mean": 0.5700865230751802,
+    "recall_std": 0.0051641539943416215,
+    "f1_mean": 0.6878805215677446,
+    "f1_std": 0.003052179913334216,
+    "normal_accuracy_mean": 0.9568354279879427,
+    "normal_accuracy_std": 0.0017107757971524785,
+    "anomaly_accuracy_mean": 0.5700865230751802,
+    "anomaly_accuracy_std": 0.0051641539943416215
+  }
+}
+{
+  "args": {
+    "seq_len": 600,
+    "feature_size": 2,
+    "one_channel": 0,
+    "feat_window_size": 300,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_test.jsonl"
+    ],
+    "max_infill_length": 450,
+    "ckpt_dir": "/root/tianyi/formal_experiment/qtdb_two_channels/diffusion_ts/ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/qtdb_two_channels/diffusion_ts",
+    "generated_path": "/root/tianyi/formal_experiment/qtdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_CatBoost": {
+    "precision_mean": 0.8653751904979087,
+    "precision_std": 0.0038025214173408543,
+    "recall_mean": 0.5766005352818727,
+    "recall_std": 0.013998486374492681,
+    "f1_mean": 0.6919830546731581,
+    "f1_std": 0.010601581965739982,
+    "normal_accuracy_mean": 0.9557038249302364,
+    "normal_accuracy_std": 0.0014981095769389737,
+    "anomaly_accuracy_mean": 0.5766005352818727,
+    "anomaly_accuracy_std": 0.013998486374492681
+  }
+}

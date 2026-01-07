@@ -1,6 +1,6 @@
 from Trainers import DiffusionTSTrainer
 from generation_models import Diffusion_TS
-from dataset_utils import ImputationNormalECGDataset
+from dataset_utils import ImputationNormalECGDataset, ImputationNormalECGDatasetForSample
 from dataset_utils import ImputationECGDataset
 import argparse
 import torch
@@ -56,6 +56,7 @@ def get_args():
     """data parameters"""
     parser.add_argument("--raw_data_paths_train", type=json.loads, required=True)
     parser.add_argument("--raw_data_paths_test", type=json.loads, required=True)
+    parser.add_argument("--event_labels_paths_train", type=json.loads, required=True)
     parser.add_argument("--indices_paths_train", type=json.loads, required=True)
     parser.add_argument("--indices_paths_test", type=json.loads, required=True)
     parser.add_argument("--indices_paths_anomaly_for_sample", type=json.loads, default="none")
@@ -180,9 +181,19 @@ def no_code_impute_sample(args):
 
 
     assert args.data_type == "ecg"
-    normal_set = ImputationNormalECGDataset(
+    # normal_set = ImputationNormalECGDataset(
+    #     raw_data_paths=args.raw_data_paths_train,
+    #     indices_paths=args.indices_paths_train,
+    #     seq_len=args.seq_len,
+    #     one_channel=args.one_channel,
+    #     min_infill_length=args.min_infill_length,
+    #     max_infill_length=args.max_infill_length,
+    # )
+
+    normal_set = ImputationNormalECGDatasetForSample(
         raw_data_paths=args.raw_data_paths_train,
         indices_paths=args.indices_paths_train,
+        event_labels_paths=args.event_labels_paths_train,
         seq_len=args.seq_len,
         one_channel=args.one_channel,
         min_infill_length=args.min_infill_length,

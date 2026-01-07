@@ -1,0 +1,93 @@
+{
+  "args": {
+    "seq_len": 1000,
+    "feature_size": 2,
+    "one_channel": 0,
+    "feat_window_size": 300,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data/106.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"
+    ],
+    "max_infill_length": 800,
+    "ckpt_dir": "/root/tianyi/formal_experiment/mitdb_two_channels/diffusion_ts/ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/mitdb_two_channels/diffusion_ts",
+    "generated_path": "/root/tianyi/formal_experiment/mitdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_robustTAD": {
+    "precision_mean": 0.8409975828817957,
+    "precision_std": 0.010160196044025275,
+    "recall_mean": 0.2711889434115158,
+    "recall_std": 0.011910387743380327,
+    "f1_mean": 0.41003215853542835,
+    "f1_std": 0.014669656918561175,
+    "normal_accuracy_mean": 0.9322690176922619,
+    "normal_accuracy_std": 0.0035175512054012002,
+    "anomaly_accuracy_mean": 0.2711889434115158,
+    "anomaly_accuracy_std": 0.011910387743380327
+  }
+}
+{
+  "args": {
+    "seq_len": 1000,
+    "feature_size": 2,
+    "one_channel": 0,
+    "feat_window_size": 300,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data/106.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"
+    ],
+    "max_infill_length": 800,
+    "ckpt_dir": "/root/tianyi/formal_experiment/mitdb_two_channels/diffusion_ts/ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/mitdb_two_channels/diffusion_ts",
+    "generated_path": "/root/tianyi/formal_experiment/mitdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_robustTAD": {
+    "precision_mean": 0.907400253061223,
+    "precision_std": 0.04883152938653063,
+    "recall_mean": 0.23813682678311499,
+    "recall_std": 0.01637860991217268,
+    "f1_mean": 0.3764464045874314,
+    "f1_std": 0.018021167633253808,
+    "normal_accuracy_mean": 0.96584261631024,
+    "normal_accuracy_std": 0.02159292196808815,
+    "anomaly_accuracy_mean": 0.23813682678311499,
+    "anomaly_accuracy_std": 0.01637860991217268
+  }
+}
+{
+  "args": {
+    "seq_len": 1000,
+    "feature_size": 2,
+    "one_channel": 0,
+    "feat_window_size": 300,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data/106.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"
+    ],
+    "max_infill_length": 800,
+    "ckpt_dir": "/root/tianyi/formal_experiment/mitdb_two_channels/diffusion_ts/ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/mitdb_two_channels/diffusion_ts",
+    "generated_path": "/root/tianyi/formal_experiment/mitdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_robustTAD": {
+    "precision_mean": 0.8583633613473562,
+    "precision_std": 0.05558658539033906,
+    "recall_mean": 0.22921112261588558,
+    "recall_std": 0.0317734368884158,
+    "f1_mean": 0.36089345092110525,
+    "f1_std": 0.04164953706832255,
+    "normal_accuracy_mean": 0.9500367347749251,
+    "normal_accuracy_std": 0.019018210336243322,
+    "anomaly_accuracy_mean": 0.22921112261588558,
+    "anomaly_accuracy_std": 0.0317734368884158
+  }
+}

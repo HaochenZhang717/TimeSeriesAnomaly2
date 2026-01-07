@@ -1,0 +1,30 @@
+{
+  "args": {
+    "seq_len": 800,
+    "feature_size": 1,
+    "one_channel": 1,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"
+    ],
+    "max_infill_length": 360,
+    "ckpt_dir": "/root/tianyi/formal_experiment/svdb_one_channel/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/svdb/timevae",
+    "generated_path": "/root/tianyi/formal_experiment/svdb_one_channel/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_LSTM": {
+    "precision_mean": 0.2182667368989178,
+    "precision_std": 0.04443943032056964,
+    "recall_mean": 0.1227683206331172,
+    "recall_std": 0.0571591242361921,
+    "f1_mean": 0.14770730383833125,
+    "f1_std": 0.04999725240913983,
+    "normal_accuracy_mean": 0.9369282099791029,
+    "normal_accuracy_std": 0.032206865170456477,
+    "anomaly_accuracy_mean": 0.1227683206331172,
+    "anomaly_accuracy_std": 0.0571591242361921
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "args": {
+    "seq_len": 800,
+    "feature_size": 2,
+    "one_channel": 0,
+    "feat_window_size": 300,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"
+    ],
+    "max_infill_length": 360,
+    "ckpt_dir": "/root/tianyi/formal_experiment/svdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/svdb_two_channels/flowts",
+    "generated_path": "/root/tianyi/formal_experiment/svdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_robustTAD": {
+    "precision_mean": 0.8681398106886442,
+    "precision_std": 0.06509776175788237,
+    "recall_mean": 0.20161805324296264,
+    "recall_std": 0.06701198744798871,
+    "f1_mean": 0.3199496891571987,
+    "f1_std": 0.09088978758019703,
+    "normal_accuracy_mean": 0.9952031570587965,
+    "normal_accuracy_std": 0.00372532077483611,
+    "anomaly_accuracy_mean": 0.20161805324296264,
+    "anomaly_accuracy_std": 0.06701198744798871
+  }
+}
+{
+  "args": {
+    "seq_len": 800,
+    "feature_size": 2,
+    "one_channel": 0,
+    "feat_window_size": 300,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"
+    ],
+    "max_infill_length": 360,
+    "ckpt_dir": "/root/tianyi/formal_experiment/svdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/svdb_two_channels/flowts",
+    "generated_path": "/root/tianyi/formal_experiment/svdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_robustTAD": {
+    "precision_mean": 0.9186069325985985,
+    "precision_std": 0.040042886095803545,
+    "recall_mean": 0.2529856934840382,
+    "recall_std": 0.11636085511458215,
+    "f1_mean": 0.38312867534017975,
+    "f1_std": 0.15743044185530083,
+    "normal_accuracy_mean": 0.9974567535165013,
+    "normal_accuracy_std": 0.001348985754624323,
+    "anomaly_accuracy_mean": 0.2529856934840382,
+    "anomaly_accuracy_std": 0.11636085511458215
+  }
+}
+{
+  "args": {
+    "seq_len": 800,
+    "feature_size": 2,
+    "one_channel": 0,
+    "feat_window_size": 300,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"
+    ],
+    "max_infill_length": 360,
+    "ckpt_dir": "/root/tianyi/formal_experiment/svdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/svdb_two_channels/flowts",
+    "generated_path": "/root/tianyi/formal_experiment/svdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_robustTAD": {
+    "precision_mean": 0.9331773498303738,
+    "precision_std": 0.00110829721542256,
+    "recall_mean": 0.24469953704610603,
+    "recall_std": 0.07921428973925436,
+    "f1_mean": 0.38131754746915364,
+    "f1_std": 0.09578989483376878,
+    "normal_accuracy_mean": 0.9975823347815834,
+    "normal_accuracy_std": 0.0007566884082398305,
+    "anomaly_accuracy_mean": 0.24469953704610603,
+    "anomaly_accuracy_std": 0.07921428973925436
+  }
+}

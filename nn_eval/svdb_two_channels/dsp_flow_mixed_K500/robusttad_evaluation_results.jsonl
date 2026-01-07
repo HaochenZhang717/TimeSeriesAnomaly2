@@ -1,0 +1,123 @@
+{
+  "args": {
+    "seq_len": 800,
+    "feature_size": 2,
+    "one_channel": 0,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"
+    ],
+    "max_infill_length": 360,
+    "ckpt_dir": "/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/svdb_two_channels/dsp_flow_mixed_K500",
+    "generated_path": "/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_robustTAD": {
+    "precision_mean": 0.9606941762706865,
+    "precision_std": 0.00837747958269083,
+    "recall_mean": 0.5837959607435993,
+    "recall_std": 0.08653592486399157,
+    "f1_mean": 0.7224139169080501,
+    "f1_std": 0.06481665778171393,
+    "normal_accuracy_mean": 0.9966488774932174,
+    "normal_accuracy_std": 0.000976465740293709,
+    "anomaly_accuracy_mean": 0.5837959607435993,
+    "anomaly_accuracy_std": 0.08653592486399157
+  }
+}
+{
+  "args": {
+    "seq_len": 800,
+    "feature_size": 2,
+    "one_channel": 0,
+    "feat_window_size": 300,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"
+    ],
+    "max_infill_length": 360,
+    "ckpt_dir": "/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/svdb_two_channels/dsp_flow_mixed_K500",
+    "generated_path": "/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_robustTAD": {
+    "precision_mean": 0.9247159714652671,
+    "precision_std": 0.055255367917275415,
+    "recall_mean": 0.6151971635095692,
+    "recall_std": 0.16307619129020898,
+    "f1_mean": 0.7301502936043593,
+    "f1_std": 0.1404095539089094,
+    "normal_accuracy_mean": 0.9941580318253642,
+    "normal_accuracy_std": 0.0030329027733916603,
+    "anomaly_accuracy_mean": 0.6151971635095692,
+    "anomaly_accuracy_std": 0.16307619129020898
+  }
+}
+{
+  "args": {
+    "seq_len": 800,
+    "feature_size": 2,
+    "one_channel": 0,
+    "feat_window_size": 300,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"
+    ],
+    "max_infill_length": 360,
+    "ckpt_dir": "/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/svdb_two_channels/dsp_flow_mixed_K500",
+    "generated_path": "/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_robustTAD": {
+    "precision_mean": 0.9554405329442313,
+    "precision_std": 0.0035679458075546277,
+    "recall_mean": 0.618745388417664,
+    "recall_std": 0.17102621858716752,
+    "f1_mean": 0.7385066147165372,
+    "f1_std": 0.11970398841663432,
+    "normal_accuracy_mean": 0.9960834907616459,
+    "normal_accuracy_std": 0.0007792005206428203,
+    "anomaly_accuracy_mean": 0.618745388417664,
+    "anomaly_accuracy_std": 0.17102621858716752
+  }
+}
+{
+  "args": {
+    "seq_len": 800,
+    "feature_size": 2,
+    "one_channel": 0,
+    "feat_window_size": 300,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"
+    ],
+    "max_infill_length": 360,
+    "ckpt_dir": "/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/svdb_two_channels/dsp_flow_mixed_K500",
+    "generated_path": "/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_robustTAD": {
+    "precision_mean": 0.9512523859449268,
+    "precision_std": 0.008842897263179756,
+    "recall_mean": 0.5415515811605843,
+    "recall_std": 0.07618474476164519,
+    "f1_mean": 0.6873905461299463,
+    "f1_std": 0.06327211053275004,
+    "normal_accuracy_mean": 0.9962379828215671,
+    "normal_accuracy_std": 0.000463024228237631,
+    "anomaly_accuracy_mean": 0.5415515811605843,
+    "anomaly_accuracy_std": 0.07618474476164519
+  }
+}

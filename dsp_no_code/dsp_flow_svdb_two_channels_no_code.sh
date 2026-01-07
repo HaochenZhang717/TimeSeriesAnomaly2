@@ -26,6 +26,7 @@ FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_
 FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"]'
 ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_segments_train.jsonl"]'
 NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/normal_800.jsonl"]'
+EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/event_label.npy"]'
 
 
 #python dsp_flow.py \
@@ -120,6 +121,7 @@ python dsp_flow.py \
   --data_type ${DATA_TYPE} \
   --feature_size ${FEAT_SIZE} \
   --one_channel ${ONE_CHANNEL} \
+  --event_labels_paths_train ${EVENT_LABELS_PATHS} \
   --num_codes 500 \
   \
   --n_layer_enc 4 \

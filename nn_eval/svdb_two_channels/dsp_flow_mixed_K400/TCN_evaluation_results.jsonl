@@ -1,0 +1,30 @@
+{
+  "args": {
+    "seq_len": 800,
+    "feature_size": 2,
+    "one_channel": 0,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"
+    ],
+    "max_infill_length": 360,
+    "ckpt_dir": "/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K400/impute_finetune_ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/svdb_two_channels/dsp_flow_mixed_K400",
+    "generated_path": "/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K400/impute_finetune_ckpt_lr1e-4/posterior_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_TCN": {
+    "precision_mean": 0.9251326212877047,
+    "precision_std": 0.006580646462018409,
+    "recall_mean": 0.7272542067425414,
+    "recall_std": 0.027460122050015957,
+    "f1_mean": 0.8139781834484177,
+    "f1_std": 0.015250964569933353,
+    "normal_accuracy_mean": 0.9918308935332876,
+    "normal_accuracy_std": 0.00104030995142923,
+    "anomaly_accuracy_mean": 0.7272542067425414,
+    "anomaly_accuracy_std": 0.027460122050015957
+  }
+}

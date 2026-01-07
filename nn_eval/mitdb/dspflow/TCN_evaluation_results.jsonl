@@ -1,0 +1,60 @@
+{
+  "args": {
+    "seq_len": 1000,
+    "feature_size": 1,
+    "one_channel": 1,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data/106.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"
+    ],
+    "max_infill_length": 800,
+    "ckpt_dir": "/root/tianyi/formal_experiment/mitdb_new_vqvae/dsp_flow/impute_finetune_ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/mitdb/dspflow",
+    "generated_path": "/root/tianyi/formal_experiment/mitdb_new_vqvae/dsp_flow/impute_finetune_ckpt_lr1e-4/posterior_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_TCN": {
+    "precision_mean": 0.6126325603076564,
+    "precision_std": 0.0,
+    "recall_mean": 0.6626570026561023,
+    "recall_std": 0.0,
+    "f1_mean": 0.6366636533895043,
+    "f1_std": 0.0,
+    "normal_accuracy_mean": 0.4455709775421457,
+    "normal_accuracy_std": 0.0,
+    "anomaly_accuracy_mean": 0.6626570026561023,
+    "anomaly_accuracy_std": 0.0
+  }
+}
+{
+  "args": {
+    "seq_len": 1000,
+    "feature_size": 1,
+    "one_channel": 1,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data/106.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"
+    ],
+    "max_infill_length": 800,
+    "ckpt_dir": "/root/tianyi/formal_experiment/mitdb_new_vqvae/dsp_flow/impute_finetune_ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/mitdb/dspflow",
+    "generated_path": "/root/tianyi/formal_experiment/mitdb_new_vqvae/dsp_flow/impute_finetune_ckpt_lr1e-4/posterior_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_TCN": {
+    "precision_mean": 0.6198950384330166,
+    "precision_std": 0.008011818472861922,
+    "recall_mean": 0.6994030522666905,
+    "recall_std": 0.10994137024577383,
+    "f1_mean": 0.6540251126341114,
+    "f1_std": 0.05028815211303188,
+    "normal_accuracy_mean": 0.4350580806576517,
+    "normal_accuracy_std": 0.06881659992274351,
+    "anomaly_accuracy_mean": 0.6994030522666905,
+    "anomaly_accuracy_std": 0.10994137024577383
+  }
+}

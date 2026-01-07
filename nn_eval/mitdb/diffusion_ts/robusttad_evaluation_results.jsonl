@@ -1,0 +1,30 @@
+{
+  "args": {
+    "seq_len": 1000,
+    "feature_size": 1,
+    "one_channel": 1,
+    "raw_data_paths": [
+      "./dataset_utils/ECG_datasets/raw_data/106.npz"
+    ],
+    "indices_paths_test": [
+      "./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"
+    ],
+    "max_infill_length": 800,
+    "ckpt_dir": "/root/tianyi/formal_experiment/mitdb_one_channel/diffusion_ts/ckpt_lr1e-4",
+    "out_dir": "/root/tianyi/nn_eval/mitdb/diffusion_ts",
+    "generated_path": "/root/tianyi/formal_experiment/mitdb_one_channel/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples.pth",
+    "gpu_id": 0
+  },
+  "result_robustTAD": {
+    "precision_mean": 0.853685610897252,
+    "precision_std": 0.07938153500643522,
+    "recall_mean": 0.33023724845811014,
+    "recall_std": 0.11097892294527,
+    "f1_mean": 0.4641811614147581,
+    "f1_std": 0.09807322953954742,
+    "normal_accuracy_mean": 0.9165258831238458,
+    "normal_accuracy_std": 0.056237238366562886,
+    "anomaly_accuracy_mean": 0.33023724845811014,
+    "anomaly_accuracy_std": 0.11097892294527
+  }
+}
