@@ -12,7 +12,7 @@
 
 CUDA_VISIBLE_DEVICES=3 bash diffusionts_baseline/diffts_mit106.sh &
 CUDA_VISIBLE_DEVICES=4 bash diffusionts_baseline/diffts_qt233.sh &
-CUDA_VISIBLE_DEVICES=5 bash diffusionts_baseline/diffts_svdb.sh &
+CUDA_VISIBLE_DEVICES=0 bash diffusionts_baseline/diffts_svdb.sh &
 
 
 CUDA_VISIBLE_DEVICES=0 bash flowts_baseline/flowts_mit.sh &
