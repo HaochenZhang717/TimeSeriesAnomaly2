@@ -181,24 +181,24 @@ def no_code_impute_sample(args):
 
 
     assert args.data_type == "ecg"
-    # normal_set = ImputationNormalECGDataset(
-    #     raw_data_paths=args.raw_data_paths_train,
-    #     indices_paths=args.indices_paths_train,
-    #     seq_len=args.seq_len,
-    #     one_channel=args.one_channel,
-    #     min_infill_length=args.min_infill_length,
-    #     max_infill_length=args.max_infill_length,
-    # )
-
-    normal_set = ImputationNormalECGDatasetForSample(
+    normal_set = ImputationNormalECGDataset(
         raw_data_paths=args.raw_data_paths_train,
         indices_paths=args.indices_paths_train,
-        event_labels_paths=args.event_labels_paths_train,
         seq_len=args.seq_len,
         one_channel=args.one_channel,
         min_infill_length=args.min_infill_length,
         max_infill_length=args.max_infill_length,
     )
+
+    # normal_set = ImputationNormalECGDatasetForSample(
+    #     raw_data_paths=args.raw_data_paths_train,
+    #     indices_paths=args.indices_paths_train,
+    #     event_labels_paths=args.event_labels_paths_train,
+    #     seq_len=args.seq_len,
+    #     one_channel=args.one_channel,
+    #     min_infill_length=args.min_infill_length,
+    #     max_infill_length=args.max_infill_length,
+    # )
 
     normal_loader = torch.utils.data.DataLoader(
         normal_set, batch_size=args.batch_size,
