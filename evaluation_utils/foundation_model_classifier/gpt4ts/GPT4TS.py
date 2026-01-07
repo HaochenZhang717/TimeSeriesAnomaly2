@@ -419,12 +419,16 @@ def run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, devi
     }
     # torch.save(real_data, "/root/tianyi/real_data.pt")
     # torch.save(real_labels, "/root/tianyi/real_labels.pt")
-    seq_len = real_data.shape[1]
-    real_data = real_data.reshape(-1, seq_len//2, 2)
-    real_labels = real_labels.reshape(-1, seq_len//2)
-    gen_data = gen_data.reshape(-1, seq_len//2, 2)
-    gen_labels = gen_labels.reshape(-1, seq_len//2)
+    # seq_len = real_data.shape[1]
+    # real_data = real_data.reshape(-1, seq_len//2, 2)
+    # real_labels = real_labels.reshape(-1, seq_len//2)
+    # gen_data = gen_data.reshape(-1, seq_len//2, 2)
+    # gen_labels = gen_labels.reshape(-1, seq_len//2)
     # breakpoint()
+
+    gen_data = real_data.clone()
+    gen_labels = real_labels.clone()
+
     precisions = []
     recalls = []
     f1s = []
