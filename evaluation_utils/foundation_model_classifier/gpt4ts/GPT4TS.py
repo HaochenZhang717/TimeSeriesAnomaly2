@@ -434,7 +434,7 @@ def run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, devi
     f1s = []
     normal_accuracies = []
     anomaly_accuracies = []
-    for _ in range(1):
+    for _ in range(5):
         random_indices = torch.randperm(len(gen_data))[:1000]
         sampled_gen_data = gen_data[random_indices]
         sampled_gen_labels = gen_labels[random_indices]

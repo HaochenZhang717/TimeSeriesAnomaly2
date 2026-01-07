@@ -4,6 +4,7 @@ import torch.nn.functional as F
 from torch.utils.data import TensorDataset, DataLoader
 from tqdm import tqdm
 from sklearn.metrics import precision_score, recall_score, f1_score
+import copy
 
 
 # -----------------------------
@@ -212,7 +213,7 @@ def calculate_robustTAD(
 
         if best_val_loss > val_loss_avg:
             best_val_loss = val_loss_avg
-            best_state = model.state_dict()
+            best_state = copy.deepcopy(model.state_dict())
             patience_counter = 0
         else:
             patience_counter += 1
