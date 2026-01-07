@@ -281,7 +281,7 @@ def calculate_GPT4TS_new(
         factor=0.8,
         patience=5,
         threshold=1e-4,
-        min_lr=1e-4,
+        min_lr=2e-5,
     )
 
     best_val_f1 = -float("inf")
