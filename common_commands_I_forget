@@ -107,6 +107,10 @@ scp -r root@134.199.134.61:/root/tianyi/formal_experiment/svdb_two_channels/dsp_
 scp -r root@134.199.134.61:/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth
 
 
-scp -r root@134.199.134.61:/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples.pth asdd.pth
+scp -r root@134.199.134.61:/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples.pth 0106.pth
+scp -r root@134.199.134.61:/root/tianyi/formal_experiment/mitdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples.pth 0106_mitdb.pth
 scp -r root@134.199.134.61:/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth qwe.pth
 
+
+
+scp -r root@134.199.134.61:/root/tianyi/formal_experiment/svdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples.pth 0106_flowts.pth

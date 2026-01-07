@@ -418,6 +418,7 @@ def run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, devi
         "args": vars(args),
     }
 
+    breakpoint()
     precisions = []
     recalls = []
     f1s = []
@@ -434,7 +435,7 @@ def run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, devi
         print("gen_labels.shape:", gen_labels.shape)
 
         normal_accuracy, anomaly_accuracy, precision, recall, f1 = calculate_GPT4TS_new(
-            anomaly_weight=5.0,
+            anomaly_weight=1.0,
             feature_size=args.feature_size,
             ori_data=real_data,
             ori_labels=real_labels,
