@@ -46,8 +46,10 @@ def get_args():
             "no_context_no_code_pretrain",
             "no_code_imputation_finetune",
             "posterior_impute_sample",
+            "principle_posterior_impute_sample",
             "posterior_impute_sample_non_downstream",
             "no_code_impute_sample",
+            "principle_no_code_impute_sample",
             "no_code_impute_sample_non_downstream",
             "anomaly_evaluate"
         ],
