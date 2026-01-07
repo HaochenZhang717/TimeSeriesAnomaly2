@@ -1,6 +1,8 @@
 import numpy as np
 import os
 import json
+
+from networkx.utils import configs
 from transformers.models.gpt2.modeling_gpt2 import GPT2Model
 from .Embed import DataEmbedding
 import torch
@@ -38,6 +40,8 @@ class GPT4TSModel(nn.Module):
         
         for i, (name, param) in enumerate(self.gpt2.named_parameters()):
             if 'ln' in name or 'wpe' in name: # or 'mlp' in name:
+                param.requires_grad = True
+            if 'mlp' in name:
                 param.requires_grad = True
             else:
                 param.requires_grad = False
