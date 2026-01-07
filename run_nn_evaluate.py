@@ -488,8 +488,8 @@ def main():
     gen_labels = gen_labels[~nan_mask]
 
 
-    # run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    # run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_moment_evaluate(
     #     real_data, real_labels, gen_data, gen_labels,
@@ -498,7 +498,7 @@ def main():
     # )
 
     # run_catboost_evaluate(args, real_data, real_labels, gen_data, gen_labels)
-    run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels)
+    # run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels)
 
     print("all done")
 
