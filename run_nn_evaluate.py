@@ -497,8 +497,8 @@ def main():
     #     output_path=args.out_dir
     # )
 
+    run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels)
     # run_catboost_evaluate(args, real_data, real_labels, gen_data, gen_labels)
-    # run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels)
 
     print("all done")
 
