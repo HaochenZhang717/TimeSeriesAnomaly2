@@ -62,8 +62,7 @@ def run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels):
     normal_accuracies = []
     anomaly_accuracies = []
 
-    # 你 LSTM 是 for _ in range(1)，我保持完全一致
-    for _ in range(5):
+    for _ in range(1):
         # ---- sample generated data ----
         random_indices = torch.randperm(len(gen_data))[:1000]
         sampled_gen_data = gen_data[random_indices]
