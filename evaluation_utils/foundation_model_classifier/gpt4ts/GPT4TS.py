@@ -1,7 +1,7 @@
 import numpy as np
 import os
 import json
-
+import copy
 from networkx.utils import configs
 from transformers.models.gpt2.modeling_gpt2 import GPT2Model
 from .Embed import DataEmbedding
@@ -358,7 +358,7 @@ def calculate_GPT4TS_new(
         # -------------------
         if val_f1 > best_val_f1:
             best_val_f1 = val_f1
-            best_state = model.state_dict()
+            best_state = copy.deepcopy(model.state_dict())
             patience_counter = 0
         else:
             patience_counter += 1
