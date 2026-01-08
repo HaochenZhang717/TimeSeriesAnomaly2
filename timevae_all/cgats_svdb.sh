@@ -19,6 +19,7 @@ FINETUNE_TRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/EC
 FINETUNE_TEST_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"]'
 ANOMALY_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_segments_train.jsonl"]'
 NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/normal_800.jsonl"]'
+EVENT_LABELS_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/event_label.npy"]'
 
 HIDDEN_LAYER_SIZES="[50,100,200]"
 TREND_POLY=3
@@ -111,7 +112,7 @@ KL_WT=1e-4
 
 
 python timevae_pipeline.py \
-  --what_to_do "cgats_impute_sample" \
+  --what_to_do "principle_cgats_impute_sample" \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
@@ -126,6 +127,7 @@ python timevae_pipeline.py \
   \
   --raw_data_paths_train ${DATA_PATHS} \
   --raw_data_paths_test ${TEST_DATA_PATHS} \
+  --event_labels_paths_train ${EVENT_LABELS_PATHS} \
   --indices_paths_train ${NORMAL_INDICES_FOR_SAMPLE} \
   --indices_paths_test "[]" \
   --indices_paths_anomaly_for_sample ${ANOMALY_INDICES_FOR_SAMPLE} \
@@ -151,41 +153,41 @@ python timevae_pipeline.py \
 
 
 
-python timevae_pipeline.py \
-  --what_to_do "cgats_impute_sample_non_downstream" \
-  \
-  --seq_len ${LEN_WHOLE} \
-  --data_type ${DATA_TYPE} \
-  --feature_size ${FEAT_SIZE} \
-  --one_channel ${ONE_CHANNEL} \
-  \
-  --hidden_layer_sizes ${HIDDEN_LAYER_SIZES} \
-  --trend_poly ${TREND_POLY} \
-  --custom_seas ${CUSTOM_SEAS} \
-  --latent_dim ${LATENT_DIM}  \
-  --kl_wt ${KL_WT} \
-  \
-  --raw_data_paths_train ${DATA_PATHS} \
-  --raw_data_paths_test ${TEST_DATA_PATHS} \
-  --indices_paths_train ${FINETUNE_TEST_INDICES_PATHS} \
-  --indices_paths_test "[]" \
-  --indices_paths_anomaly_for_sample ${ANOMALY_INDICES_FOR_SAMPLE} \
-  --min_infill_length ${MIN_LEN_ANOMALY} \
-  --max_infill_length ${MAX_LEN_ANOMALY} \
-  \
-  --lr 1e-4 \
-  --batch_size 64 \
-  --max_epochs 2000 \
-  --grad_clip_norm 1.0 \
-  --grad_accum_steps 1 \
-  --early_stop "true" \
-  --patience 50 \
-  \
-  --wandb_project "none" \
-  --wandb_run "none" \
-  \
-  --ckpt_dir ${FINETUNE_CKPT} \
-  \
-  --generated_path "" \
-  \
-  --gpu_id 0
+#python timevae_pipeline.py \
+#  --what_to_do "cgats_impute_sample_non_downstream" \
+#  \
+#  --seq_len ${LEN_WHOLE} \
+#  --data_type ${DATA_TYPE} \
+#  --feature_size ${FEAT_SIZE} \
+#  --one_channel ${ONE_CHANNEL} \
+#  \
+#  --hidden_layer_sizes ${HIDDEN_LAYER_SIZES} \
+#  --trend_poly ${TREND_POLY} \
+#  --custom_seas ${CUSTOM_SEAS} \
+#  --latent_dim ${LATENT_DIM}  \
+#  --kl_wt ${KL_WT} \
+#  \
+#  --raw_data_paths_train ${DATA_PATHS} \
+#  --raw_data_paths_test ${TEST_DATA_PATHS} \
+#  --indices_paths_train ${FINETUNE_TEST_INDICES_PATHS} \
+#  --indices_paths_test "[]" \
+#  --indices_paths_anomaly_for_sample ${ANOMALY_INDICES_FOR_SAMPLE} \
+#  --min_infill_length ${MIN_LEN_ANOMALY} \
+#  --max_infill_length ${MAX_LEN_ANOMALY} \
+#  \
+#  --lr 1e-4 \
+#  --batch_size 64 \
+#  --max_epochs 2000 \
+#  --grad_clip_norm 1.0 \
+#  --grad_accum_steps 1 \
+#  --early_stop "true" \
+#  --patience 50 \
+#  \
+#  --wandb_project "none" \
+#  --wandb_run "none" \
+#  \
+#  --ckpt_dir ${FINETUNE_CKPT} \
+#  \
+#  --generated_path "" \
+#  \
+#  --gpu_id 0
