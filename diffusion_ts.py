@@ -57,7 +57,7 @@ def get_args():
     """data parameters"""
     parser.add_argument("--raw_data_paths_train", type=json.loads, required=True)
     parser.add_argument("--raw_data_paths_test", type=json.loads, required=True)
-    # parser.add_argument("--event_labels_paths_train", type=json.loads, required=True)
+    parser.add_argument("--event_labels_paths_train", type=json.loads, required=True)
     parser.add_argument("--indices_paths_train", type=json.loads, required=True)
     parser.add_argument("--indices_paths_test", type=json.loads, required=True)
     parser.add_argument("--indices_paths_anomaly_for_sample", type=json.loads, default="none")
