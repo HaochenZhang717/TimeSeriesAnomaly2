@@ -37,7 +37,9 @@ def get_args():
             "imputation_pretrain",
             "imputation_finetune",
             "impute_sample",
+            "principle_impute_sample",
             "cgats_impute_sample",
+            "principle_cgats_impute_sample",
             "impute_sample_non_downstream",
             "cgats_impute_sample_non_downstream",
             "anomaly_evaluate"
