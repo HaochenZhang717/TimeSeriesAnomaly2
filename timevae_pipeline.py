@@ -1042,10 +1042,14 @@ def main():
         imputation_finetune(args)
     elif args.what_to_do == "impute_sample":
         impute_sample(args)
+    elif args.what_to_do == "principle_impute_sample":
+        principle_impute_sample(args)
     elif args.what_to_do == "impute_sample_non_downstream":
         impute_sample_non_downstream(args)
     elif args.what_to_do == "cgats_impute_sample":
         cgats_impute_sample(args)
+    elif args.what_to_do == "principle_cgats_impute_sample":
+        principle_cgats_impute_sample(args)
     elif args.what_to_do == "cgats_impute_sample_non_downstream":
         cgats_impute_sample_non_downstream(args)
     elif args.what_to_do == "anomaly_evaluate":
