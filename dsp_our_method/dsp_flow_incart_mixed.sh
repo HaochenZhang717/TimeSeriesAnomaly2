@@ -14,24 +14,24 @@ WANDB_PROJECT="dsp_flow_incart"
 
 
 
-DATA_PATHS='["/root/tianyi/dataset_utils/ECG_datasets/raw_data_incart/I30.npz"]'
-TEST_DATA_PATHS='["/root/tianyi/dataset_utils/ECG_datasets/raw_data_incart/I30.npz"]'
-PRETRAIN_INDICES_PATHS='["/root/tianyi/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/mixed.jsonl"]'
-FINETUNE_TRAIN_INDICES_PATHS='["/root/tianyi/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_train.jsonl"]'
-FINETUNE_TEST_INDICES_PATHS='["/root/tianyi/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_test.jsonl"]'
-ANOMALY_INDICES_FOR_SAMPLE='["/root/tianyi/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_segments_train.jsonl"]'
-NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/normal_800.jsonl"]'
-EVENT_LABELS_PATHS='["/root/tianyi/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/event_label.npy"]'
+DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data_incart/I30.npz"]'
+TEST_DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data_incart/I30.npz"]'
+PRETRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/mixed.jsonl"]'
+FINETUNE_TRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_train.jsonl"]'
+FINETUNE_TEST_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_test.jsonl"]'
+ANOMALY_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_segments_train.jsonl"]'
+NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/normal_800.jsonl"]'
+EVENT_LABELS_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/event_label.npy"]'
 
 #VQVAE Train Parameters
-VQVAE_TRAIN_INDICES_PATHS='["/root/tianyi/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/mixed.jsonl"]'
+VQVAE_TRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/mixed.jsonl"]'
 CODE_DIM=8
 CODE_LEN=4
 
 #!/bin/bash
 
-GPU_IDS=(0, 1, 2, 3, 4)
-NUM_CODES_LIST=(200, 400, 500, 600, 800)
+GPU_IDS=(0 1 2 3 4)
+NUM_CODES_LIST=(200 400 500 600 800)
 
 
 for i in ${!GPU_IDS[@]}; do

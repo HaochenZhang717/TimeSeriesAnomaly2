@@ -18,14 +18,14 @@ PRETRAIN_CKPT="/root/tianyi/formal_experiment/incart_6_channels/dsp_flow_no_code
 FINETUNE_CKPT="/root/tianyi/formal_experiment/incart_6_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr${LR}"
 
 
-DATA_PATHS='["/root/tianyi/dataset_utils/ECG_datasets/raw_data_incart/I30.npz"]'
-TEST_DATA_PATHS='["/root/tianyi/dataset_utils/ECG_datasets/raw_data_incart/I30.npz"]'
-PRETRAIN_INDICES_PATHS='["/root/tianyi/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/mixed.jsonl"]'
-FINETUNE_TRAIN_INDICES_PATHS='["/root/tianyi/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_train.jsonl"]'
-FINETUNE_TEST_INDICES_PATHS='["/root/tianyi/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_test.jsonl"]'
-ANOMALY_INDICES_FOR_SAMPLE='["/root/tianyi/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_segments_train.jsonl"]'
-NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/normal_800.jsonl"]'
-EVENT_LABELS_PATHS='["/root/tianyi/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/event_label.npy"]'
+DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data_incart/I30.npz"]'
+TEST_DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data_incart/I30.npz"]'
+PRETRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/mixed.jsonl"]'
+FINETUNE_TRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_train.jsonl"]'
+FINETUNE_TEST_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_test.jsonl"]'
+ANOMALY_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_segments_train.jsonl"]'
+NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/normal_800.jsonl"]'
+EVENT_LABELS_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/event_label.npy"]'
 
 
 python dsp_flow.py \
