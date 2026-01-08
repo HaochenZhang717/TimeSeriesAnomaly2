@@ -21,7 +21,7 @@ python run_nn_evaluate.py \
     --max_infill_length ${MAX_LEN_ANOMALY} \
     --ckpt_dir "${FINETUNE_CKPT}" \
     --out_dir "${OUTDIR}" \
-    --generated_path "${FINETUNE_CKPT}/no_code_impute_samples.pth" \
+    --generated_path "${FINETUNE_CKPT}/principle_no_code_impute_samples.pth" \
     --gpu_id 0
 
 cd ./NN_evaluate
