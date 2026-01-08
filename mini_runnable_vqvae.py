@@ -1313,29 +1313,29 @@ if __name__ == "__main__":
         device=f"cuda:{args.gpu_id}",
         # device="cpu",
         save_path=args.save_dir,
+    )
+    model = train_vqvae(cfg)
 
-    )
-    # model = train_vqvae(cfg)
-    show_reconstruction(
-        in_channels=args.feat_size,
-        code_dim=args.code_dim,
-        num_codes=args.num_codes,
-        model_path=f"{args.save_dir}/vqvae.pt",
-        raw_data_paths=args.data_paths,
-        indices_paths=args.indices_paths,
-        data_type=args.data_type,
-        one_channel=args.one_channel,
-        # device="cuda:7",
-        device="cpu",
-        save_path=f"{args.save_dir}/code_segments.pt",
-        down_ratio=2,
-        up_ratio=2,
-        max_length=args.max_seq_len,
-        min_length=args.min_seq_len,
-        encoder_channels=(64, 64, 64),
-        decoder_channels=(64, 64, 32, 32, 16, 16),
-        code_len=args.code_len,
-    )
+    # show_reconstruction(
+    #     in_channels=args.feat_size,
+    #     code_dim=args.code_dim,
+    #     num_codes=args.num_codes,
+    #     model_path=f"{args.save_dir}/vqvae.pt",
+    #     raw_data_paths=args.data_paths,
+    #     indices_paths=args.indices_paths,
+    #     data_type=args.data_type,
+    #     one_channel=args.one_channel,
+    #     # device="cuda:7",
+    #     device="cpu",
+    #     save_path=f"{args.save_dir}/code_segments.pt",
+    #     down_ratio=2,
+    #     up_ratio=2,
+    #     max_length=args.max_seq_len,
+    #     min_length=args.min_seq_len,
+    #     encoder_channels=(64, 64, 64),
+    #     decoder_channels=(64, 64, 32, 32, 16, 16),
+    #     code_len=args.code_len,
+    # )
 
     # extract_code_segments(
     #     in_channels=args.feat_size,
