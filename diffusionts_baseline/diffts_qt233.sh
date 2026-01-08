@@ -1,4 +1,4 @@
-#cd ..
+cd ..
 
 LR=1e-4
 LEN_WHOLE=600
@@ -64,7 +64,7 @@ EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_se
 #
 #
 python diffusion_ts.py \
-  --what_to_do "impute_sample" \
+  --what_to_do "principle_impute_sample" \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
@@ -142,4 +142,4 @@ python diffusion_ts.py \
 #  \
 #  --gpu_id 0
 
-#cd ./diffusionts_baseline
+cd ./diffusionts_baseline
