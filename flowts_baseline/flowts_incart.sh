@@ -43,6 +43,7 @@ python dsp_flow.py \
   \
   --raw_data_paths_train ${DATA_PATHS} \
   --raw_data_paths_test ${TEST_DATA_PATHS} \
+  --event_labels_paths_train ${EVENT_LABELS_PATHS} \
   --indices_paths_train ${FINETUNE_TRAIN_INDICES_PATHS} \
   --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
   --indices_paths_anomaly_for_sample "[]" \
@@ -127,6 +128,7 @@ python dsp_flow.py \
   \
   --raw_data_paths_train ${DATA_PATHS} \
   --raw_data_paths_test ${TEST_DATA_PATHS} \
+  --event_labels_paths_train ${EVENT_LABELS_PATHS} \
   --indices_paths_train ${FINETUNE_TEST_INDICES_PATHS} \
   --indices_paths_test "[]" \
   --indices_paths_anomaly_for_sample ${ANOMALY_INDICES_FOR_SAMPLE} \
