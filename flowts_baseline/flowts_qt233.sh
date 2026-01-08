@@ -71,7 +71,7 @@ EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_se
 
 
 python dsp_flow.py \
-  --what_to_do "no_code_impute_sample" \
+  --what_to_do "principle_no_code_impute_sample" \
   \
   --seq_len ${LEN_WHOLE} \
   --data_type ${DATA_TYPE} \
