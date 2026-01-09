@@ -5,7 +5,7 @@ from einops import reduce
 from .transformer import Transformer
 import os
 from .vqvae import VQVAE
-
+from tqdm import tqdm
 
 
 class DSPFlow(nn.Module):
@@ -156,7 +156,7 @@ class DSPFlow(nn.Module):
         t_shifted = t_shifted.flip(0).to(signals.device)
 
         # 2) Integrate ODE from t=1 → t=0
-        for t_curr, t_prev in zip(t_shifted[:-1], t_shifted[1:]):
+        for t_curr, t_prev in tqdm(zip(t_shifted[:-1], t_shifted[1:])):
             step = t_prev - t_curr
             t_input = torch.tensor([t_curr*self.time_scalar]).unsqueeze(0).repeat(zt.shape[0], 1).to(signals.device).view(-1)
             v = self.output(zt.clone(), t_input, prototype_embeds, attn_mask)
@@ -189,7 +189,7 @@ class DSPFlow(nn.Module):
         t_shifted = t_shifted.flip(0).to(signals.device)
 
         # 2) Integrate ODE from t=1 → t=0
-        for t_curr, t_prev in zip(t_shifted[:-1], t_shifted[1:]):
+        for t_curr, t_prev in tqdm(zip(t_shifted[:-1], t_shifted[1:])):
             step = t_prev - t_curr
             t_input = torch.tensor([t_curr*self.time_scalar]).unsqueeze(0).repeat(zt.shape[0], 1).to(signals.device).view(-1)
             v = self.output(zt.clone(), t_input, None, attn_mask)
