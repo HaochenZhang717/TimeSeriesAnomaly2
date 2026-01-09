@@ -6,6 +6,7 @@ from dataset_utils import ImputationNormalECGDatasetForSample
 
 from dataset_utils import ImputationNormalERCOTDataset, NoContextAnomalyERCOTDataset
 from dataset_utils import ImputationERCOTDataset, NoContextNormalERCOTDataset
+from dataset_utils import PredictionECGDataset
 
 import argparse
 import torch
@@ -51,7 +52,9 @@ def get_args():
             "no_code_impute_sample",
             "principle_no_code_impute_sample",
             "no_code_impute_sample_non_downstream",
-            "anomaly_evaluate"
+            "anomaly_evaluate",
+            "prediction_finetune",
+            "no_code_prediction_finetune"
         ],
         help="what to do"
     )
@@ -277,6 +280,91 @@ def imputation_finetune(args):
     )
 
     trainer.imputation_train(config=vars(args))
+
+
+def prediction_finetune(args):
+    os.makedirs(args.ckpt_dir, exist_ok=True)
+    save_args_to_jsonl(args, f"{args.ckpt_dir}/config.jsonl")
+
+    model = DSPFlow(
+        seq_length=args.seq_len,
+        vqvae_seq_len=args.max_infill_length,
+        num_codes=args.num_codes,
+        feature_size=args.feature_size,
+        n_layer_enc=args.n_layer_enc,
+        n_layer_dec=args.n_layer_dec,
+        d_model=args.d_model,
+        n_heads=args.n_heads,
+        mlp_hidden_times=4,
+        vqvae_ckpt=args.vqvae_ckpt
+    )
+    # prepare for imputation training
+    if args.pretrained_ckpt != "none":
+        pretrained_state_dict = torch.load(f"{args.pretrained_ckpt}/ckpt.pth")
+        model.load_state_dict(pretrained_state_dict)
+        model.freeze_proto_mlp()
+
+
+    train_set = PredictionECGDataset(
+        raw_data_paths=args.raw_data_paths_train,
+        indices_paths=args.indices_paths_train,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        max_infill_length=args.max_infill_length,
+        pre_context_length=args.seq_len-args.max_infill_length
+    )
+
+    val_set = PredictionECGDataset(
+        raw_data_paths=args.raw_data_paths_test,
+        indices_paths=args.indices_paths_test,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        max_infill_length=args.max_infill_length,
+        pre_context_length=args.seq_len - args.max_infill_length
+    )
+
+    train_loader = torch.utils.data.DataLoader(
+        train_set, batch_size=args.batch_size,
+        shuffle=True, drop_last=True,
+        collate_fn = dict_collate_fn,
+    )
+    val_loader = torch.utils.data.DataLoader(
+        val_set, batch_size=args.batch_size,
+        shuffle=False, drop_last=False,
+        collate_fn=dict_collate_fn,
+    )
+
+    optimizer= torch.optim.Adam(model.parameters(), lr=args.lr)
+
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer,
+        mode='min',
+        factor=0.8,  # multiply LR by 0.5
+        patience=1,  # wait 3 epochs with no improvement
+        threshold=1e-4,  # improvement threshold
+        min_lr=1e-5,  # min LR clamp
+    )
+
+    device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
+    trainer = DSPFlowTrainer(
+        optimizer=optimizer,
+        scheduler=scheduler,
+        model=model,
+        train_loader=train_loader,
+        val_loader=val_loader,
+        max_epochs=args.max_epochs,
+        device=device,
+        save_dir=args.ckpt_dir,
+        wandb_run_name=args.wandb_run,
+        wandb_project_name=args.wandb_project,
+        grad_clip_norm=args.grad_clip_norm,
+        grad_accum_steps=args.grad_accum_steps,
+        early_stop=args.early_stop,
+        patience=args.patience,
+    )
+
+    trainer.imputation_train(config=vars(args))
+
 
 
 def no_context_pretrain(args):
@@ -596,6 +684,90 @@ def no_code_imputation_finetune(args):
         raise ValueError(f"{args.data_type} is not supported.")
 
 
+
+    train_loader = torch.utils.data.DataLoader(
+        train_set, batch_size=args.batch_size,
+        shuffle=True, drop_last=True,
+        collate_fn = dict_collate_fn,
+    )
+    val_loader = torch.utils.data.DataLoader(
+        val_set, batch_size=args.batch_size,
+        shuffle=False, drop_last=False,
+        collate_fn=dict_collate_fn,
+    )
+
+    optimizer= torch.optim.Adam(model.parameters(), lr=args.lr)
+
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer,
+        mode='min',
+        factor=0.8,  # multiply LR by 0.5
+        patience=1,  # wait 3 epochs with no improvement
+        threshold=1e-4,  # improvement threshold
+        min_lr=1e-5,  # min LR clamp
+    )
+
+    device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
+    trainer = DSPFlowTrainer(
+        optimizer=optimizer,
+        scheduler=scheduler,
+        model=model,
+        train_loader=train_loader,
+        val_loader=val_loader,
+        max_epochs=args.max_epochs,
+        device=device,
+        save_dir=args.ckpt_dir,
+        wandb_run_name=args.wandb_run,
+        wandb_project_name=args.wandb_project,
+        grad_clip_norm=args.grad_clip_norm,
+        grad_accum_steps=args.grad_accum_steps,
+        early_stop=args.early_stop,
+        patience=args.patience,
+    )
+
+    trainer.no_code_imputation_train(config=vars(args))
+
+
+def no_code_prediction_finetune(args):
+    os.makedirs(args.ckpt_dir, exist_ok=True)
+    save_args_to_jsonl(args, f"{args.ckpt_dir}/config.jsonl")
+
+    model = DSPFlow(
+        seq_length=args.seq_len,
+        vqvae_seq_len=args.max_infill_length,
+        num_codes=args.num_codes,
+        feature_size=args.feature_size,
+        n_layer_enc=args.n_layer_enc,
+        n_layer_dec=args.n_layer_dec,
+        d_model=args.d_model,
+        n_heads=args.n_heads,
+        mlp_hidden_times=4,
+        vqvae_ckpt=args.vqvae_ckpt
+    )
+    # prepare for imputation training
+    if args.pretrained_ckpt != "none":
+        pretrained_state_dict = torch.load(f"{args.pretrained_ckpt}/ckpt.pth")
+        model.load_state_dict(pretrained_state_dict)
+        model.freeze_proto_mlp()
+
+
+    train_set = PredictionECGDataset(
+        raw_data_paths=args.raw_data_paths_train,
+        indices_paths=args.indices_paths_train,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        max_infill_length=args.max_infill_length,
+        pre_context_length=args.seq_len-args.max_infill_length
+    )
+
+    val_set = PredictionECGDataset(
+        raw_data_paths=args.raw_data_paths_test,
+        indices_paths=args.indices_paths_test,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        max_infill_length=args.max_infill_length,
+        pre_context_length=args.seq_len - args.max_infill_length
+    )
 
     train_loader = torch.utils.data.DataLoader(
         train_set, batch_size=args.batch_size,
@@ -1534,6 +1706,11 @@ def main():
         no_code_impute_sample_non_downstream(args)
     elif args.what_to_do == "anomaly_evaluate":
         anomaly_evaluate(args)
+    elif args.what_to_do == "prediction_finetune":
+        prediction_finetune(args)
+
+    elif args.what_to_do == "no_code_prediction_finetune":
+        no_code_prediction_finetune(args)
     else:
         raise NotImplementedError
 
