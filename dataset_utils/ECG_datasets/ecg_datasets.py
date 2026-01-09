@@ -522,6 +522,101 @@ class ImputationNormalECGDataset(Dataset):
         return len(self.global_index)
 
 
+class PredictionNormalECGDataset(Dataset):
+    def __init__(
+            self,
+            raw_data_paths,
+            indices_paths,
+            seq_len,
+            one_channel,
+            min_infill_length,
+            max_infill_length,
+            pre_context_length
+    ):
+        super(PredictionNormalECGDataset, self).__init__()
+        self.seq_len = seq_len
+        self.one_channel = one_channel
+        self.raw_data_paths = raw_data_paths
+        self.indices_paths = indices_paths
+        self.min_infill_length = min_infill_length
+        self.max_infill_length = max_infill_length
+        self.pre_context_length = pre_context_length
+
+        self.normed_signal_list = []
+        self.index_lines_list = []
+        self.anomaly_label_list = []
+
+        for raw_data_path, indices_path in zip(self.raw_data_paths, self.indices_paths):
+            raw_data = np.load(raw_data_path)
+            raw_signal = raw_data["signal"]
+            anomaly_label = raw_data["anomaly_label"]
+
+            scaler = MinMaxScaler()
+            normed_signal = scaler.fit_transform(raw_signal)
+            index_lines = load_jsonl(indices_path)
+
+            self.normed_signal_list.append(normed_signal)
+            self.anomaly_label_list.append(anomaly_label)
+            self.index_lines_list.append(index_lines)
+
+
+        self.global_index = []
+        for region_id, index_lines in enumerate(self.index_lines_list):
+            for i in range(len(index_lines)):
+                self.global_index.append((region_id, i))
+
+
+    def __getitem__(self, index):
+        which_list, which_index = self.global_index[index]
+
+        ts_start = self.index_lines_list[which_list][which_index]["start"]
+        ts_end = self.index_lines_list[which_list][which_index]["end"]
+        ts_length = ts_end - ts_start
+
+        infill_length = self.min_infill_length + math.floor(torch.sigmoid(torch.rand(1)).item() * (self.max_infill_length - self.min_infill_length))
+
+        relative_anomaly_start = self.pre_context_length
+        relative_anomaly_end = self.pre_context_length + infill_length
+
+
+        if self.one_channel:
+            signal = torch.from_numpy(self.normed_signal_list[which_list][ts_start:ts_end, :1])
+        else:
+            signal = torch.from_numpy(self.normed_signal_list[which_list][ts_start:ts_end])
+
+
+        # ===== missing signals =====
+        missing_signals = torch.zeros(self.max_infill_length, signal.shape[-1])
+        missing_signals[:infill_length] = signal[relative_anomaly_start:relative_anomaly_end]
+        missing_signals_mask = torch.zeros(self.max_infill_length)
+        missing_signals_mask[:infill_length] = 1
+
+        anomaly_label = torch.from_numpy(self.anomaly_label_list[which_list][ts_start:ts_end])
+        T = anomaly_label.shape[0]
+        # ===== attention mask =====
+        # normal + target anomaly are visible
+        context_mask = torch.zeros(self.seq_len, dtype=torch.long)
+        context_mask[:relative_anomaly_end] = 1
+
+        # ===== noise mask =====
+        noise_mask = torch.zeros(T, dtype=torch.long)
+        noise_mask[relative_anomaly_start:relative_anomaly_end] = 1
+
+
+        return {
+            'signals': signal,
+            'missing_signals': missing_signals,
+            'missing_signals_mask': missing_signals_mask,
+            'attn_mask': context_mask,
+            'noise_mask': noise_mask,
+        }
+
+
+    def __len__(self):
+        return len(self.global_index)
+
+
+
 class ImputationNormalECGDatasetForSample(Dataset):
     def __init__(
             self,
@@ -842,25 +937,36 @@ if __name__ == "__main__":
     #     max_infill_length=360,
     # )
 
-    dataset = PredictionECGDataset(
+    # dataset = PredictionECGDataset(
+    #     raw_data_paths=["./raw_data_incart/I30.npz"],
+    #     indices_paths=["./indices_incart/slide_windows_I30npz/V_segments_train.jsonl"],
+    #     seq_len=1000,
+    #     one_channel=False,
+    #     pre_context_length=400,
+    #     max_infill_length=600,
+    # )
+
+    dataset = PredictionNormalECGDataset(
         raw_data_paths=["./raw_data_incart/I30.npz"],
-        indices_paths=["./indices_incart/slide_windows_I30npz/V_segments_train.jsonl"],
-        seq_len=1000,
+        indices_paths=["./indices_incart/slide_windows_I30npz/normal_800.jsonl"],
+        seq_len=800,
         one_channel=False,
-        pre_context_length=400,
+        pre_context_length=200,
         max_infill_length=600,
+        min_infill_length=100,
     )
+
 
     dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
     for batch in dataloader:
-        # plt.plot(batch['signals'][0,:,0], label="Channel 0")
+        plt.plot(batch['signals'][0,:,0], label="Channel 0")
         # plt.plot(batch['signals'][0,:,1], label="Channel 1")
-        # plt.plot(batch['attn_mask'][0], label="attn mask")
-        # plt.plot(batch['noise_mask'][0], label="noise mask")
-        # plt.legend()
-        # plt.show(block=False)
-        # plt.pause(2.0)  # 停留 2 秒
-        # plt.close()
+        plt.plot(batch['attn_mask'][0], label="attn mask")
+        plt.plot(batch['noise_mask'][0], label="noise mask")
+        plt.legend()
+        plt.show(block=False)
+        plt.pause(2.0)  # 停留 2 秒
+        plt.close()
         print("123")
         # break
 

@@ -1,7 +1,7 @@
 from .ECG_datasets import ECGDataset, IterableECGDataset, NoContextECGDataset, ImputationECGDataset
 from .ECG_datasets import ImputationNormalECGDataset, NoContextNormalECGDataset
 from .ECG_datasets import NoContextAnomalyECGDataset
-from .ECG_datasets import ImputationNormalECGDatasetForSample, PredictionECGDataset
+from .ECG_datasets import ImputationNormalECGDatasetForSample, PredictionECGDataset, PredictionNormalECGDataset
 
 from .ERCOT_datasets import ImputationERCOTDataset, ImputationNormalERCOTDataset, NoContextNormalERCOTDataset, NoContextAnomalyERCOTDataset
 
