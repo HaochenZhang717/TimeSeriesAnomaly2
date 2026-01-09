@@ -1,4 +1,3 @@
-cd ..
 
 export hucfg_t_sampling=logitnorm
 LR=1e-4
@@ -116,7 +115,3 @@ done
 
 wait
 echo "All jobs finished."
-
-
-
-cd dsp_our_method
