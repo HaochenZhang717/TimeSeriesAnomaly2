@@ -2,7 +2,7 @@ import numpy as np
 import os
 import json
 import copy
-from networkx.utils import configs
+
 from transformers.models.gpt2.modeling_gpt2 import GPT2Model
 from .Embed import DataEmbedding
 import torch
