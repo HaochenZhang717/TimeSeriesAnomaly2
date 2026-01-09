@@ -1,0 +1,2 @@
+bash dsp_our_method/dsp_flow_no_context_anomaly_generation.sh &
+CUDA_VISIBLE_DEVICES=1 bash dsp_no_code/dsp_flow_svdb_no_code_no_context_anomaly_generation.sh &
