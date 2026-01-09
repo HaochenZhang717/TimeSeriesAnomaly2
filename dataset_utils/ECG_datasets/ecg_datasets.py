@@ -397,12 +397,12 @@ class PredictionECGDataset(Dataset):
         noise_mask[relative_anomaly_start:relative_anomaly_end] = 1
 
 
-        plt.plot(signal[:, 1], label='signal')
-        # plt.plot(anomaly_label, label='anomaly_label')
-        plt.plot(context_mask, label='context_mask')
-        plt.plot(noise_mask, label='noise_mask')
-        plt.legend()
-        plt.show()
+        # plt.plot(signal[:, 1], label='signal')
+        # # plt.plot(anomaly_label, label='anomaly_label')
+        # plt.plot(context_mask, label='context_mask')
+        # plt.plot(noise_mask, label='noise_mask')
+        # plt.legend()
+        # plt.show()
 
 
         # ===== missing signals =====
