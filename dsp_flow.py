@@ -15,7 +15,7 @@ import os
 import numpy as np
 from evaluation_utils import calculate_robustTAD
 from torch.utils.data import Subset
-
+from tqdm import tqdm
 
 
 def dict_collate_fn(batch):
@@ -1347,7 +1347,7 @@ def posterior_predict_sample_non_downstream(args):
     all_samples = []
     all_labels = []
     all_reals = []
-    for batch in anomaly_loader:
+    for batch in tqdm(anomaly_loader):
         signals = batch['signals'].to(device, dtype=torch.float32)          # (B, T, C)
         attn_mask = batch['attn_mask'].to(device, dtype=torch.bool)         # (B, T)
         noise_mask = batch['noise_mask'].to(device, dtype=torch.long)       # (B, T)
@@ -1760,7 +1760,7 @@ def no_code_predict_sample_non_downstream(args):
     all_labels = []
     all_reals = []
 
-    for batch in anomaly_loader:
+    for batch in tqdm(anomaly_loader):
         signals = batch['signals'].to(device, dtype=torch.float32)     # (B, T, C)
         attn_mask = batch['attn_mask'].to(device, dtype=torch.bool)    # (B, T)
         noise_mask = batch['noise_mask'].to(device, dtype=torch.long)  # (B, T)
