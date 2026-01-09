@@ -14,17 +14,27 @@ WANDB_PROJECT="dsp_flow_incart"
 
 
 
-DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data_incart/I30.npz"]'
-TEST_DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data_incart/I30.npz"]'
-PRETRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/mixed.jsonl"]'
-FINETUNE_TRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_train.jsonl"]'
-FINETUNE_TEST_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_test.jsonl"]'
-ANOMALY_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_segments_train.jsonl"]'
-NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/normal_800.jsonl"]'
-EVENT_LABELS_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/event_label.npy"]'
+#DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data_incart/I30.npz"]'
+#TEST_DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data_incart/I30.npz"]'
+#PRETRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/mixed.jsonl"]'
+#FINETUNE_TRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_train.jsonl"]'
+#FINETUNE_TEST_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_test.jsonl"]'
+#ANOMALY_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_segments_train.jsonl"]'
+#NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/normal_800.jsonl"]'
+#EVENT_LABELS_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/event_label.npy"]'
+
+DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_incart/I30.npz"]'
+TEST_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_incart/I30.npz"]'
+PRETRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/mixed.jsonl"]'
+FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_train.jsonl"]'
+FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_test.jsonl"]'
+ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/V_segments_train.jsonl"]'
+NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/normal_800.jsonl"]'
+EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/event_label.npy"]'
+
 
 #VQVAE Train Parameters
-VQVAE_TRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/mixed.jsonl"]'
+VQVAE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_incart/slide_windows_I30npz/mixed.jsonl"]'
 CODE_DIM=8
 CODE_LEN=4
 
@@ -42,9 +52,14 @@ for i in ${!GPU_IDS[@]}; do
   NUM_CODES=${NUM_CODES_LIST[$i]}
   export CUDA_VISIBLE_DEVICES=${GPU}
 
-  VQVAE_CKPT="/root/tianyi/formal_experiment/incart_6_channels/dsp_flow_mixed_K${NUM_CODES}/vqvae_save_path"
-  PRETRAIN_CKPT="/root/tianyi/formal_experiment/incart_6_channels/dsp_flow_mixed_K${NUM_CODES}/no_context_pretrain_ckpt"
-  FINETUNE_CKPT="/root/tianyi/formal_experiment/incart_6_channels/dsp_flow_mixed_K${NUM_CODES}/impute_finetune_ckpt_lr${LR}"
+#  VQVAE_CKPT="/root/tianyi/formal_experiment/incart_6_channels/dsp_flow_mixed_K${NUM_CODES}/vqvae_save_path"
+#  PRETRAIN_CKPT="/root/tianyi/formal_experiment/incart_6_channels/dsp_flow_mixed_K${NUM_CODES}/no_context_pretrain_ckpt"
+#  FINETUNE_CKPT="/root/tianyi/formal_experiment/incart_6_channels/dsp_flow_mixed_K${NUM_CODES}/impute_finetune_ckpt_lr${LR}"
+
+  VQVAE_CKPT="../formal_experiment/incart_6_channels/dsp_flow_mixed_K${NUM_CODES}/vqvae_save_path"
+  PRETRAIN_CKPT="../formal_experiment/incart_6_channels/dsp_flow_mixed_K${NUM_CODES}/no_context_pretrain_ckpt"
+  FINETUNE_CKPT="../formal_experiment/incart_6_channels/dsp_flow_mixed_K${NUM_CODES}/impute_finetune_ckpt_lr${LR}"
+
 
   echo "Launching NUM_CODES=${NUM_CODES} on GPU ${GPU}"
 

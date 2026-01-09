@@ -62,14 +62,15 @@ def get_npy_files():
     south = np.array(df['SOUTH'])
     scent = np.array(df['SCENT'])
     west = np.array(df['WEST'])
+    label = df['label']
 
-    np.save("raw_data/coast.npy", coast)
-    np.save("raw_data/east.npy", east)
-    np.save("raw_data/fwest.npy", fwest)
-    np.save("raw_data/north.npy", north)
-    np.save("raw_data/ncent.npy", ncent)
-    np.save("raw_data/south.npy", south)
-    np.save("raw_data/scent.npy", scent)
-    np.save("raw_data/west.npy", west)
-
-    np.save("raw_data/label.npy", np.array(df['label']))
+    # np.save("raw_data/coast.npy", coast)
+    # np.save("raw_data/east.npy", east)
+    # np.save("raw_data/fwest.npy", fwest)
+    # np.save("raw_data/north.npy", north)
+    # np.save("raw_data/ncent.npy", ncent)
+    # np.save("raw_data/south.npy", south)
+    # np.save("raw_data/scent.npy", scent)
+    # np.save("raw_data/west.npy", west)
+    #
+    # np.save("raw_data/label.npy", np.array(df['label']))
