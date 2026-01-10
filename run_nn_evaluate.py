@@ -226,7 +226,7 @@ def run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, d
             lr=1e-4,
             max_epochs=2000,
             batch_size=64,
-            patience=20)
+            patience=40)
         precisions.append(precision)
         recalls.append(recall)
         f1s.append(f1)
@@ -306,7 +306,7 @@ def run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
             lr=1e-4,
             max_epochs=2000,
             batch_size=64,
-            patience=20)
+            patience=40)
         precisions.append(precision)
         recalls.append(recall)
         f1s.append(f1)
@@ -488,16 +488,16 @@ def main():
     gen_labels = gen_labels[~nan_mask]
 
 
-    # run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    # run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
-    # run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     run_moment_evaluate(
         real_data, real_labels, gen_data, gen_labels,
         model_name="large", one_channel=args.one_channel,
         output_path=args.out_dir
     )
 
-    # run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels)
+    run_rf_evaluate(args, real_data, real_labels, gen_data, gen_labels)
     run_catboost_evaluate(args, real_data, real_labels, gen_data, gen_labels)
 
     print("all done")

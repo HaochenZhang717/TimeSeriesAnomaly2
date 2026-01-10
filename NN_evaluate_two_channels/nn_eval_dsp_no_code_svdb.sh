@@ -3,9 +3,9 @@ cd ..
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"]'
 FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"]'
-FINETUNE_CKPT="/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4"
+FINETUNE_CKPT="../formal_experiment/svdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4"
 
-OUTDIR="/root/tianyi/nn_eval/svdb_two_channels/dspflow_no_code"
+OUTDIR="../nn_eval/svdb_two_channels/dspflow_no_code"
 
 MAX_LEN_ANOMALY=360
 LEN_WHOLE=800
