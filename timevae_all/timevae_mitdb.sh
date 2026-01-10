@@ -11,15 +11,15 @@ FEAT_SIZE=2
 DATA_TYPE="ecg"
 WANDB_PROJECT="TimeVAE_mitdb_two_channels"
 
-FINETUNE_CKPT="/root/tianyi/formal_experiment/mitdb_two_channels/TimeVAE/no_code_impute_from_scratch_ckpt_lr${LR}"
+FINETUNE_CKPT="../formal_experiment/mitdb_two_channels/TimeVAE/no_code_impute_from_scratch_ckpt_lr${LR}"
 
 
-DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data/106.npz"]'
-TEST_DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data/106.npz"]'
-FINETUNE_TRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_train.jsonl"]'
-FINETUNE_TEST_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"]'
-ANOMALY_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/anomaly_segments_with_prototype_train.jsonl"]'
-NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/normal_1000.jsonl"]'
+DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data/106.npz"]'
+TEST_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data/106.npz"]'
+FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_train.jsonl"]'
+FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"]'
+ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/anomaly_segments_with_prototype_train.jsonl"]'
+NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/normal_1000.jsonl"]'
 
 HIDDEN_LAYER_SIZES="[50,100,200]"
 TREND_POLY=3
@@ -43,6 +43,7 @@ python timevae_pipeline.py \
   \
   --raw_data_paths_train ${DATA_PATHS} \
   --raw_data_paths_test ${TEST_DATA_PATHS} \
+  --event_labels_paths_train ${EVENT_LABELS_PATHS} \
   --indices_paths_train ${FINETUNE_TRAIN_INDICES_PATHS} \
   --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
   --indices_paths_anomaly_for_sample "[]" \
@@ -83,6 +84,7 @@ python timevae_pipeline.py \
   \
   --raw_data_paths_train ${DATA_PATHS} \
   --raw_data_paths_test ${TEST_DATA_PATHS} \
+  --event_labels_paths_train ${EVENT_LABELS_PATHS} \
   --indices_paths_train ${NORMAL_INDICES_FOR_SAMPLE} \
   --indices_paths_test "[]" \
   --indices_paths_anomaly_for_sample ${ANOMALY_INDICES_FOR_SAMPLE} \
@@ -124,6 +126,7 @@ python timevae_pipeline.py \
   \
   --raw_data_paths_train ${DATA_PATHS} \
   --raw_data_paths_test ${TEST_DATA_PATHS} \
+  --event_labels_paths_train ${EVENT_LABELS_PATHS} \
   --indices_paths_train ${FINETUNE_TEST_INDICES_PATHS} \
   --indices_paths_test "[]" \
   --indices_paths_anomaly_for_sample ${ANOMALY_INDICES_FOR_SAMPLE} \

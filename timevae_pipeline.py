@@ -591,6 +591,7 @@ def cgats_impute_sample(args):
     torch.save(all_results, f"{args.ckpt_dir}/no_code_impute_samples.pth")
 
 
+
 def principle_cgats_impute_sample(args):
     model = CNNVAE(
         in_channels=args.feature_size,
