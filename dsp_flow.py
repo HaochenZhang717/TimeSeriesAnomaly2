@@ -205,7 +205,7 @@ def imputation_finetune(args):
     if args.pretrained_ckpt != "none":
         pretrained_state_dict = torch.load(f"{args.pretrained_ckpt}/ckpt.pth")
         model.load_state_dict(pretrained_state_dict)
-        model.freeze_proto_mlp()
+        # model.freeze_proto_mlp()
 
 
     if args.data_type == "ecg":

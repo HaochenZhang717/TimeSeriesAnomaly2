@@ -251,6 +251,7 @@ class ConvTransformer(nn.Module):
 
         return logits.permute(0, 2, 1)  # [B, 2, T]
 
+
 class WeightedBCEWithLogitsLoss(nn.Module):
     def __init__(self, beta=1.0):
         """
