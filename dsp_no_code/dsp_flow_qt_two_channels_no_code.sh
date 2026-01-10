@@ -5,7 +5,7 @@ LR=1e-4
 LEN_WHOLE=600
 MAX_LEN_ANOMALY=450
 MIN_LEN_ANOMALY=40
-GPU_ID=0
+
 ONE_CHANNEL=0
 FEAT_SIZE=2
 
@@ -68,7 +68,7 @@ python dsp_flow.py \
   \
   --generated_path "none" \
   \
-  --gpu_id ${GPU_ID}
+  --gpu_id 0
 
 
 
@@ -112,7 +112,7 @@ python dsp_flow.py \
   \
   --generated_path "none" \
   \
-  --gpu_id ${GPU_ID}
+  --gpu_id 0
 
 
 python dsp_flow.py \
@@ -155,7 +155,7 @@ python dsp_flow.py \
   \
   --generated_path "" \
   \
-  --gpu_id ${GPU_ID}
+  --gpu_id 0
 
 
 

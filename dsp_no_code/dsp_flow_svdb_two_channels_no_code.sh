@@ -69,7 +69,7 @@ python dsp_flow.py \
   \
   --generated_path "none" \
   \
-  --gpu_id ${GPU_ID}
+  --gpu_id 0
 
 
 
@@ -113,7 +113,7 @@ python dsp_flow.py \
   \
   --generated_path "none" \
   \
-  --gpu_id ${GPU_ID}
+  --gpu_id 0
 
 
 python dsp_flow.py \
