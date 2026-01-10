@@ -3,8 +3,8 @@ cd ..
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
 FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_test.jsonl"]'
-FINETUNE_CKPT="/root/tianyi/formal_experiment/qtdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4"
-OUTDIR="/root/tianyi/nn_eval/qtdb_two_channels/flowts"
+FINETUNE_CKPT="../formal_experiment/qtdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4"
+OUTDIR="../nn_eval/qtdb_two_channels/flowts"
 
 MAX_LEN_ANOMALY=450
 LEN_WHOLE=600

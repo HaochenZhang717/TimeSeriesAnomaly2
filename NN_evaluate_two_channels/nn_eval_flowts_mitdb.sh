@@ -10,8 +10,8 @@ cd ..
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data/106.npz"]'
 FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"]'
-FINETUNE_CKPT="/root/tianyi/formal_experiment/mitdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4"
-OUTDIR="/root/tianyi/nn_eval/mitdb_two_channels/flowts"
+FINETUNE_CKPT="../formal_experiment/mitdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4"
+OUTDIR="../nn_eval/mitdb_two_channels/flowts"
 
 MAX_LEN_ANOMALY=800
 LEN_WHOLE=1000
