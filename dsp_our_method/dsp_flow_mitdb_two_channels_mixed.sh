@@ -55,7 +55,7 @@ NUM_CODES_LIST=(500)
 
 
 for i in ${!GPU_IDS[@]}; do
-(
+
   set -e
 
   GPU=${GPU_IDS[$i]}
@@ -193,7 +193,7 @@ for i in ${!GPU_IDS[@]}; do
     --generated_path "" \
     \
     --gpu_id 0
-) &
+
 done
 
 wait
