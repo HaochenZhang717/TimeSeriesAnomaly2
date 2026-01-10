@@ -1,4 +1,4 @@
-
+cd ..
 
 
 export hucfg_t_sampling=logitnorm
@@ -296,3 +296,4 @@ python dsp_flow.py \
 #  --gpu_id 0
 
 
+cd dsp_no_code

@@ -49,7 +49,7 @@ CODE_LEN=4
 GPU_IDS=(0)
 NUM_CODES_LIST=(500)
 
-
+cd ..
 for i in ${!GPU_IDS[@]}; do
 
   set -e
@@ -320,5 +320,6 @@ for i in ${!GPU_IDS[@]}; do
 
 done
 
+cd dsp_our_method
 wait
 echo "All jobs finished."
