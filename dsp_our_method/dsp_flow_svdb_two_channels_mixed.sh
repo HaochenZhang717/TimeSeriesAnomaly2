@@ -42,9 +42,9 @@ for i in ${!GPU_IDS[@]}; do
   NUM_CODES=${NUM_CODES_LIST[$i]}
   export CUDA_VISIBLE_DEVICES=${GPU}
 
-  VQVAE_CKPT="/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K${NUM_CODES}/vqvae_save_path"
-  PRETRAIN_CKPT="/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K${NUM_CODES}/no_context_pretrain_ckpt"
-  FINETUNE_CKPT="/root/tianyi/formal_experiment/svdb_two_channels/dsp_flow_mixed_K${NUM_CODES}/impute_finetune_ckpt_lr${LR}"
+  VQVAE_CKPT="../formal_experiment/svdb_two_channels/dsp_flow_mixed_K${NUM_CODES}/vqvae_save_path"
+  PRETRAIN_CKPT="../formal_experiment/svdb_two_channels/dsp_flow_mixed_K${NUM_CODES}/no_context_pretrain_ckpt"
+  FINETUNE_CKPT="../formal_experiment/svdb_two_channels/dsp_flow_mixed_K${NUM_CODES}/impute_finetune_ckpt_lr${LR}"
 
 
 #  VQVAE_CKPT="/root/tianyi/formal_experiment/mitdb_two_channels/dsp_flow_K${NUM_CODES}/vqvae_save_path"
