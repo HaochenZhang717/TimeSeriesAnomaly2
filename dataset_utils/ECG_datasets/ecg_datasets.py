@@ -674,7 +674,7 @@ class ImputationNormalECGDatasetForSample(Dataset):
         event_pos = self.event_label_list[which_list]
         event_pos = event_pos[(event_pos >= ts_start) & (event_pos < ts_end)]
         event_pos = event_pos - ts_start  # relative positions
-        start_event_idx = random.randint(0, len(event_pos) - 3)
+        start_event_idx = random.randint(0, len(event_pos) - 1)
         relative_anomaly_start = int(event_pos[start_event_idx])
 
         possible_infill_lengths = []

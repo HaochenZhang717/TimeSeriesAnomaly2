@@ -1,0 +1,84 @@
+{"start": 564, "end": 587}
+{"start": 780, "end": 827}
+{"start": 444, "end": 467}
+{"start": 492, "end": 539}
+{"start": 1836, "end": 1907}
+{"start": 852, "end": 899}
+{"start": 1236, "end": 1331}
+{"start": 612, "end": 683}
+{"start": 108, "end": 131}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 900, "end": 1044, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 903, "end": 1047, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 906, "end": 1050, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 909, "end": 1053, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 912, "end": 1056, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 915, "end": 1059, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 918, "end": 1062, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 921, "end": 1065, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 924, "end": 1068, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1332, "end": 1476, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1500, "end": 1644, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1503, "end": 1647, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1506, "end": 1650, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1509, "end": 1653, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1512, "end": 1656, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1515, "end": 1659, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1518, "end": 1662, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1521, "end": 1665, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1524, "end": 1668, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1527, "end": 1671, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1530, "end": 1674, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1533, "end": 1677, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1536, "end": 1680, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1539, "end": 1683, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1542, "end": 1686, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1545, "end": 1689, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1548, "end": 1692, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1551, "end": 1695, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1554, "end": 1698, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1557, "end": 1701, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1560, "end": 1704, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1563, "end": 1707, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1566, "end": 1710, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1569, "end": 1713, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1572, "end": 1716, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1575, "end": 1719, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1578, "end": 1722, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1581, "end": 1725, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1584, "end": 1728, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1587, "end": 1731, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1590, "end": 1734, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1593, "end": 1737, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1596, "end": 1740, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1599, "end": 1743, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1602, "end": 1746, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1605, "end": 1749, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1608, "end": 1752, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1611, "end": 1755, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1614, "end": 1758, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1617, "end": 1761, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1620, "end": 1764, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1623, "end": 1767, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1626, "end": 1770, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1629, "end": 1773, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1632, "end": 1776, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1635, "end": 1779, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1638, "end": 1782, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1641, "end": 1785, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1644, "end": 1788, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1647, "end": 1791, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1650, "end": 1794, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1653, "end": 1797, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1656, "end": 1800, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1659, "end": 1803, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1662, "end": 1806, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1665, "end": 1809, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1668, "end": 1812, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1671, "end": 1815, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1674, "end": 1818, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1677, "end": 1821, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1680, "end": 1824, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1683, "end": 1827, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1686, "end": 1830, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1689, "end": 1833, "anomaly_type": 0}
+{"source_file": "./raw_data/2013_pv_sub_2.npz", "start": 1692, "end": 1836, "anomaly_type": 0}

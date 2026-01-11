@@ -1,0 +1,209 @@
+{"start": 3235, "end": 3330}
+{"start": 2515, "end": 2586}
+{"start": 5779, "end": 5850}
+{"start": 1363, "end": 1386}
+{"start": 1939, "end": 1962}
+{"start": 2371, "end": 2394}
+{"start": 5899, "end": 5922}
+{"start": 6187, "end": 6234}
+{"start": 3763, "end": 3834}
+{"start": 2131, "end": 2154}
+{"start": 1243, "end": 1266}
+{"start": 3619, "end": 3690}
+{"start": 4507, "end": 4626}
+{"start": 4939, "end": 4962}
+{"start": 3187, "end": 3210}
+{"start": 6259, "end": 6262}
+{"start": 667, "end": 690}
+{"start": 2419, "end": 2442}
+{"start": 5179, "end": 5202}
+{"start": 763, "end": 834}
+{"start": 2995, "end": 3042}
+{"start": 1315, "end": 1338}
+{"start": 4747, "end": 4770}
+{"start": 2467, "end": 2490}
+{"start": 3979, "end": 4026}
+{"start": 2611, "end": 2634}
+{"start": 0, "end": 42}
+{"start": 2731, "end": 2778}
+{"start": 5347, "end": 5394}
+{"start": 2035, "end": 2058}
+{"start": 3355, "end": 3378}
+{"start": 3883, "end": 3906}
+{"start": 2875, "end": 2922}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 189, "end": 333, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 192, "end": 336, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 195, "end": 339, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 198, "end": 342, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 201, "end": 345, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 204, "end": 348, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 207, "end": 351, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 210, "end": 354, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 213, "end": 357, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 216, "end": 360, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 219, "end": 363, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 222, "end": 366, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 225, "end": 369, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 228, "end": 372, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 231, "end": 375, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 234, "end": 378, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 237, "end": 381, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 240, "end": 384, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 243, "end": 387, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 246, "end": 390, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 249, "end": 393, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 252, "end": 396, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 255, "end": 399, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 258, "end": 402, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 261, "end": 405, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 264, "end": 408, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 267, "end": 411, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 270, "end": 414, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 273, "end": 417, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 276, "end": 420, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 279, "end": 423, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 282, "end": 426, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 285, "end": 429, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 288, "end": 432, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 291, "end": 435, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 294, "end": 438, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 297, "end": 441, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 300, "end": 444, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 303, "end": 447, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 306, "end": 450, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 309, "end": 453, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 312, "end": 456, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 315, "end": 459, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 318, "end": 462, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 321, "end": 465, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 324, "end": 468, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 327, "end": 471, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 330, "end": 474, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 501, "end": 645, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 504, "end": 648, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 507, "end": 651, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 510, "end": 654, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 513, "end": 657, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 516, "end": 660, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 519, "end": 663, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 522, "end": 666, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2157, "end": 2301, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2160, "end": 2304, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2163, "end": 2307, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2166, "end": 2310, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2169, "end": 2313, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2172, "end": 2316, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2175, "end": 2319, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2178, "end": 2322, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2181, "end": 2325, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2184, "end": 2328, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2187, "end": 2331, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2190, "end": 2334, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2193, "end": 2337, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2196, "end": 2340, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2199, "end": 2343, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2202, "end": 2346, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2205, "end": 2349, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2208, "end": 2352, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2211, "end": 2355, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2214, "end": 2358, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2217, "end": 2361, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2220, "end": 2364, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2223, "end": 2367, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 2226, "end": 2370, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4029, "end": 4173, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4032, "end": 4176, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4035, "end": 4179, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4038, "end": 4182, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4041, "end": 4185, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4044, "end": 4188, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4047, "end": 4191, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4050, "end": 4194, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4053, "end": 4197, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4056, "end": 4200, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4059, "end": 4203, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4062, "end": 4206, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4065, "end": 4209, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4068, "end": 4212, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4071, "end": 4215, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4074, "end": 4218, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4317, "end": 4461, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4320, "end": 4464, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4323, "end": 4467, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4326, "end": 4470, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4329, "end": 4473, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4332, "end": 4476, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4335, "end": 4479, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4338, "end": 4482, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4341, "end": 4485, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4344, "end": 4488, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4347, "end": 4491, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4350, "end": 4494, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4353, "end": 4497, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4356, "end": 4500, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4359, "end": 4503, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 4362, "end": 4506, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5397, "end": 5541, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5400, "end": 5544, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5403, "end": 5547, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5406, "end": 5550, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5409, "end": 5553, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5412, "end": 5556, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5415, "end": 5559, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5418, "end": 5562, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5421, "end": 5565, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5424, "end": 5568, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5427, "end": 5571, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5430, "end": 5574, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5433, "end": 5577, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5436, "end": 5580, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5439, "end": 5583, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5442, "end": 5586, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5445, "end": 5589, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5448, "end": 5592, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5451, "end": 5595, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5454, "end": 5598, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5457, "end": 5601, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5460, "end": 5604, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5463, "end": 5607, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5466, "end": 5610, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5469, "end": 5613, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5472, "end": 5616, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5475, "end": 5619, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5478, "end": 5622, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5481, "end": 5625, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5484, "end": 5628, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5487, "end": 5631, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5490, "end": 5634, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5493, "end": 5637, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5496, "end": 5640, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5499, "end": 5643, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5502, "end": 5646, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5505, "end": 5649, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5508, "end": 5652, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5511, "end": 5655, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5514, "end": 5658, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5517, "end": 5661, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5520, "end": 5664, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5523, "end": 5667, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5526, "end": 5670, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5529, "end": 5673, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5532, "end": 5676, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5535, "end": 5679, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5538, "end": 5682, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5541, "end": 5685, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5544, "end": 5688, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5547, "end": 5691, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5550, "end": 5694, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5553, "end": 5697, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5556, "end": 5700, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5559, "end": 5703, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5562, "end": 5706, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5565, "end": 5709, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5568, "end": 5712, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5571, "end": 5715, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5574, "end": 5718, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5577, "end": 5721, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5580, "end": 5724, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5583, "end": 5727, "anomaly_type": 0}
+{"source_file": "./raw_data/2015_pv_sub_0.npz", "start": 5586, "end": 5730, "anomaly_type": 0}
