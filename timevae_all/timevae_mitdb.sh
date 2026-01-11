@@ -1,4 +1,5 @@
 
+cd ..
 
 LR=1e-4
 LEN_WHOLE=1000
@@ -151,4 +152,21 @@ python timevae_pipeline.py \
   --gpu_id 0
 
 
+
+OUTDIR="../nn_eval/mitdb_two_channels/timevae"
+
+echo "Running nn_eval: ${FIENTUNE_CKPT}"
+
+python run_nn_evaluate.py \
+    --seq_len ${LEN_WHOLE} \
+    --feature_size 2 \
+    --one_channel 0 \
+    --feat_window_size 300 \
+    --raw_data_paths ${DATA_PATHS} \
+    --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
+    --max_infill_length ${MAX_LEN_ANOMALY} \
+    --ckpt_dir "${FINETUNE_CKPT}" \
+    --out_dir "${OUTDIR}" \
+    --generated_path "${FINETUNE_CKPT}/no_code_impute_samples.pth" \
+    --gpu_id 0
 
