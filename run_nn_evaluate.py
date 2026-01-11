@@ -3,10 +3,15 @@ import torch
 import sys
 from unittest.mock import MagicMock
 
-sys.modules["apex"] = MagicMock()
-sys.modules["apex.normalization"] = MagicMock()
-sys.modules["apex.normalization.fused_layer_norm"] = MagicMock()
-sys.modules["fused_layer_norm_cuda"] = MagicMock()
+# 彻底封杀 apex 及其子模块，防止 importlib 去扫描它
+mock_apex = MagicMock()
+sys.modules["apex"] = mock_apex
+sys.modules["apex.normalization"] = mock_apex
+sys.modules["apex.normalization.fused_layer_norm"] = mock_apex
+
+# 特别针对这次报错：给假模块设置一个伪造的 __spec__
+mock_apex.__spec__ = MagicMock()
+
 
 import json
 import os
