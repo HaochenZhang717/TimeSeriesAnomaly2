@@ -1,5 +1,13 @@
 import argparse
 import torch
+import sys
+from unittest.mock import MagicMock
+
+sys.modules["apex"] = MagicMock()
+sys.modules["apex.normalization"] = MagicMock()
+sys.modules["apex.normalization.fused_layer_norm"] = MagicMock()
+sys.modules["fused_layer_norm_cuda"] = MagicMock()
+
 import json
 import os
 import numpy as np
@@ -8,6 +16,7 @@ from evaluation_utils import calculate_LSTM, calculate_GRU, calculate_robustTAD,
 from evaluation_utils import run_GPT4TS_evaluate, run_moment_evaluate
 from evaluation_utils import run_rf_evaluate, run_catboost_evaluate
 from dataset_utils import ImputationECGDataset
+
 
 
 def get_args():
