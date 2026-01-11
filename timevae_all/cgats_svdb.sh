@@ -10,16 +10,16 @@ FEAT_SIZE=2
 DATA_TYPE="ecg"
 WANDB_PROJECT="C-GATS_svdb_two_channels"
 
-FINETUNE_CKPT="/root/tianyi/formal_experiment/svdb_two_channels/C-GATS/ckpt_lr${LR}"
+FINETUNE_CKPT="../formal_experiment/svdb_two_channels/C-GATS/ckpt_lr${LR}"
 
 
-DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data_svdb/859.npz"]'
-TEST_DATA_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/raw_data_svdb/859.npz"]'
-FINETUNE_TRAIN_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_train.jsonl"]'
-FINETUNE_TEST_INDICES_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"]'
-ANOMALY_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_segments_train.jsonl"]'
-NORMAL_INDICES_FOR_SAMPLE='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/normal_800.jsonl"]'
-EVENT_LABELS_PATHS='["/root/tianyi/TimeSeriesAnomaly2/dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/event_label.npy"]'
+DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"]'
+TEST_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"]'
+FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_train.jsonl"]'
+FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"]'
+ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_segments_train.jsonl"]'
+NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/normal_800.jsonl"]'
+EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/event_label.npy"]'
 
 HIDDEN_LAYER_SIZES="[50,100,200]"
 TREND_POLY=3
@@ -191,3 +191,19 @@ python timevae_pipeline.py \
   \
   --gpu_id 0
 
+
+OUTDIR="../nn_eval/svdb_two_channels/C-GATS"
+
+
+python run_nn_evaluate.py \
+    --seq_len ${LEN_WHOLE} \
+    --feature_size 2 \
+    --one_channel 0 \
+    --feat_window_size 300 \
+    --raw_data_paths ${DATA_PATHS} \
+    --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
+    --max_infill_length ${MAX_LEN_ANOMALY} \
+    --ckpt_dir "${FINETUNE_CKPT}" \
+    --out_dir "${OUTDIR}" \
+    --generated_path "${FINETUNE_CKPT}/principle_no_code_impute_samples.pth" \
+    --gpu_id 0
