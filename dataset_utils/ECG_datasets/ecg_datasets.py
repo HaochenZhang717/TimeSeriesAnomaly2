@@ -677,14 +677,19 @@ class ImputationNormalECGDatasetForSample(Dataset):
         event_pos = event_pos - ts_start  # relative positions
         # for _ in range(10):
         #     print(random.randint(0, len(event_pos) - 1))
-        start_event_idx = random.randint(0, len(event_pos) - 1)
-        relative_anomaly_start = int(event_pos[start_event_idx])
 
-        possible_infill_lengths = []
-        for end_event_idx in range(start_event_idx, len(event_pos)):
-            length_tmp = event_pos[end_event_idx] - event_pos[start_event_idx]
-            if 0.9 * self.min_infill_length < length_tmp < self.max_infill_length:
-                possible_infill_lengths.append(length_tmp)
+        while True:
+            start_event_idx = random.randint(0, len(event_pos) - 1)
+            relative_anomaly_start = int(event_pos[start_event_idx])
+
+            possible_infill_lengths = []
+            for end_event_idx in range(start_event_idx, len(event_pos)):
+                length_tmp = event_pos[end_event_idx] - event_pos[start_event_idx]
+                if 0.9 * self.min_infill_length < length_tmp < self.max_infill_length:
+                    possible_infill_lengths.append(length_tmp)
+
+            if len(possible_infill_lengths) > 0:
+                break
 
 
         infill_length = random.choice(possible_infill_lengths)
