@@ -672,8 +672,11 @@ class ImputationNormalECGDatasetForSample(Dataset):
 
 
         event_pos = self.event_label_list[which_list]
+        breakpoint()
         event_pos = event_pos[(event_pos >= ts_start) & (event_pos < ts_end)]
         event_pos = event_pos - ts_start  # relative positions
+        # for _ in range(10):
+        #     print(random.randint(0, len(event_pos) - 1))
         start_event_idx = random.randint(0, len(event_pos) - 1)
         relative_anomaly_start = int(event_pos[start_event_idx])
 
@@ -946,16 +949,25 @@ if __name__ == "__main__":
     #     max_infill_length=600,
     # )
 
-    dataset = PredictionNormalECGDataset(
-        raw_data_paths=["./raw_data_incart/I30.npz"],
-        indices_paths=["./indices_incart/slide_windows_I30npz/normal_800.jsonl"],
-        seq_len=800,
-        one_channel=False,
-        pre_context_length=200,
-        max_infill_length=600,
-        min_infill_length=100,
-    )
+    # dataset = PredictionNormalECGDataset(
+    #     raw_data_paths=["./raw_data_incart/I30.npz"],
+    #     indices_paths=["./indices_incart/slide_windows_I30npz/normal_800.jsonl"],
+    #     seq_len=800,
+    #     one_channel=False,
+    #     pre_context_length=200,
+    #     max_infill_length=600,
+    #     min_infill_length=100,
+    # )
 
+    dataset = ImputationNormalECGDatasetForSample(
+        raw_data_paths=["./raw_data_svdb/859.npz"],
+        indices_paths=["./indices_svdb/slide_windows_859npz/normal_800.jsonl"],
+        event_labels_paths=["./indices_svdb/slide_windows_859npz/event_label.npy"],
+        seq_len=800,
+        one_channel=0,
+        max_infill_length=450,
+        min_infill_length=80,
+    )
 
     dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
     for batch in dataloader:
