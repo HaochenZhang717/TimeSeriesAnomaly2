@@ -21,6 +21,7 @@ FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices/slide_windo
 FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"]'
 ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/anomaly_segments_with_prototype_train.jsonl"]'
 NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/normal_1000.jsonl"]'
+EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/event_label.npy"]'
 
 HIDDEN_LAYER_SIZES="[50,100,200]"
 TREND_POLY=3
