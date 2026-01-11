@@ -1,16 +1,28 @@
 import argparse
 import torch
 import sys
-from unittest.mock import MagicMock
 
-# 彻底封杀 apex 及其子模块，防止 importlib 去扫描它
-mock_apex = MagicMock()
-sys.modules["apex"] = mock_apex
-sys.modules["apex.normalization"] = mock_apex
-sys.modules["apex.normalization.fused_layer_norm"] = mock_apex
+# 1. 强行从 sys.modules 中彻底移除所有与 apex 相关的记录
+# 即使之前 import 失败留下了残余，也要清理干净
+for key in list(sys.modules.keys()):
+    if 'apex' in key:
+        del sys.modules[key]
 
-# 特别针对这次报错：给假模块设置一个伪造的 __spec__
-mock_apex.__spec__ = MagicMock()
+# 2. 伪造一个“绝对不可用”的导入陷阱
+# 我们创建一个名为 apex 的类，但它不具备任何属性，
+# 关键是我们要让它在 transformers 检测时抛出真正的 ImportError
+class InvisibleModule:
+    pass
+
+# 3. 告诉 Python，apex 已经加载过了，但它是个空壳
+# 这样 transformers 的 import apex 语句会成功，
+# 但它后续检查 hasattr(apex, 'normalization') 时会返回 False
+sys.modules["apex"] = InvisibleModule()
+
+# 4. 最关键的一步：防止 importlib.util.find_spec("apex") 崩溃
+# 我们手动设置 sys.modules["apex"].__path__ 为空，让它看起来不像一个包
+sys.modules["apex"].__path__ = []
+
 
 
 import json
