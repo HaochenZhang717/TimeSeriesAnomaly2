@@ -961,15 +961,32 @@ if __name__ == "__main__":
     #     min_infill_length=100,
     # )
 
+    DATA_PATHS = ["./raw_data_PV/2013_pv_sub_2.npz","./raw_data_PV/2013_pv_sub_3.npz","./raw_data_PV/2013_pv_sub_4.npz","./raw_data_PV/2015_pv_sub_0.npz","./raw_data_PV/2015_pv_sub_1.npz","./raw_data_PV/2021_pv_live_0.npz","./raw_data_PV/2022_pv_live_0.npz","./raw_data_PV/2023_pv_live_0.npz","./raw_data_PV/2024_pv_live_0.npz","./raw_data_PV/2025_pv_live_0.npz"]
+    NORMAL_INDICES_FOR_SAMPLE = ["./indices_PV/slide_windows_2013_pv_sub_2npz/normal_200.jsonl","./indices_PV/slide_windows_2013_pv_sub_3npz/normal_200.jsonl","./indices_PV/slide_windows_2013_pv_sub_4npz/normal_200.jsonl","./indices_PV/slide_windows_2015_pv_sub_0npz/normal_200.jsonl","./indices_PV/slide_windows_2015_pv_sub_1npz/normal_200.jsonl","./indices_PV/slide_windows_2021_pv_live_0npz/normal_200.jsonl","./indices_PV/slide_windows_2022_pv_live_0npz/normal_200.jsonl","./indices_PV/slide_windows_2023_pv_live_0npz/normal_200.jsonl","./indices_PV/slide_windows_2024_pv_live_0npz/normal_200.jsonl","./indices_PV/slide_windows_2025_pv_live_0npz/normal_200.jsonl"]
+    EVENT_LABELS_PATHS = ["./indices_PV/slide_windows_2013_pv_sub_2npz/event_label.npy","./indices_PV/slide_windows_2013_pv_sub_3npz/event_label.npy","./indices_PV/slide_windows_2013_pv_sub_4npz/event_label.npy","./indices_PV/slide_windows_2015_pv_sub_0npz/event_label.npy","./indices_PV/slide_windows_2015_pv_sub_1npz/event_label.npy","./indices_PV/slide_windows_2021_pv_live_0npz/event_label.npy","./indices_PV/slide_windows_2022_pv_live_0npz/event_label.npy","./indices_PV/slide_windows_2023_pv_live_0npz/event_label.npy","./indices_PV/slide_windows_2024_pv_live_0npz/event_label.npy","./indices_PV/slide_windows_2025_pv_live_0npz/event_label.npy"]
+    LEN_WHOLE = 200
+    MAX_LEN_ANOMALY = 144
+    MIN_LEN_ANOMALY = 20
+
     dataset = ImputationNormalECGDatasetForSample(
-        raw_data_paths=["./raw_data_svdb/859.npz"],
-        indices_paths=["./indices_svdb/slide_windows_859npz/normal_800.jsonl"],
-        event_labels_paths=["./indices_svdb/slide_windows_859npz/event_label.npy"],
-        seq_len=800,
+        raw_data_paths=DATA_PATHS,
+        indices_paths=NORMAL_INDICES_FOR_SAMPLE,
+        event_labels_paths=EVENT_LABELS_PATHS,
+        seq_len=LEN_WHOLE,
         one_channel=0,
-        max_infill_length=450,
-        min_infill_length=80,
+        max_infill_length=MAX_LEN_ANOMALY,
+        min_infill_length=MIN_LEN_ANOMALY,
     )
+
+    # dataset = ImputationNormalECGDatasetForSample(
+    #     raw_data_paths=["./raw_data_svdb/859.npz"],
+    #     indices_paths=["./indices_svdb/slide_windows_859npz/normal_800.jsonl"],
+    #     event_labels_paths=["./indices_svdb/slide_windows_859npz/event_label.npy"],
+    #     seq_len=800,
+    #     one_channel=0,
+    #     max_infill_length=450,
+    #     min_infill_length=80,
+    # )
 
     dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
     for batch in dataloader:
