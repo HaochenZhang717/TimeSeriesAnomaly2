@@ -299,4 +299,20 @@ python dsp_flow.py \
   \
   --gpu_id 0
 
+
+OUTDIR="../nn_eval/PV/dspflow_no_code"
+python run_nn_evaluate.py \
+    --seq_len ${LEN_WHOLE} \
+    --feature_size 1 \
+    --one_channel 1 \
+    --feat_window_size 100 \
+    --raw_data_paths ${DATA_PATHS} \
+    --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
+    --max_infill_length ${MAX_LEN_ANOMALY} \
+    --ckpt_dir "${FINETUNE_CKPT}" \
+    --out_dir "${OUTDIR}" \
+    --generated_path "${FINETUNE_CKPT}/principle_no_code_impute_samples.pth" \
+    --gpu_id 0
+
+
 cd  ./dsp_no_code
