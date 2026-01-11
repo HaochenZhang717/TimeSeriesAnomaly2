@@ -515,7 +515,7 @@ def run_moment_evaluate(
     }
 
     # ---- save ----
-    save_path = os.path.join(output_path, "moment_evaluation_results.json;")
+    save_path = os.path.join(output_path, "moment_evaluation_results.jsonl")
     with open(save_path, "w") as f:
         json.dump(results_dict, f, indent=4)
 
