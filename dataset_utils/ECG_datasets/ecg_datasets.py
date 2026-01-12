@@ -681,18 +681,15 @@ class ImputationNormalECGDatasetForSample(Dataset):
         # for SVDB and QTDB use -3
         # start_event_idx = random.randint(0, len(event_pos) - 3)
         # for traffic and PV, use -1
+        start_event_idx = random.randint(0, len(event_pos) - 2)
 
-        while True:
-            start_event_idx = random.randint(0, len(event_pos) - 2)
-            relative_anomaly_start = int(event_pos[start_event_idx])
+        relative_anomaly_start = int(event_pos[start_event_idx])
 
-            possible_infill_lengths = []
-            for end_event_idx in range(start_event_idx+1, len(event_pos)):
-                length_tmp = event_pos[end_event_idx] - event_pos[start_event_idx]
-                if 0.9 * self.min_infill_length < length_tmp < self.max_infill_length:
-                    possible_infill_lengths.append(length_tmp)
-            if len(possible_infill_lengths) > 0:
-                break
+        possible_infill_lengths = []
+        for end_event_idx in range(start_event_idx+1, len(event_pos)):
+            length_tmp = event_pos[end_event_idx] - event_pos[start_event_idx]
+            if 0.9 * self.min_infill_length < length_tmp < self.max_infill_length:
+                possible_infill_lengths.append(length_tmp)
 
 
         # if len(possible_infill_lengths) == 0:
