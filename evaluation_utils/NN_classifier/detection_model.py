@@ -632,8 +632,8 @@ def calculate_TCN(
         mode='min',
         factor=0.8,  # multiply LR by 0.5
         patience=5,  # wait 3 epochs with no improvement
-        threshold=min_lr,  # improvement threshold
-        min_lr=5e-6,  # min LR clamp
+        threshold=1e-4,  # improvement threshold
+        min_lr=min_lr,  # min LR clamp
     )
 
 

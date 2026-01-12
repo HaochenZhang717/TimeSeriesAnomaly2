@@ -250,7 +250,7 @@ def run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, d
             gen_labels=sampled_gen_labels,
             device=device,
             lr=1e-4,
-            min_lr=1e-5,
+            min_lr=5e-6,
             max_epochs=2000,
             batch_size=64,
             patience=100)
@@ -331,7 +331,7 @@ def run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
             gen_labels=sampled_gen_labels,
             device=device,
             lr=1e-4,
-            min_lr=1e-5,
+            min_lr=5e-6,
             max_epochs=2000,
             batch_size=64,
             patience=100)
