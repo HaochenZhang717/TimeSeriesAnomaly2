@@ -671,7 +671,8 @@ class ImputationNormalECGDatasetForSample(Dataset):
         ts_length = ts_end - ts_start
 
         event_pos = self.event_label_list[which_list]
-
+        event_pos = event_pos[(event_pos >= ts_start) & (event_pos < ts_end)]
+        event_pos = event_pos - ts_start  # relative positions
 
         valid_choices = []
 
