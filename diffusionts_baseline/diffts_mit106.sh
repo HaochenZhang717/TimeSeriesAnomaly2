@@ -157,9 +157,9 @@ python run_nn_evaluate.py \
     --raw_data_paths ${DATA_PATHS} \
     --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
     --max_infill_length ${MAX_LEN_ANOMALY} \
-    --ckpt_dir "${FINETUNE_CKPT}" \
+    --ckpt_dir "${TRAIN_CKPT}" \
     --out_dir "${OUTDIR}" \
-    --generated_path "${FINETUNE_CKPT}/no_code_impute_samples.pth" \
+    --generated_path "${TRAIN_CKPT}/no_code_impute_samples.pth" \
     --gpu_id 0
 
 
