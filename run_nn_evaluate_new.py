@@ -516,6 +516,11 @@ def main():
     gen_data = gen_data[~nan_mask]
     gen_labels = gen_labels[~nan_mask]
 
+    print(real_data.max())
+    print(real_data.min())
+
+    print(gen_data.max())
+    print(gen_data.min())
 
     # run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
