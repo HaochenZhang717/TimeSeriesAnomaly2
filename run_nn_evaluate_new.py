@@ -253,7 +253,7 @@ def run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, d
             min_lr=5e-6,
             max_epochs=2000,
             batch_size=64,
-            patience=100)
+            patience=40)
         precisions.append(precision)
         recalls.append(recall)
         f1s.append(f1)
@@ -335,7 +335,7 @@ def run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
             lr_decay_patience=10,
             max_epochs=2000,
             batch_size=64,
-            patience=100)
+            patience=40)
         precisions.append(precision)
         recalls.append(recall)
         f1s.append(f1)
