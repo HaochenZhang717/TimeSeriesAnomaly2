@@ -1,5 +1,5 @@
 
-cd ..
+
 
 DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"]'
 FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"]'
