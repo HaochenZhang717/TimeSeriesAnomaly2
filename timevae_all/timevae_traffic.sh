@@ -53,7 +53,7 @@ python timevae_pipeline.py \
   \
   --lr ${LR} \
   --batch_size 64 \
-  --max_epochs 2000 \
+  --max_epochs 20 \
   --grad_clip_norm 1.0 \
   --grad_accum_steps 1 \
   --early_stop "true" \
