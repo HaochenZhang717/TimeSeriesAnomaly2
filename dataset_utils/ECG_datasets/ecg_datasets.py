@@ -678,7 +678,10 @@ class ImputationNormalECGDatasetForSample(Dataset):
         # for _ in range(10):
         #     print(random.randint(0, len(event_pos) - 1))
 
-        start_event_idx = random.randint(0, len(event_pos) - 3)
+        # for SVDB and QTDB use -3
+        # start_event_idx = random.randint(0, len(event_pos) - 3)
+        # for traffic and PV, use -1
+        start_event_idx = random.randint(0, len(event_pos) - 1)
         relative_anomaly_start = int(event_pos[start_event_idx])
 
         possible_infill_lengths = []
