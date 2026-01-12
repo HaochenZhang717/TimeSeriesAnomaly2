@@ -610,7 +610,8 @@ def calculate_TCN(
         max_epochs=2000,
         batch_size=64,
         patience=20,
-        min_lr=1e-4
+        min_lr=5e-6,
+        lr_decay_patience=5,
 ):
     X_real = torch.tensor(ori_data, dtype=torch.float32)
     X_fake = torch.tensor(gen_data, dtype=torch.float32)
@@ -631,7 +632,7 @@ def calculate_TCN(
         optimizer,
         mode='min',
         factor=0.8,  # multiply LR by 0.5
-        patience=5,  # wait 3 epochs with no improvement
+        patience=lr_decay_patience,  # wait 3 epochs with no improvement
         threshold=1e-4,  # improvement threshold
         min_lr=min_lr,  # min LR clamp
     )

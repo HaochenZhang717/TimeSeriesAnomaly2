@@ -332,6 +332,7 @@ def run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
             device=device,
             lr=1e-4,
             min_lr=5e-6,
+            lr_decay_patience=10,
             max_epochs=2000,
             batch_size=64,
             patience=100)
@@ -516,7 +517,7 @@ def main():
     gen_labels = gen_labels[~nan_mask]
 
 
-    run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
+    # run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     run_TCN_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_GPT4TS_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)
     # run_moment_evaluate(
