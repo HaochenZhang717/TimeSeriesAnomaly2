@@ -675,23 +675,28 @@ class ImputationNormalECGDatasetForSample(Dataset):
         # breakpoint()
         event_pos = event_pos[(event_pos >= ts_start) & (event_pos < ts_end)]
         event_pos = event_pos - ts_start  # relative positions
-        # for _ in range(10):
+        event_pos = np.concatenate(([0], event_pos, [ts_end-ts_start]))        # for _ in range(10):
         #     print(random.randint(0, len(event_pos) - 1))
 
         # for SVDB and QTDB use -3
         # start_event_idx = random.randint(0, len(event_pos) - 3)
         # for traffic and PV, use -1
-        start_event_idx = random.randint(0, len(event_pos) - 1)
-        relative_anomaly_start = int(event_pos[start_event_idx])
 
-        possible_infill_lengths = []
-        for end_event_idx in range(start_event_idx, len(event_pos)):
-            length_tmp = event_pos[end_event_idx] - event_pos[start_event_idx]
-            if 0.9 * self.min_infill_length < length_tmp < self.max_infill_length:
-                possible_infill_lengths.append(length_tmp)
+        while True:
+            start_event_idx = random.randint(0, len(event_pos) - 2)
+            relative_anomaly_start = int(event_pos[start_event_idx])
+
+            possible_infill_lengths = []
+            for end_event_idx in range(start_event_idx+1, len(event_pos)):
+                length_tmp = event_pos[end_event_idx] - event_pos[start_event_idx]
+                if 0.9 * self.min_infill_length < length_tmp < self.max_infill_length:
+                    possible_infill_lengths.append(length_tmp)
+            if len(possible_infill_lengths) > 0:
+                break
 
 
-
+        # if len(possible_infill_lengths) == 0:
+        #     print(possible_infill_lengths)
         infill_length = random.choice(possible_infill_lengths)
         relative_anomaly_end = relative_anomaly_start + infill_length
 
@@ -722,7 +727,8 @@ class ImputationNormalECGDatasetForSample(Dataset):
         # ===== noise mask =====
         noise_mask = torch.zeros(T, dtype=torch.long)
         noise_mask[relative_anomaly_start:relative_anomaly_end] = 1
-
+        # if noise_mask.sum() == 0:
+        #     print(noise_mask)
 
         return {
             'signals': signal,
@@ -964,19 +970,26 @@ if __name__ == "__main__":
     #     min_infill_length=100,
     # )
 
-    DATA_PATHS = ["./raw_data_PV/2013_pv_sub_2.npz","./raw_data_PV/2013_pv_sub_3.npz","./raw_data_PV/2013_pv_sub_4.npz","./raw_data_PV/2015_pv_sub_0.npz","./raw_data_PV/2015_pv_sub_1.npz","./raw_data_PV/2021_pv_live_0.npz","./raw_data_PV/2022_pv_live_0.npz","./raw_data_PV/2023_pv_live_0.npz","./raw_data_PV/2024_pv_live_0.npz","./raw_data_PV/2025_pv_live_0.npz"]
-    NORMAL_INDICES_FOR_SAMPLE = ["./indices_PV/slide_windows_2013_pv_sub_2npz/normal_200.jsonl","./indices_PV/slide_windows_2013_pv_sub_3npz/normal_200.jsonl","./indices_PV/slide_windows_2013_pv_sub_4npz/normal_200.jsonl","./indices_PV/slide_windows_2015_pv_sub_0npz/normal_200.jsonl","./indices_PV/slide_windows_2015_pv_sub_1npz/normal_200.jsonl","./indices_PV/slide_windows_2021_pv_live_0npz/normal_200.jsonl","./indices_PV/slide_windows_2022_pv_live_0npz/normal_200.jsonl","./indices_PV/slide_windows_2023_pv_live_0npz/normal_200.jsonl","./indices_PV/slide_windows_2024_pv_live_0npz/normal_200.jsonl","./indices_PV/slide_windows_2025_pv_live_0npz/normal_200.jsonl"]
-    EVENT_LABELS_PATHS = ["./indices_PV/slide_windows_2013_pv_sub_2npz/event_label.npy","./indices_PV/slide_windows_2013_pv_sub_3npz/event_label.npy","./indices_PV/slide_windows_2013_pv_sub_4npz/event_label.npy","./indices_PV/slide_windows_2015_pv_sub_0npz/event_label.npy","./indices_PV/slide_windows_2015_pv_sub_1npz/event_label.npy","./indices_PV/slide_windows_2021_pv_live_0npz/event_label.npy","./indices_PV/slide_windows_2022_pv_live_0npz/event_label.npy","./indices_PV/slide_windows_2023_pv_live_0npz/event_label.npy","./indices_PV/slide_windows_2024_pv_live_0npz/event_label.npy","./indices_PV/slide_windows_2025_pv_live_0npz/event_label.npy"]
-    LEN_WHOLE = 200
-    MAX_LEN_ANOMALY = 144
-    MIN_LEN_ANOMALY = 20
+    # DATA_PATHS = ["./raw_data_PV/2013_pv_sub_2.npz","./raw_data_PV/2013_pv_sub_3.npz","./raw_data_PV/2013_pv_sub_4.npz","./raw_data_PV/2015_pv_sub_0.npz","./raw_data_PV/2015_pv_sub_1.npz","./raw_data_PV/2021_pv_live_0.npz","./raw_data_PV/2022_pv_live_0.npz","./raw_data_PV/2023_pv_live_0.npz","./raw_data_PV/2024_pv_live_0.npz","./raw_data_PV/2025_pv_live_0.npz"]
+    # NORMAL_INDICES_FOR_SAMPLE = ["./indices_PV/slide_windows_2013_pv_sub_2npz/normal_200.jsonl","./indices_PV/slide_windows_2013_pv_sub_3npz/normal_200.jsonl","./indices_PV/slide_windows_2013_pv_sub_4npz/normal_200.jsonl","./indices_PV/slide_windows_2015_pv_sub_0npz/normal_200.jsonl","./indices_PV/slide_windows_2015_pv_sub_1npz/normal_200.jsonl","./indices_PV/slide_windows_2021_pv_live_0npz/normal_200.jsonl","./indices_PV/slide_windows_2022_pv_live_0npz/normal_200.jsonl","./indices_PV/slide_windows_2023_pv_live_0npz/normal_200.jsonl","./indices_PV/slide_windows_2024_pv_live_0npz/normal_200.jsonl","./indices_PV/slide_windows_2025_pv_live_0npz/normal_200.jsonl"]
+    # EVENT_LABELS_PATHS = ["./indices_PV/slide_windows_2013_pv_sub_2npz/event_label.npy","./indices_PV/slide_windows_2013_pv_sub_3npz/event_label.npy","./indices_PV/slide_windows_2013_pv_sub_4npz/event_label.npy","./indices_PV/slide_windows_2015_pv_sub_0npz/event_label.npy","./indices_PV/slide_windows_2015_pv_sub_1npz/event_label.npy","./indices_PV/slide_windows_2021_pv_live_0npz/event_label.npy","./indices_PV/slide_windows_2022_pv_live_0npz/event_label.npy","./indices_PV/slide_windows_2023_pv_live_0npz/event_label.npy","./indices_PV/slide_windows_2024_pv_live_0npz/event_label.npy","./indices_PV/slide_windows_2025_pv_live_0npz/event_label.npy"]
+    # LEN_WHOLE = 200
+    # MAX_LEN_ANOMALY = 144
+    # MIN_LEN_ANOMALY = 20
+
+    DATA_PATHS = ["./raw_data_traffic/metro_traffic_data.npz"]
+    NORMAL_INDICES_FOR_SAMPLE = ["./indices_traffic/slide_windows_metro_traffic_datanpz/normal_72.jsonl"]
+    EVENT_LABELS_PATHS = ["./indices_traffic/slide_windows_metro_traffic_datanpz/event_label.npy"]
+    LEN_WHOLE = 72
+    MAX_LEN_ANOMALY = 48
+    MIN_LEN_ANOMALY = 19
 
     dataset = ImputationNormalECGDatasetForSample(
         raw_data_paths=DATA_PATHS,
         indices_paths=NORMAL_INDICES_FOR_SAMPLE,
         event_labels_paths=EVENT_LABELS_PATHS,
         seq_len=LEN_WHOLE,
-        one_channel=0,
+        one_channel=1,
         max_infill_length=MAX_LEN_ANOMALY,
         min_infill_length=MIN_LEN_ANOMALY,
     )
