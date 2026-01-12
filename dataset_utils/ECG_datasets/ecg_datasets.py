@@ -670,32 +670,32 @@ class ImputationNormalECGDatasetForSample(Dataset):
         ts_end = self.index_lines_list[which_list][which_index]["end"]
         ts_length = ts_end - ts_start
 
-
         event_pos = self.event_label_list[which_list]
-        # breakpoint()
-        event_pos = event_pos[(event_pos >= ts_start) & (event_pos < ts_end)]
-        event_pos = event_pos - ts_start  # relative positions
-        event_pos = np.concatenate(([0], event_pos, [ts_end-ts_start]))        # for _ in range(10):
-        #     print(random.randint(0, len(event_pos) - 1))
-
-        # for SVDB and QTDB use -3
-        # start_event_idx = random.randint(0, len(event_pos) - 3)
-        # for traffic and PV, use -1
-        start_event_idx = random.randint(0, len(event_pos) - 2)
-
-        relative_anomaly_start = int(event_pos[start_event_idx])
-
-        possible_infill_lengths = []
-        for end_event_idx in range(start_event_idx+1, len(event_pos)):
-            length_tmp = event_pos[end_event_idx] - event_pos[start_event_idx]
-            if 0.9 * self.min_infill_length < length_tmp < self.max_infill_length:
-                possible_infill_lengths.append(length_tmp)
 
 
-        # if len(possible_infill_lengths) == 0:
-        #     print(possible_infill_lengths)
-        infill_length = random.choice(possible_infill_lengths)
+        valid_choices = []
+
+        # 枚举所有合法 (start_pos, infill_length)
+        for i in range(len(event_pos) - 1):
+            start_pos = event_pos[i]
+            for j in range(i + 1, len(event_pos)):
+                end_pos = event_pos[j]
+                infill_length = end_pos - start_pos
+
+                if 0.9 * self.min_infill_length < infill_length < self.max_infill_length:
+                    valid_choices.append((start_pos, infill_length))
+
+        # 如果没有任何合法 choice，直接 resample 一个 index
+        if len(valid_choices) == 0:
+            return self.__getitem__(random.randint(0, len(self) - 1))
+
+        # 一步采样
+        relative_anomaly_start, infill_length = random.choice(valid_choices)
+        relative_anomaly_start = int(relative_anomaly_start)
+        infill_length = int(infill_length)
+
         relative_anomaly_end = relative_anomaly_start + infill_length
+
 
 
         if self.one_channel:
