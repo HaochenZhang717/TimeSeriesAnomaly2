@@ -220,7 +220,7 @@ for i in ${!GPU_IDS[@]}; do
 #    --gpu_id 0
 
   OUTDIR="../nn_eval/PV/dsp_flow_mixed_K${NUM_CODES}"
-  python run_nn_evaluate.py \
+  python run_nn_evaluate_new.py \
     --seq_len ${LEN_WHOLE} \
     --feature_size 1 \
     --one_channel 1 \

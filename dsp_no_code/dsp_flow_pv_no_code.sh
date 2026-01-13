@@ -208,7 +208,7 @@ EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013
 
 
 OUTDIR="../nn_eval/PV/dspflow_no_code"
-python run_nn_evaluate.py \
+python run_nn_evaluate_new.py \
     --seq_len ${LEN_WHOLE} \
     --feature_size 1 \
     --one_channel 1 \
