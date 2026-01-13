@@ -11,7 +11,7 @@ LEN_WHOLE=1000
 
 echo "Running nn_eval: ${FIENTUNE_CKPT}"
 
-python run_nn_evaluate.py \
+python run_nn_evaluate_new.py \
     --seq_len ${LEN_WHOLE} \
     --feature_size 2 \
     --one_channel 0 \
