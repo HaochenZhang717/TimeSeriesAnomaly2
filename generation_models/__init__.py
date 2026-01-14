@@ -15,3 +15,5 @@ from .diffusion_ts import Diffusion_TS
 from .TimeVAE import TimeVAE
 from .CNNVAE import CNNVAE
 
+from .GenIAS import GenIASModel
+

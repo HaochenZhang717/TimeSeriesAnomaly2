@@ -1,5 +1,5 @@
 from Trainers import TimeVAETrainer, CNNVAETrainer
-from generation_models import TimeVAE, CNNVAE
+from generation_models import TimeVAE, CNNVAE, GenIASModel
 from dataset_utils import ImputationNormalECGDataset, ImputationNormalECGDatasetForSample
 from dataset_utils import ImputationECGDataset
 import argparse

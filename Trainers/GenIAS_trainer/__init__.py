@@ -1,0 +1,1 @@
+from .trainer import GenIAS_Trainer
