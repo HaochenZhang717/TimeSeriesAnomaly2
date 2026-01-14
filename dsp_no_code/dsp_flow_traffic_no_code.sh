@@ -3,7 +3,7 @@ cd ..
 export hucfg_t_sampling=logitnorm
 LR=1e-4
 LEN_WHOLE=72
-MAX_LEN_ANOMALY=24
+MAX_LEN_ANOMALY=23
 MIN_LEN_ANOMALY=22
 
 ONE_CHANNEL=1
