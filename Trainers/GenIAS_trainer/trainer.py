@@ -73,7 +73,7 @@ class GenIAS_Trainer(object):
             """evaluation"""
             self.model.eval()
             with torch.no_grad():
-                val_total, val_recon, val_perturb, val_kl, val_seen = 0, 0, 0, 0
+                val_total, val_recon, val_perturb, val_kl, val_seen = 0, 0, 0, 0, 0
                 for batch in self.val_loader:
                     # X_occluded = batch["signal_random_occluded"].to(self.device)
                     X_normal = batch["signals"].to(self.device)
