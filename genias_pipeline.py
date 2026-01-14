@@ -371,11 +371,12 @@ def genias_train(args):
 
     assert args.data_type == "ecg"
 
-    full_set = ImputationECGDataset(
+    full_set = ImputationNormalECGDataset(
         raw_data_paths=args.raw_data_paths_train,
         indices_paths=args.indices_paths_train,
         seq_len=args.seq_len,
         one_channel=args.one_channel,
+        min_infill_length=args.min_infill_length,
         max_infill_length=args.max_infill_length,
     )
     N = len(full_set)
