@@ -493,7 +493,6 @@ def run_moment_evaluate(
         print(f"\n========== Run {run_id} ==========\n")
         seed = run_id
         control_randomness(seed)
-
         trainer = PTBXL_Trainer(
             real_data, real_labels,
             gen_data, gen_labels,
