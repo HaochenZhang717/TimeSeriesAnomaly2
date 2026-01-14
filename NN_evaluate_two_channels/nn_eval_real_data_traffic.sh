@@ -16,8 +16,8 @@ echo "Running nn_eval: ${FIENTUNE_CKPT}"
 
 python run_nn_evaluate_real_data.py \
     --seq_len ${LEN_WHOLE} \
-    --feature_size 2 \
-    --one_channel 0 \
+    --feature_size 1 \
+    --one_channel 1 \
     --feat_window_size 50 \
     --raw_data_paths ${DATA_PATHS} \
     --indices_paths_train ${FINETUNE_TRAIN_INDICES_PATHS} \
