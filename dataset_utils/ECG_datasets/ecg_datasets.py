@@ -976,17 +976,27 @@ if __name__ == "__main__":
     # MIN_LEN_ANOMALY = 20
 
     DATA_PATHS = ["./raw_data_traffic/metro_traffic_data.npz"]
+    PRETRAIN_INDICES = ["./indices_traffic/slide_windows_metro_traffic_datanpz/normal_24.jsonl"]
     NORMAL_INDICES_FOR_SAMPLE = ["./indices_traffic/slide_windows_metro_traffic_datanpz/normal_72.jsonl"]
     EVENT_LABELS_PATHS = ["./indices_traffic/slide_windows_metro_traffic_datanpz/event_label.npy"]
     LEN_WHOLE = 72
     MAX_LEN_ANOMALY = 24
-    MIN_LEN_ANOMALY = 22
+    MIN_LEN_ANOMALY = 23
 
 
-    dataset = ImputationNormalECGDatasetForSample(
+    # dataset = ImputationNormalECGDatasetForSample(
+    #     raw_data_paths=DATA_PATHS,
+    #     indices_paths=NORMAL_INDICES_FOR_SAMPLE,
+    #     event_labels_paths=EVENT_LABELS_PATHS,
+    #     seq_len=LEN_WHOLE,
+    #     one_channel=1,
+    #     max_infill_length=MAX_LEN_ANOMALY,
+    #     min_infill_length=MIN_LEN_ANOMALY,
+    # )
+
+    dataset = NoContextNormalECGDataset(
         raw_data_paths=DATA_PATHS,
-        indices_paths=NORMAL_INDICES_FOR_SAMPLE,
-        event_labels_paths=EVENT_LABELS_PATHS,
+        indices_paths=PRETRAIN_INDICES,
         seq_len=LEN_WHOLE,
         one_channel=1,
         max_infill_length=MAX_LEN_ANOMALY,
@@ -1005,14 +1015,14 @@ if __name__ == "__main__":
 
     dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
     for batch in dataloader:
-        plt.plot(batch['signals'][0,:,0], label="Channel 0")
-        # plt.plot(batch['signals'][0,:,1], label="Channel 1")
-        plt.plot(batch['attn_mask'][0], label="attn mask")
-        plt.plot(batch['noise_mask'][0], label="noise mask")
-        plt.legend()
-        plt.show(block=False)
-        plt.pause(2.0)  # 停留 2 秒
-        plt.close()
+        # plt.plot(batch['signals'][0,:,0], label="Channel 0")
+        # # plt.plot(batch['signals'][0,:,1], label="Channel 1")
+        # plt.plot(batch['attn_mask'][0], label="attn mask")
+        # plt.plot(batch['noise_mask'][0], label="noise mask")
+        # plt.legend()
+        # plt.show(block=False)
+        # plt.pause(2.0)  # 停留 2 秒
+        # plt.close()
         print("123")
         # break
 
