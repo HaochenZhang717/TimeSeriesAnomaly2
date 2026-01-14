@@ -3,14 +3,14 @@ cd ..
 export hucfg_t_sampling=logitnorm
 LR=1e-4
 LEN_WHOLE=72
-MAX_LEN_ANOMALY=48
-MIN_LEN_ANOMALY=19
+MAX_LEN_ANOMALY=24
+MIN_LEN_ANOMALY=22
 
 ONE_CHANNEL=1
 FEAT_SIZE=1
 
 DATA_TYPE="ecg"
-WANDB_PROJECT="dsp_flow_PV"
+WANDB_PROJECT="dsp_flow_traffic"
 
 VQVAE_CKPT="none"
 PRETRAIN_CKPT="../formal_experiment/traffic/dsp_flow_no_code/no_context_no_code_pretrain_ckpt"
