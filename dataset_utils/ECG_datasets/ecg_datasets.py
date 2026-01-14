@@ -683,7 +683,7 @@ class ImputationNormalECGDatasetForSample(Dataset):
                 end_pos = event_pos[j]
                 infill_length = end_pos - start_pos
 
-                if 0.9 * self.min_infill_length < infill_length < self.max_infill_length:
+                if 0.9 * self.min_infill_length < infill_length < 1.2 * self.max_infill_length:
                     valid_choices.append((start_pos, infill_length))
 
         # 如果没有任何合法 choice，直接 resample 一个 index
@@ -979,8 +979,9 @@ if __name__ == "__main__":
     NORMAL_INDICES_FOR_SAMPLE = ["./indices_traffic/slide_windows_metro_traffic_datanpz/normal_72.jsonl"]
     EVENT_LABELS_PATHS = ["./indices_traffic/slide_windows_metro_traffic_datanpz/event_label.npy"]
     LEN_WHOLE = 72
-    MAX_LEN_ANOMALY = 48
-    MIN_LEN_ANOMALY = 19
+    MAX_LEN_ANOMALY = 24
+    MIN_LEN_ANOMALY = 22
+
 
     dataset = ImputationNormalECGDatasetForSample(
         raw_data_paths=DATA_PATHS,
