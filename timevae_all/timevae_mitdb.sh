@@ -171,3 +171,5 @@ python run_nn_evaluate.py \
     --generated_path "${FINETUNE_CKPT}/no_code_impute_samples.pth" \
     --gpu_id 0
 
+cd timevae_all
+

@@ -163,4 +163,4 @@ python run_nn_evaluate.py \
     --gpu_id 0
 
 
-#cd ./diffusionts_baseline
+cd diffusionts_baseline

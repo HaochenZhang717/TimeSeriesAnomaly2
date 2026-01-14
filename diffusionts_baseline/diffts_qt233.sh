@@ -161,4 +161,4 @@ python run_nn_evaluate.py \
     --generated_path "${TRAIN_CKPT}/principle_no_code_impute_samples.pth" \
     --gpu_id 0
 
-cd ./diffusionts_baseline
+cd diffusionts_baseline
