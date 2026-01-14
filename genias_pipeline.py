@@ -6,6 +6,8 @@ import argparse
 import torch
 import json
 import os
+import numpy as np
+from torch.utils.data import Subset
 
 
 
@@ -171,6 +173,7 @@ def impute_sample(args):
         'all_reals': all_reals,
     }
     torch.save(all_results, f"{args.ckpt_dir}/no_code_impute_samples.pth")
+
 
 
 def principle_impute_sample(args):
@@ -368,21 +371,23 @@ def genias_train(args):
 
     assert args.data_type == "ecg"
 
-    train_set = ImputationECGDataset(
+    full_set = ImputationECGDataset(
         raw_data_paths=args.raw_data_paths_train,
         indices_paths=args.indices_paths_train,
         seq_len=args.seq_len,
         one_channel=args.one_channel,
         max_infill_length=args.max_infill_length,
     )
+    N = len(full_set)
+    indices = np.arange(N)
 
-    val_set = ImputationECGDataset(
-        raw_data_paths=args.raw_data_paths_test,
-        indices_paths=args.indices_paths_test,
-        seq_len=args.seq_len,
-        one_channel=args.one_channel,
-        max_infill_length=args.max_infill_length,
-    )
+    split = int(0.8 * N)
+    train_idx = indices[:split]
+    val_idx = indices[split:]
+
+    train_set = Subset(full_set, train_idx)
+    val_set = Subset(full_set, val_idx)
+
 
     train_loader = torch.utils.data.DataLoader(
         train_set, batch_size=args.batch_size,
