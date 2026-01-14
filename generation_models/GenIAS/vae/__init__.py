@@ -1,1 +1,1 @@
-from .timevae import TimeVAE
+from .timevae import GenIASModel
