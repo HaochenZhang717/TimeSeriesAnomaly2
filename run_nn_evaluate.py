@@ -504,14 +504,22 @@ def main():
 
     gen_data = all_anomalies['all_samples']
     gen_labels = all_anomalies['all_labels']
+    # ---- Step 1: 找出含 bad 的样本 ----
+    threshold = 1e3
+    bad_mask = (gen_data.abs() > threshold).any(dim=2).any(dim=1)
+    print("Samples containing NaN:", bad_mask.sum().item(), "/", gen_data.size(0))
+    # ---- Step 2: 删除这些样本 ----
+    gen_data = gen_data[~bad_mask]
+    gen_labels = gen_labels[~bad_mask]
+
 
     # ---- Step 1: 找出含 NaN 的样本 ----
-    nan_mask = torch.isnan(gen_data).any(dim=(1, 2))  # True 表示该样本含 NaN
+    # nan_mask = torch.isnan(gen_data).any(dim=(1, 2))  # True 表示该样本含 NaN
 
-    print("Samples containing NaN:", nan_mask.sum().item(), "/", gen_data.size(0))
+    # print("Samples containing NaN:", nan_mask.sum().item(), "/", gen_data.size(0))
     # ---- Step 2: 删除这些样本 ----
-    gen_data = gen_data[~nan_mask]
-    gen_labels = gen_labels[~nan_mask]
+    # gen_data = gen_data[~nan_mask]
+    # gen_labels = gen_labels[~nan_mask]
 
 
     run_robustTAD_evaluate(args, real_data, real_labels, gen_data, gen_labels, device)

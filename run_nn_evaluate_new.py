@@ -431,7 +431,7 @@ def main():
     # ---- Step 1: 找出含 NaN 的样本 ----
     # nan_mask = torch.isnan(gen_data).any(dim=(1, 2))  # True 表示该样本含 NaN
     threshold = 1e3
-    bad_mask = (gen_data.abs() > threshold).any(dim=(1, 2))
+    bad_mask = (gen_data.abs() > threshold).any(dim=2).any(dim=1)
     print("Samples containing NaN:", bad_mask.sum().item(), "/", gen_data.size(0))
     # ---- Step 2: 删除这些样本 ----
     gen_data = gen_data[~bad_mask]
