@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import joblib
 
-from src.GenIAS.vae.vae_base import BaseVariationalAutoencoder, Sampling
+# from .vae_base import BaseVariationalAutoencoder, Sampling
 from einops import reduce
 
 
