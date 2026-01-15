@@ -22,6 +22,8 @@ ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_traffic/slide
 NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_traffic/slide_windows_metro_traffic_datanpz/normal_72.jsonl"]'
 EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_traffic/slide_windows_metro_traffic_datanpz/event_label.npy"]'
 
+
+
 HIDDEN_LAYER_SIZES="[50,100,200]"
 TREND_POLY=3
 CUSTOM_SEAS="[[2,36],[4,18],[8,9]]"

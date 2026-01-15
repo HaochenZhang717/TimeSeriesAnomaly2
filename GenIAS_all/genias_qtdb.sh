@@ -1,32 +1,33 @@
 cd ..
 
 LR=1e-4
-LEN_WHOLE=72
-MAX_LEN_ANOMALY=424
-MIN_LEN_ANOMALY=23
 
-ONE_CHANNEL=1
-FEAT_SIZE=1
+LEN_WHOLE=600
+MAX_LEN_ANOMALY=450
+MIN_LEN_ANOMALY=80
+
+ONE_CHANNEL=0
+FEAT_SIZE=2
 
 DATA_TYPE="ecg"
-WANDB_PROJECT="GenIAS_traffic"
+WANDB_PROJECT="GenIAS_qtdb"
 
-FINETUNE_CKPT="../formal_experiment/traffic/GENIAS/ckpt_lr${LR}"
+FINETUNE_CKPT="../formal_experiment/qtdb_two_channels/GENIAS/ckpt_lr${LR}"
 
 
-DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_traffic/metro_traffic_data.npz"]'
-TEST_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_traffic/metro_traffic_data.npz"]'
-FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_traffic/slide_windows_metro_traffic_datanpz/V_train.jsonl"]'
-FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_traffic/slide_windows_metro_traffic_datanpz/V_test.jsonl"]'
-ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_traffic/slide_windows_metro_traffic_datanpz/V_segments_train.jsonl"]'
-NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_traffic/slide_windows_metro_traffic_datanpz/normal_72.jsonl"]'
-EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_traffic/slide_windows_metro_traffic_datanpz/event_label.npy"]'
+DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
+TEST_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"]'
+FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_train.jsonl"]'
+FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_test.jsonl"]'
+ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_segments_train.jsonl"]'
+NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/normal_600.jsonl"]'
+EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/event_label.npy"]'
 
 
 
 HIDDEN_LAYER_SIZES="[50,100,200]"
 TREND_POLY=3
-CUSTOM_SEAS="[[2,36],[4,18],[8,9]]"
+CUSTOM_SEAS="[[10,60],[20,30],[40,15],[60,10]]"
 LATENT_DIM=64
 
 DELTA_MIN=0.01
@@ -216,7 +217,7 @@ python genias_pipeline.py \
 #  --gpu_id 0
 
 
-OUTDIR="../nn_eval/traffic/GENIAS"
+OUTDIR="../nn_eval/qtdb_two_channels/GENIAS"
 
 
 python run_nn_evaluate.py \

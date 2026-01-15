@@ -1,38 +1,32 @@
 cd ..
 
 LR=1e-4
-LEN_WHOLE=200
-MAX_LEN_ANOMALY=144
-MIN_LEN_ANOMALY=20
+LEN_WHOLE=72
+MAX_LEN_ANOMALY=24
+MIN_LEN_ANOMALY=23
 
 ONE_CHANNEL=1
 FEAT_SIZE=1
 
 DATA_TYPE="ecg"
-WANDB_PROJECT="GenIAS_PV"
+WANDB_PROJECT="GenIAS_traffic"
 
-FINETUNE_CKPT="../formal_experiment/PV/GENIAS/ckpt_lr${LR}"
+FINETUNE_CKPT="../formal_experiment/traffic/GENIAS/ckpt_lr${LR}"
 
 
-DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_PV/2013_pv_sub_2.npz","./dataset_utils/ECG_datasets/raw_data_PV/2013_pv_sub_3.npz","./dataset_utils/ECG_datasets/raw_data_PV/2013_pv_sub_4.npz","./dataset_utils/ECG_datasets/raw_data_PV/2015_pv_sub_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2015_pv_sub_1.npz","./dataset_utils/ECG_datasets/raw_data_PV/2021_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2022_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2023_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2024_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2025_pv_live_0.npz"]'
-
-TEST_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_PV/2013_pv_sub_2.npz","./dataset_utils/ECG_datasets/raw_data_PV/2013_pv_sub_3.npz","./dataset_utils/ECG_datasets/raw_data_PV/2013_pv_sub_4.npz","./dataset_utils/ECG_datasets/raw_data_PV/2015_pv_sub_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2015_pv_sub_1.npz","./dataset_utils/ECG_datasets/raw_data_PV/2021_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2022_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2023_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2024_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2025_pv_live_0.npz"]'
-
-FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_2npz/V_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_3npz/V_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_4npz/V_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2015_pv_sub_0npz/V_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2015_pv_sub_1npz/V_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2021_pv_live_0npz/V_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2022_pv_live_0npz/V_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2023_pv_live_0npz/V_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2024_pv_live_0npz/V_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2025_pv_live_0npz/V_train.jsonl"]'
-
-FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_2npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_3npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_4npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2015_pv_sub_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2015_pv_sub_1npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2021_pv_live_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2022_pv_live_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2023_pv_live_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2024_pv_live_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2025_pv_live_0npz/V_test.jsonl"]'
-
-ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_2npz/V_segments_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_3npz/V_segments_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_4npz/V_segments_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2015_pv_sub_0npz/V_segments_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2015_pv_sub_1npz/V_segments_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2021_pv_live_0npz/V_segments_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2022_pv_live_0npz/V_segments_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2023_pv_live_0npz/V_segments_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2024_pv_live_0npz/V_segments_train.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2025_pv_live_0npz/V_segments_train.jsonl"]'
-
-NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_2npz/normal_200.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_3npz/normal_200.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_4npz/normal_200.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2015_pv_sub_0npz/normal_200.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2015_pv_sub_1npz/normal_200.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2021_pv_live_0npz/normal_200.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2022_pv_live_0npz/normal_200.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2023_pv_live_0npz/normal_200.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2024_pv_live_0npz/normal_200.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2025_pv_live_0npz/normal_200.jsonl"]'
-
-EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_2npz/event_label.npy","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_3npz/event_label.npy","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_4npz/event_label.npy","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2015_pv_sub_0npz/event_label.npy","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2015_pv_sub_1npz/event_label.npy","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2021_pv_live_0npz/event_label.npy","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2022_pv_live_0npz/event_label.npy","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2023_pv_live_0npz/event_label.npy","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2024_pv_live_0npz/event_label.npy","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2025_pv_live_0npz/event_label.npy"]'
+DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_traffic/metro_traffic_data.npz"]'
+TEST_DATA_PATHS='["./dataset_utils/ECG_datasets/raw_data_traffic/metro_traffic_data.npz"]'
+FINETUNE_TRAIN_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_traffic/slide_windows_metro_traffic_datanpz/V_train.jsonl"]'
+FINETUNE_TEST_INDICES_PATHS='["./dataset_utils/ECG_datasets/indices_traffic/slide_windows_metro_traffic_datanpz/V_test.jsonl"]'
+ANOMALY_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_traffic/slide_windows_metro_traffic_datanpz/V_segments_train.jsonl"]'
+NORMAL_INDICES_FOR_SAMPLE='["./dataset_utils/ECG_datasets/indices_traffic/slide_windows_metro_traffic_datanpz/normal_72.jsonl"]'
+EVENT_LABELS_PATHS='["./dataset_utils/ECG_datasets/indices_traffic/slide_windows_metro_traffic_datanpz/event_label.npy"]'
 
 
 
 HIDDEN_LAYER_SIZES="[50,100,200]"
 TREND_POLY=3
-CUSTOM_SEAS="[[2,100],[4,50],[8,25]]"
+CUSTOM_SEAS="[[2,36],[4,18],[8,9]]"
 LATENT_DIM=64
 
 DELTA_MIN=0.01
@@ -222,14 +216,14 @@ python genias_pipeline.py \
 #  --gpu_id 0
 
 
-OUTDIR="../nn_eval/PV/GENIAS"
+OUTDIR="../nn_eval/traffic/GENIAS"
 
 
 python run_nn_evaluate.py \
     --seq_len ${LEN_WHOLE} \
-    --feature_size 2 \
-    --one_channel 0 \
-    --feat_window_size 300 \
+    --feature_size 1 \
+    --one_channel 1 \
+    --feat_window_size 50 \
     --raw_data_paths ${DATA_PATHS} \
     --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
     --max_infill_length ${MAX_LEN_ANOMALY} \
