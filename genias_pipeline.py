@@ -33,7 +33,7 @@ def get_args():
         choices=[
             "genias_trian",
             "impute_sample",
-            "impute_normal_sample"
+            "impute_normal_sample",
             "principle_impute_sample",
             "impute_sample_non_downstream",
         ],
