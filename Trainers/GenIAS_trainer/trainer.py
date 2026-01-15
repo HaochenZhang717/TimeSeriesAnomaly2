@@ -47,8 +47,8 @@ class GenIAS_Trainer(object):
             for batch in tqdm(self.train_loader, desc=f"Epoch {epoch}"):
 
                 # X_occluded = batch["signal_random_occluded"].to(self.device)
-                X_normal = batch["signals"].to(self.device)
-                noise_mask = batch["noise_mask"].to(self.device)
+                X_normal = batch["signals"].to(self.device).float()
+                noise_mask = batch["noise_mask"].to(self.device).float()
                 X_occluded = X_normal * noise_mask.unsqueeze(-1)
 
                 self.optimizer.zero_grad()
@@ -76,8 +76,8 @@ class GenIAS_Trainer(object):
                 val_total, val_recon, val_perturb, val_kl, val_seen = 0, 0, 0, 0, 0
                 for batch in self.val_loader:
                     # X_occluded = batch["signal_random_occluded"].to(self.device)
-                    X_normal = batch["signals"].to(self.device)
-                    noise_mask = batch["noise_mask"].to(self.device)
+                    X_normal = batch["signals"].to(self.device).float()
+                    noise_mask = batch["noise_mask"].to(self.device).float()
                     X_occluded = X_normal * noise_mask.unsqueeze(-1)
 
                     with torch.no_grad():
