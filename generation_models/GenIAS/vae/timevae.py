@@ -348,3 +348,9 @@ class GenIASModel(nn.Module):
 
         return normal_pred, abnormal_pred
 
+    def get_anomaly_samples(self, x_occluded, noise_mask):
+        _, abnormal_dist = self.encoder(x_occluded)
+        abnormal_z = abnormal_dist.rsample()
+        sample = self.decoder(abnormal_z)
+        output = sample * noise_mask.unsqueeze(-1) + x_occluded * (1 - noise_mask.unsqueeze(-1))
+        return output
