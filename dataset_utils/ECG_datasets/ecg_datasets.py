@@ -683,7 +683,7 @@ class ImputationNormalECGDatasetForSample(Dataset):
                 end_pos = event_pos[j]
                 infill_length = end_pos - start_pos
 
-                if 0.9 * self.min_infill_length < infill_length < 1.2 * self.max_infill_length:
+                if 0.9 * self.min_infill_length < infill_length < self.max_infill_length:
                     valid_choices.append((start_pos, infill_length))
 
         # 如果没有任何合法 choice，直接 resample 一个 index
