@@ -683,7 +683,7 @@ class ImputationNormalECGDatasetForSample(Dataset):
                 end_pos = event_pos[j]
                 infill_length = end_pos - start_pos
 
-                if 0.9 * self.min_infill_length < infill_length < self.max_infill_length:
+                if 0.9 * self.min_infill_length < infill_length <= self.max_infill_length:
                     valid_choices.append((start_pos, infill_length))
 
         # 如果没有任何合法 choice，直接 resample 一个 index
@@ -984,24 +984,24 @@ if __name__ == "__main__":
     MIN_LEN_ANOMALY = 23
 
 
-    # dataset = ImputationNormalECGDatasetForSample(
-    #     raw_data_paths=DATA_PATHS,
-    #     indices_paths=NORMAL_INDICES_FOR_SAMPLE,
-    #     event_labels_paths=EVENT_LABELS_PATHS,
-    #     seq_len=LEN_WHOLE,
-    #     one_channel=1,
-    #     max_infill_length=MAX_LEN_ANOMALY,
-    #     min_infill_length=MIN_LEN_ANOMALY,
-    # )
-
-    dataset = NoContextNormalECGDataset(
+    dataset = ImputationNormalECGDatasetForSample(
         raw_data_paths=DATA_PATHS,
-        indices_paths=PRETRAIN_INDICES,
+        indices_paths=NORMAL_INDICES_FOR_SAMPLE,
+        event_labels_paths=EVENT_LABELS_PATHS,
         seq_len=LEN_WHOLE,
         one_channel=1,
         max_infill_length=MAX_LEN_ANOMALY,
         min_infill_length=MIN_LEN_ANOMALY,
     )
+
+    # dataset = NoContextNormalECGDataset(
+    #     raw_data_paths=DATA_PATHS,
+    #     indices_paths=PRETRAIN_INDICES,
+    #     seq_len=LEN_WHOLE,
+    #     one_channel=1,
+    #     max_infill_length=MAX_LEN_ANOMALY,
+    #     min_infill_length=MIN_LEN_ANOMALY,
+    # )
 
     # dataset = ImputationNormalECGDatasetForSample(
     #     raw_data_paths=["./raw_data_svdb/859.npz"],
