@@ -3,6 +3,7 @@ import torch.nn as nn
 import numpy as np
 from sklearn.metrics import accuracy_score
 from torch.utils.data import DataLoader, TensorDataset, random_split
+import matplotlib.pyplot as plt
 
 
 class GRUDiscriminator(nn.Module):
@@ -16,9 +17,14 @@ class GRUDiscriminator(nn.Module):
         self.gru = nn.GRU(input_dim, hidden_dim, batch_first=True)
         self.fc = nn.Linear(hidden_dim, 1)
 
-    def forward(self, x):
+    def forward(self, x, anomaly_lengths):
         out, _ = self.gru(x)
-        last_state = out[:, -1, :]   # final hidden state
+        idx = anomaly_lengths - 1  # (B,)
+        idx = idx.clamp(min=0)  # 防止 0 或负数
+        B = out.size(0)
+        last_state = out[torch.arange(B), idx, :]  # (B, H)
+
+        # last_state = out[:, -1, :]   # final hidden state
         logit = self.fc(last_state)
         prob = torch.sigmoid(logit)
         return prob, logit
@@ -27,6 +33,7 @@ class GRUDiscriminator(nn.Module):
 def discriminative_score_metrics(
     ori_data,
     gen_data,
+    anomaly_lengths,
     hidden_dim=64,
     max_epochs=2000,
     batch_size=64,
@@ -53,8 +60,8 @@ def discriminative_score_metrics(
     X_real = torch.tensor(ori_data, dtype=torch.float32)
     X_fake = torch.tensor(gen_data, dtype=torch.float32)
 
-    y_real = torch.ones((X_real.shape[0], 1), dtype=torch.float32)
-    y_fake = torch.zeros((X_fake.shape[0], 1), dtype=torch.float32)
+    y_real = torch.ones((X_real.shape[0], 1), dtype=torch.float32, device=device)
+    y_fake = torch.zeros((X_fake.shape[0], 1), dtype=torch.float32, device=device)
 
     X_all = torch.cat([X_real, X_fake], dim=0)
     y_all = torch.cat([y_real, y_fake], dim=0)
@@ -66,18 +73,16 @@ def discriminative_score_metrics(
     y_all = y_all[idx]
 
     # ----------- 2. train/val/test split -----------
-    n_test = int(0.2 * n)
     n_val  = int(0.2 * n)
-    n_train = n - n_test - n_val
+    n_train = n - n_val
 
-    train_ds, val_ds, test_ds = random_split(
-        TensorDataset(X_all, y_all),
-        [n_train, n_val, n_test]
+    train_ds, val_ds = random_split(
+        TensorDataset(X_all, y_all, anomaly_lengths.repeat(2)),
+        [n_train, n_val]
     )
 
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
     val_loader   = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
-    test_loader  = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
 
     # ----------- 3. build model -----------
     input_dim = ori_data.shape[-1]
@@ -86,7 +91,7 @@ def discriminative_score_metrics(
     loss_fn = nn.BCEWithLogitsLoss()
 
     # ----------- 4. training with early stopping -----------
-    best_val_loss = float("inf")
+    best_acc = 0.0
     best_state = None
     patience_counter = 0
 
@@ -94,9 +99,9 @@ def discriminative_score_metrics(
 
         # ---- train ----
         model.train()
-        for Xb, yb in train_loader:
-            Xb, yb = Xb.to(device), yb.to(device)
-            _, logit = model(Xb)
+        for Xb, yb, lengths in train_loader:
+            Xb, yb, lengths = Xb.to(device), yb.to(device), lengths.to(device)
+            _, logit = model(Xb, lengths)
             loss = loss_fn(logit, yb)
 
             optimizer.zero_grad()
@@ -106,54 +111,76 @@ def discriminative_score_metrics(
         # ---- validation ----
         model.eval()
         val_losses = []
+        num_seen = 0
+        num_correct = 0
         with torch.no_grad():
-            for Xb, yb in val_loader:
-                Xb, yb = Xb.to(device), yb.to(device)
-                _, logit = model(Xb)
-                val_losses.append(loss_fn(logit, yb).item())
+            for Xb, yb, lengths in val_loader:
+                Xb, yb, lengths = Xb.to(device), yb.to(device), lengths.to(device)
+                prob, _ = model(Xb, lengths)
+                pred = (prob.cpu().numpy().flatten() > 0.5).astype(int)
+                num_seen += pred.shape[0]
+                num_correct += (pred == yb.flatten().long()).sum().item()
 
-        val_loss = np.mean(val_losses)
-        print(f"Epoch {epoch:03d} | val_loss={val_loss:.6f}")
+        val_acc = num_correct / num_seen
+        print(f"Epoch {epoch:03d} | val_acc={val_acc:.6f}")
 
         # early stopping
-        if val_loss < best_val_loss:
-            best_val_loss = val_loss
-            best_state = model.state_dict()
+        if best_acc < val_acc:
+            best_acc = val_acc
             patience_counter = 0
         else:
             patience_counter += 1
 
         if patience_counter >= patience:
-            print(f"\nEarly stopping at epoch {epoch}. Best val_loss = {best_val_loss:.6f}")
+            print(f"\nEarly stopping at epoch {epoch}. Best val_acc = {best_acc:.6f}")
             break
 
     # ----------- 5. load best model -----------
-    model.load_state_dict(best_state)
-    model.eval()
+    disc_score = max(best_acc, 1.0 - best_acc) - 0.5
 
-    # ----------- 6. evaluate on test set -----------
-    y_true = []
-    y_pred = []
+    return disc_score
 
-    with torch.no_grad():
-        for Xb, yb in test_loader:
-            prob, _ = model(Xb.to(device))
-            pred = (prob.cpu().numpy().flatten() > 0.5).astype(int)
-            y_pred.extend(pred.tolist())
-            y_true.extend(yb.cpu().numpy().flatten().tolist())
 
-    y_true = np.array(y_true)
-    y_pred = np.array(y_pred)
 
-    # ---- compute accuracies ----
-    overall_acc = accuracy_score(y_true, y_pred)
+if __name__ == "__main__":
+    all_data = torch.load(
+        "/Users/zhc/Documents/mitdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
+        map_location='cpu'
+    )
+    full_gen_data = all_data["all_samples"]
+    full_ori_data = all_data["all_reals"]
+    anomaly_labels = all_data["all_labels"]
+    max_anomaly_length = anomaly_labels.sum(-1).max().item()
+    anomaly_lengths = anomaly_labels.sum(-1)
+    for i in range(5):
+        full_gen_data_tmp = full_gen_data[:, i]
+        ts_dim = full_gen_data_tmp.shape[-1]
+        N = full_gen_data_tmp.shape[0]
+        gen_data = torch.zeros(N, max_anomaly_length, ts_dim).to(device=anomaly_labels.device)
+        orig_data = torch.zeros(N, max_anomaly_length, ts_dim).to(device=anomaly_labels.device)
 
-    real_mask = (y_true == 1)
-    fake_mask = (y_true == 0)
+        for j in range(len(full_gen_data_tmp)):
+            anomaly_indices = torch.where(anomaly_labels[j]==1)[0]
+            gen_data[j, :len(anomaly_indices)] = full_gen_data_tmp[j][anomaly_indices]
+            orig_data[j, :len(anomaly_indices)] = full_ori_data[j][anomaly_indices]
+            # gen_data.append(full_gen_data_tmp[j][anomaly_indices, :])
+            # orig_data.append(full_ori_data[j][anomaly_indices, :])
 
-    real_acc = accuracy_score(y_true[real_mask], y_pred[real_mask])
-    fake_acc = accuracy_score(y_true[fake_mask], y_pred[fake_mask])
+            # plt.plot(gen_data[-1][:,0], label="generated")
+            # plt.plot(orig_data[-1][:,0], label="original")
+            #
+            # plt.legend()
+            # plt.show()
+            # print(i)
 
-    disc_score = abs(overall_acc - 0.5)
 
-    return disc_score, fake_acc, real_acc
+        discriminative_score_metrics(
+            ori_data=orig_data,
+            gen_data=gen_data,
+            anomaly_lengths=anomaly_lengths,
+            hidden_dim=64,
+            max_epochs=2000,
+            batch_size=16,
+            patience=20,
+            device="cpu"
+        )
