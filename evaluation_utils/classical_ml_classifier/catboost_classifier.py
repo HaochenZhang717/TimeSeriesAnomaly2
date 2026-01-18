@@ -108,8 +108,8 @@ def run_catboost_evaluate(args, real_data, real_labels, gen_data, gen_labels):
         precision, recall, f1, _ = precision_recall_fscore_support(
             y_test.astype(int), y_pred, average="binary", zero_division=0
         )
-        print(f1)
-        breakpoint()
+        # print(f1)
+        # breakpoint()
         normal_acc = (y_pred[y_test == 0] == 0).mean()
         anomaly_acc = (y_pred[y_test == 1] == 1).mean()
 

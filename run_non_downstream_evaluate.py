@@ -1,9 +1,6 @@
-from evaluation_utils import calculate_four_metrics
 import argparse
-import torch
 import json
 import torch
-import torch.nn.functional as F
 import os
 
 
@@ -32,9 +29,8 @@ args = parser.parse_args()
 # )
 
 
-
-
-ori_data = torch.load(args.samples_path)
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+ori_data = torch.load(args.samples_path, map_location=device)
 real = ori_data["all_reals"]        # (B, T, C)
 fake = ori_data["all_samples"]      # (B, N, T, C)
 mask = ori_data["all_labels"]
