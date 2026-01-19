@@ -118,8 +118,9 @@ def discriminative_score_metrics(
             for Xb, yb, lengths in val_loader:
                 Xb, yb, lengths = Xb.to(device), yb.to(device), lengths.to(device)
                 prob, _ = model(Xb, lengths)
-                pred = (prob.cpu().numpy().flatten() > 0.5).astype(int)
+                pred = (prob.flatten() > 0.5).astype(int)
                 num_seen += pred.shape[0]
+                breakpoint()
                 num_correct += (pred == yb.flatten().long()).to(torch.float32).sum().item()
 
         val_acc = num_correct / num_seen
