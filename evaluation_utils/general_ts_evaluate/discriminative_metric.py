@@ -207,92 +207,93 @@ def calculate_discriminative_metrics(all_data_path, out_path):
 
 
 if __name__ == "__main__":
-    pass
-
-
-    all_data_paths = [
-        "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-
-        "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-
-        "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-
-        "/work/vb21/haochen/code/formal_experiment/PV/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/PV/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/PV/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/PV/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/PV/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/PV/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/PV/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-
-        "/work/vb21/haochen/code/formal_experiment/traffic/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/traffic/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/traffic/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/traffic/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/traffic/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/traffic/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-        "/work/vb21/haochen/code/formal_experiment/traffic/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
-    ]
-
-    all_save_paths = [
-        "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/dsp_flow_mixed_K500/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/dsp_flow_no_code/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/flowts/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/diffusion_ts/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/TimeVAE/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/C-GATS/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/GENIAS/scores.jsonl",
-
-        "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/dsp_flow_mixed_K500/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/dsp_flow_no_code/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/flowts/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/diffusion_ts/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/TimeVAE/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/C-GATS/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/GENIAS/scores.jsonl",
-
-        "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/dsp_flow_mixed_K500/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/dsp_flow_no_code/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/flowts/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/diffusion_ts/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/TimeVAE/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/C-GATS/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/GENIAS/scores.jsonl",
-
-        "/work/vb21/haochen/code/discriminative_scores/PV/dsp_flow_mixed_K500/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/PV/dsp_flow_no_code/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/PV/flowts/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/PV/diffusion_ts/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/PV/TimeVAE/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/PV/C-GATS/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/PV/GENIAS/scores.jsonl",
-
-        "/work/vb21/haochen/code/discriminative_scores/traffic/dsp_flow_mixed_K500/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/traffic/dsp_flow_no_code/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/traffic/flowts/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/traffic/diffusion_ts/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/traffic/TimeVAE/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/traffic/C-GATS/scores.jsonl",
-        "/work/vb21/haochen/code/discriminative_scores/traffic/GENIAS/scores.jsonl",
-    ]
-
-    for data_path, save_path in zip(all_data_paths, all_save_paths):
-        calculate_discriminative_metrics(data_path, save_path)
+    data_path = "/Users/zhc/Documents/mitdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream_train.pth",
+    save_path = "debug.jsonl"
+    calculate_discriminative_metrics(data_path, save_path)
+    #
+    # all_data_paths = [
+    #     "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #
+    #     "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #
+    #     "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #
+    #     "/work/vb21/haochen/code/formal_experiment/PV/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/PV/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/PV/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/PV/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/PV/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/PV/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/PV/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #
+    #     "/work/vb21/haochen/code/formal_experiment/traffic/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/traffic/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/traffic/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/traffic/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/traffic/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/traffic/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    #     "/work/vb21/haochen/code/formal_experiment/traffic/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    # ]
+    #
+    # all_save_paths = [
+    #     "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/dsp_flow_mixed_K500/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/dsp_flow_no_code/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/flowts/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/diffusion_ts/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/TimeVAE/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/C-GATS/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/GENIAS/scores.jsonl",
+    #
+    #     "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/dsp_flow_mixed_K500/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/dsp_flow_no_code/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/flowts/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/diffusion_ts/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/TimeVAE/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/C-GATS/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/GENIAS/scores.jsonl",
+    #
+    #     "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/dsp_flow_mixed_K500/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/dsp_flow_no_code/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/flowts/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/diffusion_ts/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/TimeVAE/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/C-GATS/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/GENIAS/scores.jsonl",
+    #
+    #     "/work/vb21/haochen/code/discriminative_scores/PV/dsp_flow_mixed_K500/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/PV/dsp_flow_no_code/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/PV/flowts/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/PV/diffusion_ts/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/PV/TimeVAE/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/PV/C-GATS/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/PV/GENIAS/scores.jsonl",
+    #
+    #     "/work/vb21/haochen/code/discriminative_scores/traffic/dsp_flow_mixed_K500/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/traffic/dsp_flow_no_code/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/traffic/flowts/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/traffic/diffusion_ts/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/traffic/TimeVAE/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/traffic/C-GATS/scores.jsonl",
+    #     "/work/vb21/haochen/code/discriminative_scores/traffic/GENIAS/scores.jsonl",
+    # ]
+    #
+    # for data_path, save_path in zip(all_data_paths, all_save_paths):
+    #     calculate_discriminative_metrics(data_path, save_path)
