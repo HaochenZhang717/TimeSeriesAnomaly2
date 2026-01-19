@@ -338,6 +338,7 @@ def no_code_impute_sample_non_downstream(args):
     model.to(device=device)
     model.eval()
 
+    # Train
     anomaly_set = ImputationECGDataset(
         raw_data_paths=args.raw_data_paths_train,
         indices_paths=args.indices_paths_train,
@@ -398,6 +399,70 @@ def no_code_impute_sample_non_downstream(args):
     torch.save(all_results, save_path)
     print(f"[Saved] {save_path} | samples shape = {all_samples.shape}")
 
+
+
+
+
+    # Test
+    anomaly_set = ImputationECGDataset(
+        raw_data_paths=args.raw_data_paths_test,
+        indices_paths=args.indices_paths_test,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        max_infill_length=args.max_infill_length,
+    )
+
+    anomaly_loader = torch.utils.data.DataLoader(
+        anomaly_set,
+        batch_size=args.batch_size,
+        shuffle=False,
+        drop_last=False,
+        collate_fn=dict_collate_fn,
+    )
+
+    num_samples_per_input = 5  # ⭐ 每个样本采 5 次
+
+    all_samples = []
+    all_labels = []
+    all_reals = []
+
+    for batch in anomaly_loader:
+        signals = batch['signals'].to(device, dtype=torch.float32)  # (B, T, C)
+        attn_mask = batch['attn_mask'].to(device, dtype=torch.bool)  # (B, T)
+        noise_mask = batch['noise_mask'].to(device, dtype=torch.long)  # (B, T)
+
+        # -------- 多次 stochastic sampling --------
+        batch_samples = []
+        with torch.no_grad():
+            for _ in range(num_samples_per_input):
+                samples = model.no_code_impute(
+                    signals,
+                    attn_mask=attn_mask,
+                    noise_mask=noise_mask
+                )  # (B, T, C)
+                batch_samples.append(samples.unsqueeze(1))  # (B, 1, T, C)
+
+        # (B, K, T, C)
+        batch_samples = torch.cat(batch_samples, dim=1)
+
+        all_samples.append(batch_samples)
+        all_labels.append(noise_mask)
+        all_reals.append(signals)
+
+    # -------- 拼接所有 batch --------
+    all_samples = torch.cat(all_samples, dim=0)  # (N, K T, C)
+    all_labels = torch.cat(all_labels, dim=0)  # (N, T)
+    all_reals = torch.cat(all_reals, dim=0)  # (N, T, C)
+
+    all_results = {
+        "all_samples": all_samples,
+        "all_labels": all_labels,
+        "all_reals": all_reals,
+    }
+
+    save_path = f"{args.ckpt_dir}/no_code_impute_samples_non_downstream_test.pth"
+    torch.save(all_results, save_path)
+    print(f"[Saved] {save_path} | samples shape = {all_samples.shape}")
 
 def anomaly_evaluate(args):
     device = torch.device(f"cuda:{args.gpu_id}")
