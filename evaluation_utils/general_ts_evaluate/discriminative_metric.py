@@ -72,6 +72,7 @@ def discriminative_score_metrics(
     idx = torch.randperm(n)
     X_all = X_all[idx]
     y_all = y_all[idx]
+    anomaly_lengths = anomaly_lengths[idx]
 
     # ----------- 2. train/val/test split -----------
     n_val  = int(0.2 * n)
@@ -82,8 +83,8 @@ def discriminative_score_metrics(
         [n_train, n_val]
     )
 
-    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
-    val_loader   = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
+    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, drop_last=True)
+    val_loader   = DataLoader(val_ds, batch_size=batch_size, shuffle=False, drop_last=False)
 
     # ----------- 3. build model -----------
     input_dim = ori_data.shape[-1]
@@ -93,7 +94,6 @@ def discriminative_score_metrics(
 
     # ----------- 4. training with early stopping -----------
     best_acc = 0.0
-    best_state = None
     patience_counter = 0
 
     for epoch in range(max_epochs):
