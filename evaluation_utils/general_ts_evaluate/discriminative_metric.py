@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 from torch.utils.data import DataLoader, TensorDataset, random_split
 import matplotlib.pyplot as plt
+import json
 
 
 class GRUDiscriminator(nn.Module):
@@ -140,18 +141,22 @@ def discriminative_score_metrics(
 
     return disc_score
 
-
-
-if __name__ == "__main__":
+def calculate_discriminative_metrics(all_data_path, out_path):
+    # all_data = torch.load(
+    #         "/Users/zhc/Documents/mitdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
+    #         map_location='cpu'
+    #     )
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     all_data = torch.load(
-        "/Users/zhc/Documents/mitdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
-        map_location='cpu'
+        all_data_path,
+        map_location=device
     )
     full_gen_data = all_data["all_samples"]
     full_ori_data = all_data["all_reals"]
     anomaly_labels = all_data["all_labels"]
     max_anomaly_length = anomaly_labels.sum(-1).max().item()
     anomaly_lengths = anomaly_labels.sum(-1)
+    scores = []
     for i in range(5):
         full_gen_data_tmp = full_gen_data[:, i]
         ts_dim = full_gen_data_tmp.shape[-1]
@@ -163,18 +168,8 @@ if __name__ == "__main__":
             anomaly_indices = torch.where(anomaly_labels[j]==1)[0]
             gen_data[j, :len(anomaly_indices)] = full_gen_data_tmp[j][anomaly_indices]
             orig_data[j, :len(anomaly_indices)] = full_ori_data[j][anomaly_indices]
-            # gen_data.append(full_gen_data_tmp[j][anomaly_indices, :])
-            # orig_data.append(full_ori_data[j][anomaly_indices, :])
 
-            # plt.plot(gen_data[-1][:,0], label="generated")
-            # plt.plot(orig_data[-1][:,0], label="original")
-            #
-            # plt.legend()
-            # plt.show()
-            # print(i)
-
-
-        discriminative_score_metrics(
+        score = discriminative_score_metrics(
             ori_data=orig_data,
             gen_data=gen_data,
             anomaly_lengths=anomaly_lengths,
@@ -182,5 +177,121 @@ if __name__ == "__main__":
             max_epochs=2000,
             batch_size=16,
             patience=20,
-            device="cpu"
+            device=device
         )
+        scores.append(score)
+
+    # ===== 新增部分：写 jsonl =====
+    scores_tensor = torch.tensor(scores, dtype=torch.float32)
+    mean_score = scores_tensor.mean().item()
+    std_score = scores_tensor.std(unbiased=False).item()
+
+    with open(out_path, "w") as f:
+        for i, s in enumerate(scores):
+            record = {
+                "trial": i,
+                "score": float(s)
+            }
+            f.write(json.dumps(record) + "\n")
+
+        summary = {
+            "mean": mean_score,
+            "std": std_score
+        }
+        f.write(json.dumps(summary) + "\n")
+
+    return scores, mean_score, std_score
+
+
+
+
+if __name__ == "__main__":
+    pass
+
+
+    all_data_paths = [
+        "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/mitdb_two_channels/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+
+        "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/qtdb_two_channels/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+
+        "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/svdb_two_channels/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+
+        "/work/vb21/haochen/code/formal_experiment/PV/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/PV/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/PV/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/PV/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/PV/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/PV/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/PV/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+
+        "/work/vb21/haochen/code/formal_experiment/traffic/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/traffic/dsp_flow_no_code/no_code_impute_finetune_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/traffic/flowts/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/traffic/diffusion_ts/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/traffic/TimeVAE/no_code_impute_from_scratch_ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/traffic/C-GATS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+        "/work/vb21/haochen/code/formal_experiment/traffic/GENIAS/ckpt_lr1e-4/no_code_impute_samples_non_downstream.pth",
+    ]
+
+    all_save_paths = [
+        "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/dsp_flow_mixed_K500/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/dsp_flow_no_code/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/flowts/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/diffusion_ts/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/TimeVAE/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/C-GATS/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/mitdb_two_channels/GENIAS/scores.jsonl",
+
+        "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/dsp_flow_mixed_K500/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/dsp_flow_no_code/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/flowts/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/diffusion_ts/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/TimeVAE/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/C-GATS/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/qtdb_two_channels/GENIAS/scores.jsonl",
+
+        "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/dsp_flow_mixed_K500/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/dsp_flow_no_code/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/flowts/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/diffusion_ts/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/TimeVAE/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/C-GATS/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/svdb_two_channels/GENIAS/scores.jsonl",
+
+        "/work/vb21/haochen/code/discriminative_scores/PV/dsp_flow_mixed_K500/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/PV/dsp_flow_no_code/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/PV/flowts/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/PV/diffusion_ts/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/PV/TimeVAE/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/PV/C-GATS/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/PV/GENIAS/scores.jsonl",
+
+        "/work/vb21/haochen/code/discriminative_scores/traffic/dsp_flow_mixed_K500/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/traffic/dsp_flow_no_code/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/traffic/flowts/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/traffic/diffusion_ts/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/traffic/TimeVAE/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/traffic/C-GATS/scores.jsonl",
+        "/work/vb21/haochen/code/discriminative_scores/traffic/GENIAS/scores.jsonl",
+    ]
+
+    for data_path, save_path in zip(all_data_paths, all_save_paths):
+        calculate_discriminative_metrics(data_path, save_path)
