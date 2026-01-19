@@ -66,6 +66,7 @@ def discriminative_score_metrics(
 
     X_all = torch.cat([X_real, X_fake], dim=0)
     y_all = torch.cat([y_real, y_fake], dim=0)
+    anomaly_lengths = anomaly_lengths.repeat(2)
 
     # shuffle dataset
     n = X_all.shape[0]
@@ -79,7 +80,7 @@ def discriminative_score_metrics(
     n_train = n - n_val
 
     train_ds, val_ds = random_split(
-        TensorDataset(X_all, y_all, anomaly_lengths.repeat(2)),
+        TensorDataset(X_all, y_all, anomaly_lengths),
         [n_train, n_val]
     )
 
