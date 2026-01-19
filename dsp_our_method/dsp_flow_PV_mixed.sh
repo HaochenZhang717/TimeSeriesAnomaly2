@@ -226,7 +226,7 @@ for i in ${!GPU_IDS[@]}; do
     --one_channel 1 \
     --feat_window_size 100 \
     --raw_data_paths ${DATA_PATHS} \
-    --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
+    --indices_paths_test ${FINETUNE_TRAIN_INDICES_PATHS} \
     --max_infill_length ${MAX_LEN_ANOMALY} \
     --ckpt_dir "${FINETUNE_CKPT}" \
     --out_dir "${OUTDIR}" \

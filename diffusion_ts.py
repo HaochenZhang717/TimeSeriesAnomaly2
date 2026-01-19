@@ -394,7 +394,7 @@ def no_code_impute_sample_non_downstream(args):
         "all_reals": all_reals,
     }
 
-    save_path = f"{args.ckpt_dir}/no_code_impute_samples_non_downstream.pth"
+    save_path = f"{args.ckpt_dir}/no_code_impute_samples_non_downstream_train.pth"
     torch.save(all_results, save_path)
     print(f"[Saved] {save_path} | samples shape = {all_samples.shape}")
 

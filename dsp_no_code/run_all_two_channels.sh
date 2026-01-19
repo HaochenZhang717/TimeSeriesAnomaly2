@@ -1,7 +1,7 @@
 
 
-#bash dsp_flow_mitdb_two_channels_no_code.sh
-#bash dsp_flow_qt_two_channels_no_code.sh
+bash dsp_flow_mitdb_two_channels_no_code.sh
+bash dsp_flow_qt_two_channels_no_code.sh
 bash dsp_flow_svdb_two_channels_no_code.sh
-#bash dsp_flow_traffic_no_code.sh
-#bash dsp_flow_pv_no_code.sh
+bash dsp_flow_traffic_no_code.sh
+bash dsp_flow_pv_no_code.sh
