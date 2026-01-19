@@ -120,7 +120,7 @@ def discriminative_score_metrics(
                 prob, _ = model(Xb, lengths)
                 pred = (prob.cpu().numpy().flatten() > 0.5).astype(int)
                 num_seen += pred.shape[0]
-                num_correct += (pred == yb.flatten().long()).sum().item()
+                num_correct += (pred == yb.flatten().long()).to(torch.float32).sum().item()
 
         val_acc = num_correct / num_seen
         print(f"Epoch {epoch:03d} | val_acc={val_acc:.6f}")
