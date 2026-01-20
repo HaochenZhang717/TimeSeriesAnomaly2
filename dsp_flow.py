@@ -48,9 +48,11 @@ def get_args():
             "no_code_imputation_finetune",
             "posterior_impute_sample",
             "principle_posterior_impute_sample",
+            "principle_posterior_impute_sample_show_diversity",
             "posterior_impute_sample_non_downstream",
             "no_code_impute_sample",
             "principle_no_code_impute_sample",
+            "principle_no_code_impute_sample_show_diversity",
             "no_code_impute_sample_non_downstream",
             "anomaly_evaluate",
             "prediction_finetune",
@@ -368,7 +370,6 @@ def prediction_finetune(args):
     )
 
     trainer.imputation_train(config=vars(args))
-
 
 
 def no_context_pretrain(args):
@@ -1220,6 +1221,182 @@ def principle_posterior_impute_sample(args):
     torch.save(all_results, f"{args.ckpt_dir}/principle_posterior_impute_samples.pth")
 
 
+def principle_posterior_impute_sample_show_diversity(args):
+    # ============================================================
+    # 1. Load model
+    # ============================================================
+    model = DSPFlow(
+        seq_length=args.seq_len,
+        vqvae_seq_len=args.max_infill_length,
+        num_codes=args.num_codes,
+        feature_size=args.feature_size,
+        n_layer_enc=args.n_layer_enc,
+        n_layer_dec=args.n_layer_dec,
+        d_model=args.d_model,
+        n_heads=args.n_heads,
+        mlp_hidden_times=4,
+        vqvae_ckpt=args.vqvae_ckpt
+    )
+
+    ckpt = torch.load(f"{args.ckpt_dir}/ckpt.pth", map_location="cpu")
+    model.load_state_dict(ckpt)
+
+    device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
+    model.to(device)
+    model.eval()
+
+    # ============================================================
+    # 2. Dataset & Loader
+    # ============================================================
+    anomaly_set = NoContextAnomalyECGDataset(
+        raw_data_paths=args.raw_data_paths_train,
+        indices_paths=args.indices_paths_anomaly_for_sample,
+        seq_len=args.max_infill_length,
+        one_channel=args.one_channel,
+    )
+
+    normal_set = ImputationNormalECGDatasetForSample(
+        raw_data_paths=args.raw_data_paths_train,
+        indices_paths=args.indices_paths_train,
+        event_labels_paths=args.event_labels_paths_train,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        min_infill_length=args.min_infill_length,
+        max_infill_length=args.max_infill_length,
+    )
+
+    anomaly_loader = torch.utils.data.DataLoader(
+        anomaly_set,
+        batch_size=args.batch_size,
+        shuffle=False,
+        drop_last=False,
+        collate_fn=dict_collate_fn,
+    )
+
+    normal_loader = torch.utils.data.DataLoader(
+        normal_set,
+        batch_size=args.batch_size,
+        shuffle=False,
+        drop_last=True,
+        collate_fn=dict_collate_fn,
+    )
+
+    # ============================================================
+    # 3. Collect all anomaly posteriors
+    # ============================================================
+    discrete_embeds = []
+
+    with torch.no_grad():
+        for batch in anomaly_loader:
+            signals = batch["signals"].to(device)
+            attn_mask = batch["attn_mask"].to(device)
+            embed = model.vqvae.encode(signals, attn_mask)
+            discrete_embeds.append(embed)
+
+    discrete_embeds = torch.cat(discrete_embeds, dim=0)  # (N_anomaly, D)
+    num_anomaly_latents = discrete_embeds.shape[0]
+
+    print(f"[INFO] Collected {num_anomaly_latents} anomaly posteriors")
+
+    # ============================================================
+    # 4. Sampling config
+    # ============================================================
+    num_context_batches = 10
+    num_posteriors_per_context = 100
+
+    all_results = []
+
+    # ============================================================
+    # 5. Sampling (NO for-loop over posterior)
+    # ============================================================
+    for batch_id, normal_batch in enumerate(normal_loader):
+        if batch_id >= num_context_batches:
+            break
+
+        signals = normal_batch["signals"].to(device, dtype=torch.float32)  # (B, T, C)
+        attn_mask = normal_batch["attn_mask"].to(device, dtype=torch.bool)
+        noise_mask = normal_batch["noise_mask"].to(device, dtype=torch.long)
+
+        B, T, C = signals.shape
+        K = num_posteriors_per_context
+
+        # ------------------------------------------------------------
+        # Sample K anomaly posteriors
+        # ------------------------------------------------------------
+        idx = torch.randint(
+            low=0,
+            high=num_anomaly_latents,
+            size=(K,),
+            device=device,
+        )
+        selected_posteriors = discrete_embeds[idx]  # (K, D)
+
+        # ------------------------------------------------------------
+        # Vectorized expansion
+        # ------------------------------------------------------------
+        signals_big = (
+            signals.unsqueeze(0)
+            .expand(K, -1, -1, -1)
+            .reshape(K * B, T, C)
+        )
+
+        attn_mask_big = (
+            attn_mask.unsqueeze(0)
+            .expand(K, -1, -1)
+            .reshape(K * B, T)
+        )
+
+        noise_mask_big = (
+            noise_mask.unsqueeze(0)
+            .expand(K, -1, -1)
+            .reshape(K * B, T)
+        )
+
+        posterior_big = (
+            selected_posteriors.unsqueeze(1)
+            .expand(-1, B, *selected_posteriors.shape[1:])
+            .reshape(K * B, *selected_posteriors.shape[1:])
+        )
+
+        # ------------------------------------------------------------
+        # Single forward pass
+        # ------------------------------------------------------------
+        with torch.no_grad():
+            samples_big = model.posterior_impute(
+                signals_big,
+                posterior_big,
+                attn_mask=attn_mask_big,
+                noise_mask=noise_mask_big,
+            )  # (K*B, T, C)
+
+        samples = samples_big.view(K, B, T, C)
+
+        # ------------------------------------------------------------
+        # Save per-context results
+        # ------------------------------------------------------------
+        all_results.append(
+            {
+                "samples": samples.cpu(),          # (K, B, T, C)
+                "labels": noise_mask.cpu(),         # (B, T)
+                "reals": signals.cpu(),             # (B, T, C)
+                "posterior_indices": idx.cpu(),     # (K,)
+            }
+        )
+
+        print(
+            f"[INFO] Context batch {batch_id + 1}/{num_context_batches}, "
+            f"K={K}, B={B}"
+        )
+
+    # ============================================================
+    # 6. Save all
+    # ============================================================
+    save_path = f"{args.ckpt_dir}/principle_posterior_impute_diversity.pth"
+    torch.save(all_results, save_path)
+
+    print(f"[DONE] Results saved to {save_path}")
+
+
 def posterior_impute_sample_non_downstream(args):
     model = DSPFlow(
         seq_length=args.seq_len,
@@ -1562,7 +1739,6 @@ def no_code_impute_sample(args):
     torch.save(all_results, f"{args.ckpt_dir}/no_code_impute_samples.pth")
 
 
-
 def no_code_predict_sample(args):
     model = DSPFlow(
         seq_length=args.seq_len,
@@ -1710,6 +1886,131 @@ def principle_no_code_impute_sample(args):
         'all_reals': all_reals,
     }
     torch.save(all_results, f"{args.ckpt_dir}/principle_no_code_impute_samples.pth")
+
+
+def principle_no_code_impute_sample_show_diversity(args):
+    # ============================================================
+    # 1. Load model
+    # ============================================================
+    model = DSPFlow(
+        seq_length=args.seq_len,
+        vqvae_seq_len=args.max_infill_length,
+        num_codes=args.num_codes,
+        feature_size=args.feature_size,
+        n_layer_enc=args.n_layer_enc,
+        n_layer_dec=args.n_layer_dec,
+        d_model=args.d_model,
+        n_heads=args.n_heads,
+        mlp_hidden_times=4,
+        vqvae_ckpt=args.vqvae_ckpt
+    )
+
+    ckpt = torch.load(f"{args.ckpt_dir}/ckpt.pth", map_location="cpu")
+    model.load_state_dict(ckpt)
+
+    device = torch.device(f"cuda:{args.gpu_id}" if torch.cuda.is_available() else "cpu")
+    model.to(device)
+    model.eval()
+
+    # ============================================================
+    # 2. Dataset & Loader
+    # ============================================================
+    normal_set = ImputationNormalECGDatasetForSample(
+        raw_data_paths=args.raw_data_paths_train,
+        indices_paths=args.indices_paths_train,
+        event_labels_paths=args.event_labels_paths_train,
+        seq_len=args.seq_len,
+        one_channel=args.one_channel,
+        min_infill_length=args.min_infill_length,
+        max_infill_length=args.max_infill_length,
+    )
+
+    normal_loader = torch.utils.data.DataLoader(
+        normal_set,
+        batch_size=args.batch_size,
+        shuffle=True,
+        drop_last=True,
+        collate_fn=dict_collate_fn,
+    )
+
+    # ============================================================
+    # 3. Sampling config
+    # ============================================================
+    num_context_batches = 10         # e.g. 5
+    num_samples_per_context = 100  # e.g. 10
+
+    all_results = []
+
+    # ============================================================
+    # 4. Sampling (NO for-loop over samples)
+    # ============================================================
+    for batch_id, normal_batch in enumerate(normal_loader):
+        if batch_id >= num_context_batches:
+            break
+
+        signals = normal_batch["signals"].to(device, dtype=torch.float32)  # (B, T, C)
+        attn_mask = normal_batch["attn_mask"].to(device, dtype=torch.bool)
+        noise_mask = normal_batch["noise_mask"].to(device, dtype=torch.long)
+
+        B, T, C = signals.shape
+        K = num_samples_per_context
+
+        # ------------------------------------------------------------
+        # Vectorized expansion (same context, repeated K times)
+        # ------------------------------------------------------------
+        signals_big = (
+            signals.unsqueeze(0)
+            .expand(K, -1, -1, -1)
+            .reshape(K * B, T, C)
+        )
+
+        attn_mask_big = (
+            attn_mask.unsqueeze(0)
+            .expand(K, -1, -1)
+            .reshape(K * B, T)
+        )
+
+        noise_mask_big = (
+            noise_mask.unsqueeze(0)
+            .expand(K, -1, -1)
+            .reshape(K * B, T)
+        )
+
+        # ------------------------------------------------------------
+        # Single stochastic forward pass
+        # ------------------------------------------------------------
+        with torch.no_grad():
+            samples_big = model.no_code_impute(
+                signals_big,
+                attn_mask=attn_mask_big,
+                noise_mask=noise_mask_big,
+            )  # (K*B, T, C)
+
+        samples = samples_big.view(K, B, T, C)
+
+        # ------------------------------------------------------------
+        # Save per-context results
+        # ------------------------------------------------------------
+        all_results.append(
+            {
+                "samples": samples.cpu(),   # (K, B, T, C)
+                "labels": noise_mask.cpu(),  # (B, T)
+                "reals": signals.cpu(),      # (B, T, C)
+            }
+        )
+
+        print(
+            f"[INFO] Context batch {batch_id + 1}/{num_context_batches}, "
+            f"K={K}, B={B}"
+        )
+
+    # ============================================================
+    # 5. Save all
+    # ============================================================
+    save_path = f"{args.ckpt_dir}/principle_no_code_impute_diversity.pth"
+    torch.save(all_results, save_path)
+
+    print(f"[DONE] Results saved to {save_path}")
 
 
 def no_code_impute_sample_non_downstream(args):
@@ -2155,8 +2456,6 @@ def anomaly_evaluate(args):
 
 def main():
     args = get_args()
-    # if args.what_to_do == "imputation_pretrain":
-    #     imputation_pretrain(args)
     if args.what_to_do == "imputation_finetune":
         imputation_finetune(args)
     elif args.what_to_do == "no_code_imputation_finetune":
@@ -2173,12 +2472,16 @@ def main():
         posterior_impute_sample(args)
     elif args.what_to_do == "principle_posterior_impute_sample":
         principle_posterior_impute_sample(args)
+    elif args.what_to_do == "principle_posterior_impute_sample_show_diversity":
+        principle_posterior_impute_sample_show_diversity(args)
     elif args.what_to_do == "posterior_impute_sample_non_downstream":
         posterior_impute_sample_non_downstream(args)
     elif args.what_to_do == "no_code_impute_sample":
         no_code_impute_sample(args)
     elif args.what_to_do == "principle_no_code_impute_sample":
         principle_no_code_impute_sample(args)
+    elif args.what_to_do == "principle_no_code_impute_sample_show_diversity":
+        principle_no_code_impute_sample_show_diversity(args)
     elif args.what_to_do == "no_code_impute_sample_non_downstream":
         no_code_impute_sample_non_downstream(args)
     elif args.what_to_do == "anomaly_evaluate":

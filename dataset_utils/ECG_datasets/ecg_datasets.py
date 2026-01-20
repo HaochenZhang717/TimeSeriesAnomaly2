@@ -975,14 +975,21 @@ if __name__ == "__main__":
     # MAX_LEN_ANOMALY = 144
     # MIN_LEN_ANOMALY = 20
 
-    DATA_PATHS = ["./raw_data_traffic/metro_traffic_data.npz"]
-    PRETRAIN_INDICES = ["./indices_traffic/slide_windows_metro_traffic_datanpz/normal_24.jsonl"]
-    NORMAL_INDICES_FOR_SAMPLE = ["./indices_traffic/slide_windows_metro_traffic_datanpz/normal_72.jsonl"]
-    EVENT_LABELS_PATHS = ["./indices_traffic/slide_windows_metro_traffic_datanpz/event_label.npy"]
-    LEN_WHOLE = 72
-    MAX_LEN_ANOMALY = 24
-    MIN_LEN_ANOMALY = 23
+    # DATA_PATHS = ["./raw_data_traffic/metro_traffic_data.npz"]
+    # PRETRAIN_INDICES = ["./indices_traffic/slide_windows_metro_traffic_datanpz/normal_24.jsonl"]
+    # NORMAL_INDICES_FOR_SAMPLE = ["./indices_traffic/slide_windows_metro_traffic_datanpz/normal_72.jsonl"]
+    # EVENT_LABELS_PATHS = ["./indices_traffic/slide_windows_metro_traffic_datanpz/event_label.npy"]
+    # LEN_WHOLE = 72
+    # MAX_LEN_ANOMALY = 24
+    # MIN_LEN_ANOMALY = 23
 
+    DATA_PATHS = ["./raw_data/106.npz"]
+    PRETRAIN_INDICES = ["./indices/slide_windows_106npz/train/mixed.jsonl"]
+    NORMAL_INDICES_FOR_SAMPLE = ["./indices/slide_windows_106npz/train/normal_1000.jsonl"]
+    EVENT_LABELS_PATHS = ["./indices/slide_windows_106npz/train/event_label.npy"]
+    LEN_WHOLE = 1000
+    MAX_LEN_ANOMALY = 800
+    MIN_LEN_ANOMALY = 180
 
     dataset = ImputationNormalECGDatasetForSample(
         raw_data_paths=DATA_PATHS,
@@ -1015,11 +1022,12 @@ if __name__ == "__main__":
 
     dataloader = DataLoader(dataset, batch_size=1, shuffle=True)
     for batch in dataloader:
-        # plt.plot(batch['signals'][0,:,0], label="Channel 0")
-        # # plt.plot(batch['signals'][0,:,1], label="Channel 1")
-        # plt.plot(batch['attn_mask'][0], label="attn mask")
-        # plt.plot(batch['noise_mask'][0], label="noise mask")
-        # plt.legend()
+        plt.plot(batch['signals'][0,:,0], label="Channel 0")
+        # plt.plot(batch['signals'][0,:,1], label="Channel 1")
+        plt.plot(batch['attn_mask'][0], label="attn mask")
+        plt.plot(batch['noise_mask'][0], label="noise mask")
+        plt.legend()
+        plt.show()
         # plt.show(block=False)
         # plt.pause(2.0)  # 停留 2 秒
         # plt.close()
