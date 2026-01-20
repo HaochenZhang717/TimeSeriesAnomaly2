@@ -230,7 +230,7 @@ python dsp_flow.py \
   --max_infill_length ${MAX_LEN_ANOMALY} \
   \
   --lr 1e-4 \
-  --batch_size 64 \
+  --batch_size 1 \
   --max_epochs 2000 \
   --grad_clip_norm 1.0 \
   --grad_accum_steps 1 \

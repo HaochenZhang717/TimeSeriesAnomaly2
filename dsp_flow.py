@@ -1273,13 +1273,18 @@ def principle_posterior_impute_sample_show_diversity(args):
         collate_fn=dict_collate_fn,
     )
 
+    g = torch.Generator()
+    g.manual_seed(args.seed)
+
     normal_loader = torch.utils.data.DataLoader(
         normal_set,
         batch_size=args.batch_size,
-        shuffle=False,
+        shuffle=True,
         drop_last=True,
         collate_fn=dict_collate_fn,
+        generator=g,
     )
+
 
     # ============================================================
     # 3. Collect all anomaly posteriors
@@ -1925,12 +1930,16 @@ def principle_no_code_impute_sample_show_diversity(args):
         max_infill_length=args.max_infill_length,
     )
 
+    g = torch.Generator()
+    g.manual_seed(args.seed)
+
     normal_loader = torch.utils.data.DataLoader(
         normal_set,
         batch_size=args.batch_size,
         shuffle=True,
         drop_last=True,
         collate_fn=dict_collate_fn,
+        generator=g,
     )
 
     # ============================================================
