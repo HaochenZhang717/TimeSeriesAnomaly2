@@ -1274,7 +1274,7 @@ def principle_posterior_impute_sample_show_diversity(args):
     )
 
     g = torch.Generator()
-    g.manual_seed(args.seed)
+    g.manual_seed(42)
 
     normal_loader = torch.utils.data.DataLoader(
         normal_set,
@@ -1931,7 +1931,7 @@ def principle_no_code_impute_sample_show_diversity(args):
     )
 
     g = torch.Generator()
-    g.manual_seed(args.seed)
+    g.manual_seed(42)
 
     normal_loader = torch.utils.data.DataLoader(
         normal_set,
