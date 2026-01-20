@@ -207,7 +207,8 @@ def calculate_discriminative_metrics(all_data_path, out_path):
 
 
 if __name__ == "__main__":
-    data_path = "/Users/zhc/Documents/mitdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream_train.pth",
+    # data_path = "/Users/zhc/Documents/mitdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream_train.pth",
+    data_path = "/Users/zhc/Documents/formal_experiment/mitdb_two_channels/dsp_flow_mixed_K500/impute_finetune_ckpt_lr1e-4/posterior_impute_samples_non_downstream_train.pth"
     save_path = "debug.jsonl"
     calculate_discriminative_metrics(data_path, save_path)
     #

@@ -185,19 +185,19 @@ for i in ${!GPU_IDS[@]}; do
     \
     --gpu_id 0
 
-  OUTDIR="../nn_eval/PV/dsp_flow_mixed_K${NUM_CODES}_no_pretrain"
-  python run_nn_evaluate.py \
-    --seq_len ${LEN_WHOLE} \
-    --feature_size 1 \
-    --one_channel 1 \
-    --feat_window_size 100 \
-    --raw_data_paths ${DATA_PATHS} \
-    --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
-    --max_infill_length ${MAX_LEN_ANOMALY} \
-    --ckpt_dir "${FINETUNE_CKPT}" \
-    --out_dir "${OUTDIR}" \
-    --generated_path "${FINETUNE_CKPT}/principle_posterior_impute_samples.pth" \
-    --gpu_id 0
+#  OUTDIR="../nn_eval/PV/dsp_flow_mixed_K${NUM_CODES}_no_pretrain"
+#  python run_nn_evaluate.py \
+#    --seq_len ${LEN_WHOLE} \
+#    --feature_size 1 \
+#    --one_channel 1 \
+#    --feat_window_size 100 \
+#    --raw_data_paths ${DATA_PATHS} \
+#    --indices_paths_test ${FINETUNE_TEST_INDICES_PATHS} \
+#    --max_infill_length ${MAX_LEN_ANOMALY} \
+#    --ckpt_dir "${FINETUNE_CKPT}" \
+#    --out_dir "${OUTDIR}" \
+#    --generated_path "${FINETUNE_CKPT}/principle_posterior_impute_samples.pth" \
+#    --gpu_id 0
 
 done
 
