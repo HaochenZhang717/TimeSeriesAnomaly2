@@ -504,6 +504,8 @@ def main():
 
     gen_data = all_anomalies['all_samples']
     gen_labels = all_anomalies['all_labels']
+    print(f"maximum value: {gen_data.max().item()}")
+    print(f"minimum value: {gen_data.min().item()}")
     # ---- Step 1: 找出含 bad 的样本 ----
     threshold = 1e3
     bad_mask = (gen_data.abs() > threshold).any(dim=2).any(dim=1)
