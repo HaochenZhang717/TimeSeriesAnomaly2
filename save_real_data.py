@@ -85,52 +85,62 @@ def save_real_data(
     torch.save(to_save, save_path)
 
 def main():
+    # save_real_data(
+    #     raw_data_paths=["./dataset_utils/ECG_datasets/raw_data/106.npz"],
+    #     indices_paths_test=["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"],
+    #     seq_len=1000,
+    #     one_channel=0,
+    #     max_infill_length=800,
+    #     save_path="./dataset_utils/real_anomaly_data_test/mitdb.pth"
+    # )
+
     save_real_data(
         raw_data_paths=["./dataset_utils/ECG_datasets/raw_data/106.npz"],
-        indices_paths_test=["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_test.jsonl"],
+        indices_paths_test=["./dataset_utils/ECG_datasets/indices/slide_windows_106npz/train/V_train.jsonl"],
         seq_len=1000,
         one_channel=0,
         max_infill_length=800,
-        save_path="./dataset_utils/real_anomaly_data_test/mitdb.pth"
-    )
-
-    save_real_data(
-        raw_data_paths=["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"],
-        indices_paths_test=["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_test.jsonl"],
-        seq_len=600,
-        one_channel=0,
-        max_infill_length=450,
-        save_path="./dataset_utils/real_anomaly_data_test/qtdb.pth"
-    )
-
-    save_real_data(
-        raw_data_paths=["./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"],
-        indices_paths_test=["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"],
-        seq_len=800,
-        one_channel=0,
-        max_infill_length=360,
-        save_path="./dataset_utils/real_anomaly_data_test/svdb.pth"
-    )
-
-    save_real_data(
-        raw_data_paths=["./dataset_utils/ECG_datasets/raw_data_traffic/metro_traffic_data.npz"],
-        indices_paths_test=["./dataset_utils/ECG_datasets/indices_traffic/slide_windows_metro_traffic_datanpz/V_test.jsonl"],
-        seq_len=72,
-        one_channel=1,
-        max_infill_length=24,
-        save_path="./dataset_utils/real_anomaly_data_test/traffic.pth"
+        save_path="./dataset_utils/real_anomaly_data_test/mitdb_train.pth"
     )
 
 
-
-    save_real_data(
-        raw_data_paths=["./dataset_utils/ECG_datasets/raw_data_PV/2013_pv_sub_2.npz","./dataset_utils/ECG_datasets/raw_data_PV/2013_pv_sub_3.npz","./dataset_utils/ECG_datasets/raw_data_PV/2013_pv_sub_4.npz","./dataset_utils/ECG_datasets/raw_data_PV/2015_pv_sub_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2015_pv_sub_1.npz","./dataset_utils/ECG_datasets/raw_data_PV/2021_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2022_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2023_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2024_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2025_pv_live_0.npz"],
-        indices_paths_test=["./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_2npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_3npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_4npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2015_pv_sub_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2015_pv_sub_1npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2021_pv_live_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2022_pv_live_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2023_pv_live_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2024_pv_live_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2025_pv_live_0npz/V_test.jsonl"],
-        seq_len=200,
-        one_channel=1,
-        max_infill_length=144,
-        save_path="./dataset_utils/real_anomaly_data_test/pv.pth"
-    )
+    # save_real_data(
+    #     raw_data_paths=["./dataset_utils/ECG_datasets/raw_data_qtdb/sel233.npz"],
+    #     indices_paths_test=["./dataset_utils/ECG_datasets/indices_qtdb/slide_windows_sel233npz/V_test.jsonl"],
+    #     seq_len=600,
+    #     one_channel=0,
+    #     max_infill_length=450,
+    #     save_path="./dataset_utils/real_anomaly_data_test/qtdb.pth"
+    # )
+    #
+    # save_real_data(
+    #     raw_data_paths=["./dataset_utils/ECG_datasets/raw_data_svdb/859.npz"],
+    #     indices_paths_test=["./dataset_utils/ECG_datasets/indices_svdb/slide_windows_859npz/V_test.jsonl"],
+    #     seq_len=800,
+    #     one_channel=0,
+    #     max_infill_length=360,
+    #     save_path="./dataset_utils/real_anomaly_data_test/svdb.pth"
+    # )
+    #
+    # save_real_data(
+    #     raw_data_paths=["./dataset_utils/ECG_datasets/raw_data_traffic/metro_traffic_data.npz"],
+    #     indices_paths_test=["./dataset_utils/ECG_datasets/indices_traffic/slide_windows_metro_traffic_datanpz/V_test.jsonl"],
+    #     seq_len=72,
+    #     one_channel=1,
+    #     max_infill_length=24,
+    #     save_path="./dataset_utils/real_anomaly_data_test/traffic.pth"
+    # )
+    #
+    #
+    #
+    # save_real_data(
+    #     raw_data_paths=["./dataset_utils/ECG_datasets/raw_data_PV/2013_pv_sub_2.npz","./dataset_utils/ECG_datasets/raw_data_PV/2013_pv_sub_3.npz","./dataset_utils/ECG_datasets/raw_data_PV/2013_pv_sub_4.npz","./dataset_utils/ECG_datasets/raw_data_PV/2015_pv_sub_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2015_pv_sub_1.npz","./dataset_utils/ECG_datasets/raw_data_PV/2021_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2022_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2023_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2024_pv_live_0.npz","./dataset_utils/ECG_datasets/raw_data_PV/2025_pv_live_0.npz"],
+    #     indices_paths_test=["./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_2npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_3npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2013_pv_sub_4npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2015_pv_sub_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2015_pv_sub_1npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2021_pv_live_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2022_pv_live_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2023_pv_live_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2024_pv_live_0npz/V_test.jsonl","./dataset_utils/ECG_datasets/indices_PV/slide_windows_2025_pv_live_0npz/V_test.jsonl"],
+    #     seq_len=200,
+    #     one_channel=1,
+    #     max_infill_length=144,
+    #     save_path="./dataset_utils/real_anomaly_data_test/pv.pth"
+    # )
 
 if __name__ == "__main__":
     main()

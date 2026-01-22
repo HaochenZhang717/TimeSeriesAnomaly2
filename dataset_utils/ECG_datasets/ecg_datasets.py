@@ -742,6 +742,8 @@ class ImputationNormalECGDatasetForSample(Dataset):
 
 
 
+
+
 class NoContextNormalECGDataset(Dataset):
     def __init__(
             self,
@@ -996,7 +998,7 @@ if __name__ == "__main__":
         indices_paths=NORMAL_INDICES_FOR_SAMPLE,
         event_labels_paths=EVENT_LABELS_PATHS,
         seq_len=LEN_WHOLE,
-        one_channel=1,
+        one_channel=0,
         max_infill_length=MAX_LEN_ANOMALY,
         min_infill_length=MIN_LEN_ANOMALY,
     )

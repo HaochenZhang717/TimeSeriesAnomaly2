@@ -1290,14 +1290,14 @@ def principle_posterior_impute_sample_show_diversity(args):
     # 3. Collect all anomaly posteriors
     # ============================================================
     discrete_embeds = []
-
+    # anomaly_length = []
     with torch.no_grad():
         for batch in anomaly_loader:
             signals = batch["signals"].to(device)
             attn_mask = batch["attn_mask"].to(device)
             embed = model.vqvae.encode(signals, attn_mask)
             discrete_embeds.append(embed)
-
+            # anomaly_length.append(attn_mask.sum().item())
     discrete_embeds = torch.cat(discrete_embeds, dim=0)  # (N_anomaly, D)
     num_anomaly_latents = discrete_embeds.shape[0]
 
