@@ -30,6 +30,24 @@ def mitdb():
     }
     torch.save(to_save, "test_data/mitdb106_train_data.pt")
 
+def mitdb_segment():
+    path = "./indices/slide_windows_106npz/train/anomaly_segments_with_prototype_train.jsonl"
+    records = []
+    with open(path, "r") as f:
+        for line in f:
+            records.append(json.loads(line))
+
+    all_samples = []
+    raw_data = np.load("./raw_data/106.npz")
+    raw_signal = raw_data["signal"]
+
+    for record in records:
+        start = record["start"]
+        end = record["end"]
+        all_samples.append(raw_signal[start:end])
+
+    torch.save(all_samples, "test_data/mitdb106_train_anomaly_segments.pt")
+
 
 def qtdb():
     path = "./indices_qtdb/slide_windows_sel233npz/V_train.jsonl"
@@ -91,6 +109,7 @@ def svdb():
 
 
 if __name__ == "__main__":
-    mitdb()
-    qtdb()
-    svdb()
+    # mitdb()
+    # qtdb()
+    # svdb()
+    mitdb_segment()
