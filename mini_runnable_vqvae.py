@@ -1347,7 +1347,7 @@ if __name__ == "__main__":
         data_type=args.data_type,
         one_channel=args.one_channel,
         # device="cuda:7",
-        device="cuda",
+        device="cpu",
         save_path=f"{args.save_dir}/code_segments.pt",
         down_ratio=1,
         up_ratio=2,
