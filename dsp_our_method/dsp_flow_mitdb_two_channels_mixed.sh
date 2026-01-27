@@ -68,22 +68,22 @@ for i in ${!GPU_IDS[@]}; do
 
   echo "Launching NUM_CODES=${NUM_CODES} on GPU ${GPU}"
 
-#  python mini_runnable_vqvae.py \
-#    --wandb_project ${WANDB_PROJECT} \
-#    --wandb_run "VQVAE_mixed_-K${NUM_CODES}" \
-#    --max_seq_len ${MAX_LEN_ANOMALY} \
-#    --min_seq_len ${MIN_LEN_ANOMALY} \
-#    --data_paths ${DATA_PATHS} \
-#    --indices_paths ${VQVAE_TRAIN_INDICES_PATHS} \
-#    --data_type ${DATA_TYPE} \
-#    --gpu_id 0 \
-#    --save_dir ${VQVAE_CKPT} \
-#    --code_dim ${CODE_DIM} \
-#    --code_len ${CODE_LEN} \
-#    --num_codes ${NUM_CODES} \
-#    --one_channel ${ONE_CHANNEL} \
-#    --feat_size ${FEAT_SIZE}
-#
+  python mini_runnable_vqvae.py \
+    --wandb_project ${WANDB_PROJECT} \
+    --wandb_run "VQVAE_mixed_-K${NUM_CODES}" \
+    --max_seq_len ${MAX_LEN_ANOMALY} \
+    --min_seq_len ${MIN_LEN_ANOMALY} \
+    --data_paths ${DATA_PATHS} \
+    --indices_paths ${VQVAE_TRAIN_INDICES_PATHS} \
+    --data_type ${DATA_TYPE} \
+    --gpu_id 0 \
+    --save_dir ${VQVAE_CKPT} \
+    --code_dim ${CODE_DIM} \
+    --code_len ${CODE_LEN} \
+    --num_codes ${NUM_CODES} \
+    --one_channel ${ONE_CHANNEL} \
+    --feat_size ${FEAT_SIZE}
+
 #  python dsp_flow.py \
 #    --what_to_do "no_context_pretrain" \
 #    --num_codes ${NUM_CODES} \
@@ -240,47 +240,47 @@ for i in ${!GPU_IDS[@]}; do
 
 
 
-  python dsp_flow.py \
-    --what_to_do "principle_posterior_impute_sample_show_diversity" \
-    \
-    --num_codes ${NUM_CODES} \
-    --seq_len ${LEN_WHOLE} \
-    --data_type ${DATA_TYPE} \
-    --feature_size ${FEAT_SIZE} \
-    --one_channel ${ONE_CHANNEL} \
-    \
-    --n_layer_enc 4 \
-    --n_layer_dec 4 \
-    --d_model 64 \
-    --n_heads 4 \
-    \
-    --raw_data_paths_train ${DATA_PATHS} \
-    --raw_data_paths_test ${TEST_DATA_PATHS} \
-    --event_labels_paths_train ${EVENT_LABELS_PATHS} \
-    --indices_paths_train ${NORMAL_INDICES_FOR_SAMPLE} \
-    --indices_paths_test "[]" \
-    --indices_paths_anomaly_for_sample ${ANOMALY_INDICES_FOR_SAMPLE} \
-    --min_infill_length ${MIN_LEN_ANOMALY} \
-    --max_infill_length ${MAX_LEN_ANOMALY} \
-    \
-    --lr 1e-4 \
-    --batch_size 1 \
-    --max_epochs 2000 \
-    --grad_clip_norm 1.0 \
-    --grad_accum_steps 1 \
-    --early_stop "true" \
-    --patience 50 \
-    \
-    --wandb_project "none" \
-    --wandb_run "none" \
-    \
-    --ckpt_dir "${FINETUNE_CKPT}" \
-    --pretrained_ckpt "none" \
-    --vqvae_ckpt "${VQVAE_CKPT}/vqvae.pt" \
-    \
-    --generated_path "" \
-    \
-    --gpu_id 0
+#  python dsp_flow.py \
+#    --what_to_do "principle_posterior_impute_sample_show_diversity" \
+#    \
+#    --num_codes ${NUM_CODES} \
+#    --seq_len ${LEN_WHOLE} \
+#    --data_type ${DATA_TYPE} \
+#    --feature_size ${FEAT_SIZE} \
+#    --one_channel ${ONE_CHANNEL} \
+#    \
+#    --n_layer_enc 4 \
+#    --n_layer_dec 4 \
+#    --d_model 64 \
+#    --n_heads 4 \
+#    \
+#    --raw_data_paths_train ${DATA_PATHS} \
+#    --raw_data_paths_test ${TEST_DATA_PATHS} \
+#    --event_labels_paths_train ${EVENT_LABELS_PATHS} \
+#    --indices_paths_train ${NORMAL_INDICES_FOR_SAMPLE} \
+#    --indices_paths_test "[]" \
+#    --indices_paths_anomaly_for_sample ${ANOMALY_INDICES_FOR_SAMPLE} \
+#    --min_infill_length ${MIN_LEN_ANOMALY} \
+#    --max_infill_length ${MAX_LEN_ANOMALY} \
+#    \
+#    --lr 1e-4 \
+#    --batch_size 1 \
+#    --max_epochs 2000 \
+#    --grad_clip_norm 1.0 \
+#    --grad_accum_steps 1 \
+#    --early_stop "true" \
+#    --patience 50 \
+#    \
+#    --wandb_project "none" \
+#    --wandb_run "none" \
+#    \
+#    --ckpt_dir "${FINETUNE_CKPT}" \
+#    --pretrained_ckpt "none" \
+#    --vqvae_ckpt "${VQVAE_CKPT}/vqvae.pt" \
+#    \
+#    --generated_path "" \
+#    \
+#    --gpu_id 0
 
 
 #OUTDIR="../nn_eval/mitdb_two_channels/dsp_flow_mixed_K${NUM_CODES}"
